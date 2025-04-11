@@ -6,7 +6,7 @@ import persistence.Database;
 import java.util.Scanner;
 
 public class AuthUI {
-    public static void authScreen(AuthValidation auth, Scanner scanner) {
+    public static String authScreen(AuthValidation auth, Scanner scanner) {
         System.out.println("=== Welcome to Time Registration System ===");
 
         while (true) {
@@ -18,7 +18,7 @@ public class AuthUI {
 
             if (auth.validateLogin(initials, password)) {
                 System.out.println("✅ Login successful! Welcome, " + initials);
-                break;
+                return initials; // Return the initials of the logged-in user
             } else {
                 System.out.println("❌ Invalid credentials. Try again.\n");
             }

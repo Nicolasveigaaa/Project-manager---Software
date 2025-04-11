@@ -15,6 +15,7 @@ public class Database {
         // Hardcoded users — just add manually here
         addUser(new Employee("huba", "huba123"));
         addUser(new Employee("nico", "nico123"));
+        addUser(new Employee("admin", "admin"));
     }
 
     public void addUser(Employee employee) {
