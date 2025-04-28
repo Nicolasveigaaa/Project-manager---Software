@@ -20,6 +20,7 @@
    <TextField fx:id="adminInitialField" promptText="Enter initial"/>
    <Label text="Password:"/>
    <PasswordField fx:id="passwordField" promptText="Enter password"/>
+   <Label fx:id="errorLabel" text=""/>
    <Button text="Log In"
            fx:id="loginButton"
            onAction="#handleLoginAction"

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -20,6 +21,8 @@ public class AuthScreenController {
     private PasswordField passwordField;
     @FXML
     private Button loginButton;
+    @FXML
+    private Label errorLabel;
     @FXML
     private void initialize() {
         passwordField.setOnKeyPressed(this::onEnterPressed);
@@ -44,7 +47,7 @@ public class AuthScreenController {
 
     private void validate(String init, String pwd) {
         if (authValidation.validateLogin(init, pwd)) {
-            Main.setInitials(init);
+            Main.initiateSoftware(init);
             // close the window
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.close();
