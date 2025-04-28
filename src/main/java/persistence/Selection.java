@@ -2,10 +2,14 @@ package persistence;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import domain.Employee;
+import domain.Project;
 import app.Main;
 import javafx.scene.chart.PieChart.Data;
+import ui.SelectionUI;
+import ui.ProjectUI.*;
 
 public class Selection {
     private final Map<String, List<String>> options;
@@ -16,7 +20,7 @@ public class Selection {
         // Set the default options
         options = Map.of(
                 "home", List.of("Projects", "Total Hours"),
-                "2", List.of("T4", "T5", "t4", "t5"),
+                "Projects", List.of("Create Project", "View Active Projects"),
                 "3", List.of("T3", "T6", "t3", "t6")
         );
 
@@ -52,9 +56,18 @@ public class Selection {
         return groupOptions != null && isValid;
     }
 
-    public void activateCategory() {
+    public void activateCategory(Selection selection, Scanner scanner) {
         if (option.equals("Total Hours")) {
             new ui.UnderCategoryUI.totalHours().showTotalHours(user_db);
+        }
+        if (option.equals("Projects")) {
+            SelectionUI.choseCategory(selection, scanner, "Projects");
+        }
+        if (option.equals("Create Project")) {
+            // Create new project
+            String projectName = createProjectUI.createNewProject(scanner);
+            Project newProject = new Project(projectName);
+            
         }
     }
 }

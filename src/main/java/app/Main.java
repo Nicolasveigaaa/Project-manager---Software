@@ -27,7 +27,7 @@ public class Main {
 
         // Show menu screen
         SelectionUI.choseCategory(selection, scanner, "home");
-        selection.activateCategory();
+        selection.activateCategory(selection, scanner);
     }
 
     public static String getInitials() {
