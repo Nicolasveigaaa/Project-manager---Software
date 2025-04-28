@@ -27,4 +27,9 @@ public class Main extends Application {
     public static String getInitials() {
         return "hey";
     }
+
+    public static void setInitials(String initials) {
+        // Set the initials for the application
+        System.out.println("Initials set to: " + initials);
+    }
 }
