@@ -17,7 +17,8 @@ public class Project {
             numbs[i] = availableNumbs.charAt(i);
         }
         // Make it 6 ciffre
-        
+
+        return null;
     }
 
     public Project(String projectName) {
