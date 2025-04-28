@@ -16,12 +16,20 @@ public class AuthUI {
             System.out.print("Enter your password: ");
             String password = scanner.nextLine().trim();
 
-            if (auth.validateLogin(initials, password)) {
+            if (checkAuth(initials, password, auth)) {
                 System.out.println("✅ Login successful! Welcome, " + initials);
                 return initials; // Return the initials of the logged-in user
             } else {
                 System.out.println("❌ Invalid credentials. Try again.\n");
             }
         }
+    }
+
+    private static boolean checkAuth(String initials, String password, AuthValidation auth) {
+        if (auth.validateLogin(initials, password)) {
+            return true; // Return the initials of the logged-in user
+        }
+
+        return false;
     }
 }

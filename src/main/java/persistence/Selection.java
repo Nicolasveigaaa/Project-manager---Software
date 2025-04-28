@@ -44,6 +44,12 @@ public class Selection {
     public boolean isValidOption(String option, String optionNumber) {
         List<String> groupOptions = options.get(option);
 
+        // Check if option is a number
+        if (!optionNumber.matches("[0-9]+")) {
+
+            return false;
+        }
+
         // Check if the option is valid
         boolean isValid = false;
 
@@ -66,8 +72,14 @@ public class Selection {
         if (option.equals("Create Project")) {
             // Create new project
             String projectName = createProjectUI.createNewProject(scanner);
-            Project newProject = new Project(projectName);
             
+            // Check if project was created
+            if (projectName.length() > 0) {
+                Project newProject = new Project(projectName);
+                createProjectUI.updateUser(projectName, newProject.getProjectID(), true);
+            } else {
+                createProjectUI.updateUser(projectName, "", false);
+            }
         }
     }
 }

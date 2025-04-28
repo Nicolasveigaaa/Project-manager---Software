@@ -9,7 +9,7 @@ public class AuthValidation {
     public AuthValidation(Database database) {
         this.database = database;
     }
-
+    
     public boolean validateLogin(String initials, String password) {
         Employee user = database.getUser(initials.toLowerCase());
         return user != null && user.getPassword().equals(password);
