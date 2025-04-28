@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Employee {
     private final String initials;
     private final String password;
+    private Double totalHours = 45.23; // Test value
 
     public Employee(String initials, String password) {
         this.initials = initials.toLowerCase(); // lowercase to combat case sensitivity
@@ -17,5 +18,9 @@ public class Employee {
 
     public String getPassword() {
         return password;
+    }
+
+    public Double getTotalHours() {
+        return totalHours;
     }
 }
