@@ -3,44 +3,51 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ui.Controllers.HomeScreenController"
+      alignment="TOP_CENTER"
+      fillWidth="true"
+      spacing="10.0">
+    <padding>
+        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+    </padding>
 
-    <!-- Top: Summary stats -->
-    <top>
-        <GridPane hgap="10" vgap="10">
-            <padding>
-                <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
-            </padding>
+    <!-- User Info: aligned top-right -->
+    <HBox spacing="20.0" alignment="TOP_RIGHT" maxWidth="Infinity">
+        <Label text="Logged in as:"/>
+        <Label fx:id="initialsLabel" text=""/>
+        <Label text="Role:"/>
+        <Label fx:id="roleLabel" text=""/>
+    </HBox>
 
-                <Label text="Total Work Hours:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label fx:id="totalHoursLabel" text="0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <!-- Summary Stats -->
+    <GridPane hgap="10" vgap="10">
+        <children>
+            <Label text="Total Work Hours:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="totalHoursLabel" text="0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                <Label text="Projects Worked On:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <Label fx:id="projectsCountLabel" text="0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Total Projects Worked On:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="projectsCountLabel" text="0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                <Label text="Avg Hours/Project:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <Label fx:id="avgHoursLabel" text="0.0" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Avg Hours/Project:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="avgHoursLabel" text="0.0" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </children>
+    </GridPane>
 
-        </GridPane>
-    </top>
+    <!-- Projects List -->
+    <Label text="Projects" />
+    <ListView fx:id="projectsListView" prefHeight="200.0" prefWidth="580.0"/>
 
-    <!-- Center: Table of projects -->
-    <center>
+    <!-- Actions -->
+    <HBox spacing="10.0">
+        <Button fx:id="createProjectButton" text="Create Project"/>
+        <Button fx:id="logoutButton" text="Log Out" onAction="#handleLogoutAction"/>
+    </HBox>
 
-    </center>
-
-    <!-- Bottom: Navigation button -->
-    <bottom>
-        <Button fx:id="projectsButton" text="Projects" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets top="10.0" bottom="10.0"/>
-            </padding>
-        </Button>
-    </bottom>
-
-</BorderPane>
+</VBox>

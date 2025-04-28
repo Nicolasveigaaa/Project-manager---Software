@@ -12,6 +12,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import persistence.Database;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import java.io.IOException;
 
 public class AuthScreenController {
     @FXML
@@ -45,9 +49,18 @@ public class AuthScreenController {
     private void validate(String init, String pwd) {
         if (authValidation.validateLogin(init, pwd)) {
             Main.setInitials(init);
-            // close the window
+
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.close();
+            try {
+                Parent homeRoot = FXMLLoader.load(
+                        getClass().getResource("/ui/FXML/homeScreen.fxml")
+                );
+                stage.setScene(new Scene(homeRoot, 600, 400));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
