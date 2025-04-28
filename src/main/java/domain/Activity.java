@@ -2,7 +2,6 @@
 
 package domain;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,7 +56,7 @@ public class Activity {
         return loggedTime;
     }
     public Set<Employee> getAssignedEmployees() {
-        return Collections.unmodifiableSet(assignedEmployees);
+        return assignedEmployees;
     }
 
     // setters
