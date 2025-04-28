@@ -28,8 +28,12 @@ public class Main extends Application {
         return "hey";
     }
 
-    public static void setInitials(String initials) {
+    public static void initiateSoftware(String initials) {
         // Set the initials for the application
         System.out.println("Initials set to: " + initials);
+        // Open home screen
+
+        // Initiate
+
     }
 }
