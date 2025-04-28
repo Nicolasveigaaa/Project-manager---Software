@@ -14,7 +14,7 @@ public class Activity {
     private int startYear; 
     private int endWeek;   
     private int endYear;  
-    private Project project; // pointer to parent project
+    private Project project; // reference to the parent project
     private Set<Employee> assignedEmployees;
     private double loggedTime; // in 0.5 hours precission
 

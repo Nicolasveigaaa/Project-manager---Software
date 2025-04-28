@@ -1,13 +1,17 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Project {
     private String projectID;
     private String projectName;
-    private String projectManager;
+    private Employee projectManager;
     private Double totalHourAmount;
+    private List<Activity> activities;
 
     private final String[] availableChars = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","x","y","z"};
     private final String availableNumbs = "1234567890";
@@ -17,8 +21,9 @@ public class Project {
     public Project(String projectName) {
         this.projectID = createID();
         this.projectName = projectName;
-        this.projectManager = "Unassigned";
+        this.projectManager = null; // Projektlederen er ikke nødvendigvis udpeget fra starten.
         this.totalHourAmount = 0.0;
+        this.activities = new ArrayList<>();
     }
 
     private String createID() {
@@ -42,21 +47,26 @@ public class Project {
         return id.toString();
     }
 
+    // getters
     public String getProjectID() {
         return projectID;
     }  
     public String getProjectName() {
         return projectName;
     }
-    public String getProjectManager() {
+    public Employee getProjectManager() {
         return projectManager;
     }
     public Double getTotalHourAmount() {
         return totalHourAmount;
     }
 
+    public void addActivity(Activity activity) {
+        this.activities.add(activity);
+    }
+
     // Changing
-    public void setProjectManager(String projectManager) {
+    public void setProjectManager(Employee projectManager) {
         this.projectManager = projectManager;
     }
     public void setTotalHourAmount(Double totalHourAmount) {
