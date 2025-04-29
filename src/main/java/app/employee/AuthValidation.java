@@ -1,17 +1,19 @@
 package app.employee;
 
+// Folder imports
 import domain.Employee;
 import persistence.Database;
 
 public class AuthValidation {
     private final Database database;
-    private Employee currentUser;        // ← store the authenticated user
+    private Employee currentUser;
 
+    // Constructor to initialize the database
     public AuthValidation(Database database) {
         this.database = database;
     }
 
-    /** Returns true _and_ sets currentUser on success */
+    // Validates user login is in the persistence database
     public boolean validateLogin(String initials, String password) {
         Employee user = database.getUser(initials.toLowerCase());
         if (user != null && user.getPassword().equals(password)) {
@@ -21,7 +23,7 @@ public class AuthValidation {
         return false;
     }
 
-    /** Once someone is logged in, let others ask “who is it?” */
+    // Checks who the current user is
     public Employee getCurrentUser() {
         return currentUser;
     }

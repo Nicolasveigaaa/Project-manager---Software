@@ -4,20 +4,22 @@ package persistence;
 import domain.Employee;
 import domain.Project;
 
-// Java utilities
+// Java imports
 import java.util.*;
 
 public class Database {
-
     private final Map<String, Employee> allowedUsers = new HashMap<>();
     private final Map<String, Project>  projects     = new HashMap<>();
 
+
+    // Constructor
     public Database() {
         // Hardcoded users — just add manually here
         addUser(new Employee("huba", "huba123", "user"));
         addUser(new Employee("nico", "nico123", "user"));
         addUser(new Employee("admin", "admin",  "admin"));
     }
+
 
     // --- User methods ---
     public List<String> getAllUserInitials() {
@@ -35,6 +37,7 @@ public class Database {
     public Map<String, Employee> getAllUsers() {
         return new HashMap<>(allowedUsers);
     }
+
 
     // --- Project methods ---
     public void createProject(String projectName, List<String> userInitials) {
