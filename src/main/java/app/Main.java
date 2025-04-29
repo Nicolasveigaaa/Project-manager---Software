@@ -1,36 +1,26 @@
 package app;
 
-// Folder Imports
-import ui.AuthUI;
-import ui.SelectionUI;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import persistence.Database;
-import persistence.Selection;
-import app.employee.AuthValidation;
+import java.io.IOException;
 
-// Java utilities
-import java.util.Scanner;
+public class Main extends Application {
 
-public class Main {
-    private static String initials = "";
-
-    public static void main(String[] args) {
-        Database database = new Database();
-        Selection selection = new Selection(database);
-        AuthValidation auth = new AuthValidation(database);
-        Scanner scanner = new Scanner(System.in);
-
-        initials = AuthUI.authScreen(auth, scanner);
-
-        // Rest of the application will run if logged in successfully:
-        System.out.println("logged in");
-
-        // Show menu screen
-        SelectionUI.choseCategory(selection, scanner, "home");
-        selection.activateCategory(selection, scanner);
+    @Override
+    public void start(Stage stage) throws IOException {
+        Parent root = FXMLLoader.load(
+            getClass().getResource("/ui/FXML/authScreen.fxml")
+        );
+        Scene scene = new Scene(root, 600, 400);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public static String getInitials() {
-        return initials;
+    public static void main(String[] args) {
+        launch();
     }
 }
