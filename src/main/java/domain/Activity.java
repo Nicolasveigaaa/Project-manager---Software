@@ -85,6 +85,7 @@ public class Activity {
         if (assignedEmployees.contains(employee)) {
             throw new IllegalArgumentException("The employee is already assigned to the activity");
         }
+
         assignedEmployees.add(employee);
     }
 
@@ -92,6 +93,7 @@ public class Activity {
         if (!assignedEmployees.contains(employee)) {
             throw new IllegalArgumentException("The employee is not assigned to the activity");
         }
+
         assignedEmployees.remove(employee);
     }
 
@@ -99,6 +101,7 @@ public class Activity {
         if (hours <= 0) {
             throw new IllegalArgumentException("Logged time must be positive.");
         }
+
         this.loggedTime += hours;
     }
 

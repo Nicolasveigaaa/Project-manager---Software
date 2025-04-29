@@ -2,6 +2,7 @@ package ui.Controllers;
 
 import app.Main;
 import app.employee.AuthValidation;
+import domain.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -39,17 +40,35 @@ public class AuthScreenController {
     }
 
     @FXML
-    private void handleLoginAction(ActionEvent event) {
+    private void handleLoginAction(ActionEvent ev) {
         String init = adminInitialField.getText().trim();
-        String pwd = passwordField.getText().trim();
+        String pwd  = passwordField.getText().trim();
 
-        validate(init, pwd);
+        if (authValidation.validateLogin(init, pwd)) {
+            Employee user = authValidation.getCurrentUser();  // now has the Employee
+
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/ui/FXML/homeScreen.fxml")
+                );
+                Parent homeRoot = loader.load();
+
+                // grab the controller instance and hand it the Employee
+                HomeScreenController homeCtrl = loader.getController();
+                homeCtrl.setLoggedInUser(user);
+
+                Stage stage = (Stage) loginButton.getScene().getWindow();
+                stage.setScene(new Scene(homeRoot, 600, 400));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Invalid credentials").showAndWait();
+        }
     }
 
     private void validate(String init, String pwd) {
         if (authValidation.validateLogin(init, pwd)) {
-            Main.setInitials(init);
-
             Stage stage = (Stage) loginButton.getScene().getWindow();
             try {
                 Parent homeRoot = FXMLLoader.load(

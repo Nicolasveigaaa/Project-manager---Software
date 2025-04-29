@@ -23,17 +23,4 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch();
     }
-
-    public static String getInitials() {
-        return "hey";
-    }
-
-    public static void initiateSoftware(String initials) {
-        // Set the initials for the application
-        System.out.println("Initials set to: " + initials);
-        // Open home screen
-
-        // Initiate
-
-    }
 }

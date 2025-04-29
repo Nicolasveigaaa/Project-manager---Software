@@ -14,8 +14,9 @@
       alignment="TOP_CENTER"
       fillWidth="true"
       spacing="10.0">
+
     <padding>
-        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
     </padding>
 
     <!-- User Info: aligned top-right -->
@@ -34,9 +35,6 @@
 
             <Label text="Total Projects Worked On:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <Label fx:id="projectsCountLabel" text="0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-            <Label text="Avg Hours/Project:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <Label fx:id="avgHoursLabel" text="0.0" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
         </children>
     </GridPane>
 
@@ -46,7 +44,7 @@
 
     <!-- Actions -->
     <HBox spacing="10.0">
-        <Button fx:id="createProjectButton" text="Create Project"/>
+        <Button fx:id="createProjectButton" text="Create Project" onAction="#handleCreateProject"/>
         <Button fx:id="logoutButton" text="Log Out" onAction="#handleLogoutAction"/>
     </HBox>
 
