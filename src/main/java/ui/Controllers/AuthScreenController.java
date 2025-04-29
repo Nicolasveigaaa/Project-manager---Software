@@ -1,8 +1,11 @@
 package ui.Controllers;
 
-import app.Main;
+// Folder import
 import app.employee.AuthValidation;
-import domain.Employee;
+import domain.User;
+import persistence.Database;
+
+// JavaFX imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,24 +15,33 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import persistence.Database;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
+// Java imports
 import java.io.IOException;
 
+
+// Controls the authScreen.fxml
 public class AuthScreenController {
     @FXML
     private TextField adminInitialField;
+
     @FXML
     private PasswordField passwordField;
+
     @FXML
     private Button loginButton;
+
+
     @FXML
     private void initialize() {
         passwordField.setOnKeyPressed(this::onEnterPressed);
     }
 
+
+    // Instance of the AuthValidation class to validate login credentials
     private final AuthValidation authValidation = new AuthValidation(new Database());
 
     // Add scanner for pressed enter to validate login
@@ -39,13 +51,14 @@ public class AuthScreenController {
         }
     }
 
+
     @FXML
     private void handleLoginAction(ActionEvent ev) {
         String init = adminInitialField.getText().trim();
         String pwd  = passwordField.getText().trim();
 
         if (authValidation.validateLogin(init, pwd)) {
-            Employee user = authValidation.getCurrentUser();  // now has the Employee
+            User user = authValidation.getCurrentUser();  // now has the Employee
 
             try {
                 FXMLLoader loader = new FXMLLoader(
@@ -64,27 +77,6 @@ public class AuthScreenController {
             }
         } else {
             new Alert(Alert.AlertType.ERROR, "Invalid credentials").showAndWait();
-        }
-    }
-
-    private void validate(String init, String pwd) {
-        if (authValidation.validateLogin(init, pwd)) {
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            try {
-                Parent homeRoot = FXMLLoader.load(
-                        getClass().getResource("/ui/FXML/homeScreen.fxml")
-                );
-                stage.setScene(new Scene(homeRoot, 600, 400));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Invalid credentials");
-            alert.showAndWait();
         }
     }
 }

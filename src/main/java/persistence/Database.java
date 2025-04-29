@@ -1,22 +1,23 @@
 package persistence;
 
 // Folder imports
-import domain.Employee;
+import domain.User;
 import domain.Project;
 
-// Java utilities
+// Java imports
 import java.util.*;
 
 public class Database {
-
-    private final Map<String, Employee> allowedUsers = new HashMap<>();
+    private final Map<String, User> allowedUsers = new HashMap<>();
     private final Map<String, Project>  projects     = new HashMap<>();
 
+
+    // Constructor
     public Database() {
         // Hardcoded users — just add manually here
-        addUser(new Employee("huba", "huba123", "user"));
-        addUser(new Employee("nico", "nico123", "user"));
-        addUser(new Employee("admin", "admin",  "admin"));
+        addUser(new User("huba", "huba123", "employee"));
+        addUser(new User("nico", "nico123", "employee"));
+        addUser(new User("admin", "admin",  "manager"));
     }
 
     // --- User methods ---
@@ -24,17 +25,18 @@ public class Database {
         return new ArrayList<>(allowedUsers.keySet());
     }
 
-    public void addUser(Employee employee) {
-        allowedUsers.put(employee.getInitials(), employee);
+    public void addUser(User user) {
+        allowedUsers.put(user.getInitials(), user);
     }
 
-    public Employee getUser(String initials) {
+    public User getUser(String initials) {
         return allowedUsers.get(initials);
     }
 
-    public Map<String, Employee> getAllUsers() {
+    public Map<String, User> getAllUsers() {
         return new HashMap<>(allowedUsers);
     }
+
 
     // --- Project methods ---
     public void createProject(String projectName, List<String> userInitials) {

@@ -1,8 +1,11 @@
 package ui.Controllers;
 
-import app.employee.AuthValidation;
-import domain.Employee;
+// Folder imports
+import domain.User;
 import domain.Project;
+import persistence.Database;
+
+// JavaFX imports
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,44 +16,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import persistence.Database;
 
+// Java imports
 import java.io.IOException;
 import java.util.List;
 
-public class HomeScreenController {
 
+// Controller that handles HomeScreen.fxml
+public class HomeScreenController {
     private final Database db = new Database();
+
 
     @FXML private ListView<Project> projectsListView;
     @FXML private Label projectsCountLabel;
 
-    // Initials label to show the logged-in user's initials
     @FXML private Label initialsLabel;
     @FXML private Label roleLabel;
 
 
-    /** Called by AuthScreenController just after load() */
-    public void setLoggedInUser(Employee user) {
-        // immediately update your labels
-        initialsLabel.setText(user.getInitials());
-        roleLabel   .setText(user.getRole());
-        // and if you want, kick off any post-login loads:
-        loadProjects();
-    }
-
-    /**
-     * Called by the FXML loader after the root element is processed.
-     * Loads existing projects into the ListView and updates the count label.
-     */
-    @FXML
-    private void initialize() {
-        loadProjects();
-    }
-
-    /**
-     * Fetches all projects from the database and displays them.
-     */
+    // Loads all projects from the database and sets them in the ListView
     private void loadProjects() {
         List<Project> projects = db.getAllProjects();
         ObservableList<Project> items = projectsListView.getItems();
@@ -58,18 +42,29 @@ public class HomeScreenController {
         projectsCountLabel.setText(String.valueOf(projects.size()));
     }
 
-    /**
-     * Opens the Create Project dialog, then refreshes the project list.
-     */
+    // Sets the logged-in user information in the UI
+    public void setLoggedInUser(User user) {
+        initialsLabel.setText(user.getInitials());
+        roleLabel   .setText(user.getRole());
+
+        loadProjects();
+    }
+
+
+    // Loads screen after fetching relevant information
+    @FXML
+    private void initialize() {
+        loadProjects();
+    }
+
+    // Opens the Create Project dialog, then refreshes the project list.
     @FXML
     private void handleCreateProject(ActionEvent event) {
         ProjectCreationScreenController.show();
         loadProjects();
     }
 
-    /**
-     * Logs the user out by returning to the authentication screen.
-     */
+    // Logs user out by redirecting back to the login screen
     @FXML
     private void handleLogoutAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -82,6 +77,4 @@ public class HomeScreenController {
             e.printStackTrace();
         }
     }
-
-
 }

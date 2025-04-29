@@ -1,5 +1,9 @@
 package ui.Controllers;
 
+// Folder imports
+import persistence.Database;
+
+// JavaFX imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,21 +19,19 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import persistence.Database;
 
+// Java imports
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Controller for the "Create Project" dialog.
- * Presents a multi-select list of users via checkboxes.
- */
+
+// Controller that handles ProjectCreationScreen.fxml
 public class ProjectCreationScreenController {
+    private final Database db = new Database();
 
     @FXML private TextField projectNameField;
     @FXML private ListView<String> usersListView;
 
-    private final Database db = new Database();
 
     @FXML
     private void initialize() {
@@ -55,10 +57,8 @@ public class ProjectCreationScreenController {
         }));
     }
 
-    /**
-     * Called when the user clicks "Create".
-     * Validates input, creates the project, and closes the dialog.
-     */
+
+    // Validates inputs and creates a new project in the persistence database
     @FXML
     private void handleCreate(ActionEvent event) {
         String name = projectNameField.getText().trim();
@@ -80,19 +80,14 @@ public class ProjectCreationScreenController {
 
     }
 
-    /**
-     * Called when the user clicks "Cancel".
-     * Closes the dialog without saving.
-     */
+    // Closes modal dialog without creating a project
     @FXML
     private void handleCancel(ActionEvent event) {
         Stage stage = (Stage) projectNameField.getScene().getWindow();
         stage.close();
     }
 
-    /**
-     * Static helper to show this screen as a modal dialog.
-     */
+    // Shows screen as modal instead of screen
     public static void show() {
         try {
             Parent root = FXMLLoader.load(
