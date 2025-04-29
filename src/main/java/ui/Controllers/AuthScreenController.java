@@ -2,7 +2,7 @@ package ui.Controllers;
 
 // Folder import
 import app.employee.AuthValidation;
-import domain.Employee;
+import domain.User;
 import persistence.Database;
 
 // JavaFX imports
@@ -58,7 +58,7 @@ public class AuthScreenController {
         String pwd  = passwordField.getText().trim();
 
         if (authValidation.validateLogin(init, pwd)) {
-            Employee user = authValidation.getCurrentUser();  // now has the Employee
+            User user = authValidation.getCurrentUser();  // now has the Employee
 
             try {
                 FXMLLoader loader = new FXMLLoader(

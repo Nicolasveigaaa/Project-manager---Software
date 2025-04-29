@@ -14,7 +14,7 @@ public class Activity {
     private int endWeek;   
     private int endYear;  
     private Project project; // reference to the parent project
-    private Set<Employee> assignedEmployees;
+    private Set<User> assignedUsers;
     private double loggedTime; // in 0.5 hours precission
 
     // constructor
@@ -26,7 +26,7 @@ public class Activity {
         this.startYear = startYear;
         this.endWeek = endWeek;
         this.endYear = endYear;
-        this.assignedEmployees = new HashSet<>();
+        this.assignedUsers = new HashSet<>();
         this.loggedTime = 0.0;
     }
 
@@ -55,8 +55,8 @@ public class Activity {
     public double getLoggedTime() {
         return loggedTime;
     }
-    public Set<Employee> getAssignedEmployees() {
-        return assignedEmployees;
+    public Set<User> getAssignedEmployees() {
+        return assignedUsers;
     }
 
     // setters
@@ -81,20 +81,20 @@ public class Activity {
         this.endYear = endYear;
      }
 
-    public void assignEmployee(Employee employee) {
-        if (assignedEmployees.contains(employee)) {
+    public void assignEmployee(User user) {
+        if (assignedUsers.contains(user)) {
             throw new IllegalArgumentException("The employee is already assigned to the activity");
         }
 
-        assignedEmployees.add(employee);
+        assignedUsers.add(user);
     }
 
-    public void unassignEmployee(Employee employee) {
-        if (!assignedEmployees.contains(employee)) {
+    public void unassignEmployee(User user) {
+        if (!assignedUsers.contains(user)) {
             throw new IllegalArgumentException("The employee is not assigned to the activity");
         }
 
-        assignedEmployees.remove(employee);
+        assignedUsers.remove(user);
     }
 
     public void logTime(double hours) {

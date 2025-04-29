@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-// Java utilities
+// Java imports
 import java.io.IOException;
 import java.util.List;
 

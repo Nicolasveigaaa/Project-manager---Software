@@ -1,7 +1,7 @@
 package ui.Controllers;
 
 // Folder imports
-import domain.Employee;
+import domain.User;
 import domain.Project;
 import persistence.Database;
 
@@ -43,7 +43,7 @@ public class HomeScreenController {
     }
 
     // Sets the logged-in user information in the UI
-    public void setLoggedInUser(Employee user) {
+    public void setLoggedInUser(User user) {
         initialsLabel.setText(user.getInitials());
         roleLabel   .setText(user.getRole());
 

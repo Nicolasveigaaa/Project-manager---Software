@@ -1,12 +1,12 @@
 package domain;
 
-public class Employee {
+public class User {
     private final String initials;
     private final String password;
     private final String role;
     private final Double totalHours;
 
-    public Employee(String initials, String password, String role) {
+    public User(String initials, String password, String role) {
         this.initials = initials.toLowerCase(); // lowercase to combat case sensitivity
         this.password = password;
         this.role = role;
