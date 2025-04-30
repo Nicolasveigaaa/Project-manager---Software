@@ -1,7 +1,7 @@
 // Jacob Knudsen (s224372)
 package domain;
 
-// Java utilities
+
 import java.util.HashSet;
 import java.util.Set;
 
