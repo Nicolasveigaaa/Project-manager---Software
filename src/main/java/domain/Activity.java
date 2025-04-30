@@ -19,6 +19,9 @@ public class Activity {
 
     // constructor
     public Activity(Project project, String name, double budgetedTime, int startWeek, int startYear, int endWeek, int endYear) {
+        if (project == null) throw new IllegalArgumentException("Activity must belong to a project.");
+        if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Activity name cannot be empty.");
+        if (budgetedTime < 0) throw new IllegalArgumentException("Budgeted time cannot be negative.");
         this.project = project;
         this.name = name;
         this.budgetedTime = budgetedTime;
@@ -61,7 +64,8 @@ public class Activity {
 
     // setters
     public void setName(String name) {
-        this.name = name;
+        if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Activity name cannot be empty.");
+        this.name = name.trim();
     }
 
     public void setBudgetedTime(double budgetedTime) {
@@ -82,18 +86,14 @@ public class Activity {
      }
 
     public void assignEmployee(User user) {
-        if (assignedUsers.contains(user)) {
-            throw new IllegalArgumentException("The employee is already assigned to the activity");
-        }
-
+        if (user == null) throw new IllegalArgumentException("Cannot assign null user.");
+        if (assignedUsers.contains(user)) throw new IllegalArgumentException("The employee is already assigned to the activity");
         assignedUsers.add(user);
     }
 
     public void unassignEmployee(User user) {
-        if (!assignedUsers.contains(user)) {
-            throw new IllegalArgumentException("The employee is not assigned to the activity");
-        }
-
+        if (user == null) throw new IllegalArgumentException("Cannot unassign null user.");
+        if (!assignedUsers.contains(user)) throw new IllegalArgumentException("The employee is not assigned to the activity");
         assignedUsers.remove(user);
     }
 
@@ -103,6 +103,16 @@ public class Activity {
         }
 
         this.loggedTime += hours;
+    }
+
+    // check if a specific week falls within the activitys duration
+    public boolean isActiveIn(int week, int year) {
+        if (year < startYear || year > endYear) return false;
+        if (year > startYear && year < endYear) return true;
+        if (startYear == endYear) return week >= startWeek && week <= endWeek;
+        if (year == startYear) return week >= startWeek;
+        // if (year == endYear)
+        return week <= endWeek;
     }
 
 }
