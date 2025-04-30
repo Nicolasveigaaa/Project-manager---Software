@@ -48,7 +48,7 @@ public class AuthScreenController {
 
     private void validate(String init, String pwd) {
         if (authValidation.validateLogin(init, pwd)) {
-            Main.setInitials(init);
+            Main.initiateSoftware(init);
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
             try {
