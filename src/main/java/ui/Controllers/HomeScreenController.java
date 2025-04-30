@@ -13,48 +13,79 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 
 // Java imports
 import java.io.IOException;
 import java.util.List;
 
+import app.employee.AuthValidation;
+import app.project.ProjectService;
 
 // Controller that handles HomeScreen.fxml
 public class HomeScreenController {
     private final Database db = new Database();
 
+    @FXML
+    private ListView<Project> projectsListView;
+    @FXML
+    private Label projectsCountLabel;
 
-    @FXML private ListView<Project> projectsListView;
-    @FXML private Label projectsCountLabel;
+    @FXML
+    private Label initialsLabel;
+    @FXML
+    private Label roleLabel;
 
-    @FXML private Label initialsLabel;
-    @FXML private Label roleLabel;
-
+    @FXML
+    private Button openProject;
 
     // Loads all projects from the database and sets them in the ListView
     private void loadProjects() {
+        // Clear current projects from screen
+        projectsListView.getItems().clear();
+
         List<Project> projects = db.getAllProjects();
-        ObservableList<Project> items = projectsListView.getItems();
-        items.setAll(projects);
+
+        // enforce single‐selection
+        projectsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        // Now before showing the user the projects, check if the user is part of it
+        // (Get current user)
+        User user = AuthValidation.getCurrentUser();
+        String initials = user.getInitials();
+
+        // Check if the user is part of the project
+        for (Project project : projects) {
+            if (project.getMemberInitials().contains(initials)) {
+                projectsListView.getItems().add(project);
+            }
+        }
+
         projectsCountLabel.setText(String.valueOf(projects.size()));
     }
 
     // Sets the logged-in user information in the UI
     public void setLoggedInUser(User user) {
         initialsLabel.setText(user.getInitials());
-        roleLabel   .setText(user.getRole());
+        roleLabel.setText(user.getRole());
 
         loadProjects();
     }
-
 
     // Loads screen after fetching relevant information
     @FXML
     private void initialize() {
         loadProjects();
+
+        // Disable "Open" until something is selected:
+        openProject.disableProperty().bind(
+                projectsListView.getSelectionModel()
+                        .selectedItemProperty()
+                        .isNull());
     }
 
     // Opens the Create Project dialog, then refreshes the project list.
@@ -70,11 +101,29 @@ public class HomeScreenController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
             Parent loginRoot = FXMLLoader.load(
-                    getClass().getResource("/ui/FXML/authScreen.fxml")
-            );
+                    getClass().getResource("/ui/FXML/authScreen.fxml"));
             stage.setScene(new Scene(loginRoot, 600, 400));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Open the selected project
+    @FXML
+    private void handleOpenProject(ActionEvent event) {
+        Project selected = projectsListView
+                .getSelectionModel()
+                .getSelectedItem();
+        if (selected == null) {
+            // nothing to open
+            return;
+        }
+
+        // Suppose your Project has a getId() method:
+        String projectID = selected.getProjectID();
+
+        System.out.println("Opening project " + projectID);
+
+        ProjectService.openProject(projectID);
     }
 }

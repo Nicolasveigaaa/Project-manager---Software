@@ -7,25 +7,28 @@ import java.util.Optional;
 
 // Folder imports
 import domain.Project;
+import persistence.Database;
+
+import app.Main;
 
 public class ProjectService {
-    private final List<Project> projects;
+    private static List<Project> projects;
+    private static Database db;
 
     // Initiate the project / create a new project
     public ProjectService() {
-        this.projects = new ArrayList<>();
-    }
-
-    public ProjectService(String projectName) {
-        this();
-        addProject(projectName);
+        projects = new ArrayList<>();
+        db = Main.getDatabase();
     }
 
     // Add a new project to the list of projects
-    public Project addProject(String projectName) {
+    public static String addProject(String projectName) {
         Project project = new Project(projectName);
         projects.add(project);
-        return project;
+
+        // Add project to the database
+        db.addProject(project);
+        return project.getProjectID();
     }
 
     public List<Project> getProjects() {
@@ -38,7 +41,15 @@ public class ProjectService {
     }
 
     // Find project by ID
-//    public Optional<Project> findProjectByID(String projectID) {
-//        return projects.stream().filter(p -> p.getProjectID().equalsIgnoreCase(projectID)).findFirst();
-//    }
+    public static Optional<Project> findProjectByID(String projectID) {
+        return projects.stream().filter(p -> p.getProjectID().equalsIgnoreCase(projectID)).findFirst();
+    }
+
+    // Open selected project
+    public static void openProject(String projectID) {
+        Optional<Project> project = findProjectByID(projectID);
+        if (project.isPresent()) {
+            // TODO: Open project
+        }
+    }
 }

@@ -46,6 +46,7 @@
     <HBox spacing="10.0">
         <Button fx:id="createProjectButton" text="Create Project" onAction="#handleCreateProject"/>
         <Button fx:id="logoutButton" text="Log Out" onAction="#handleLogoutAction"/>
+        <Button fx:id="openProject" text="Open Project" onAction="#handleOpenProject"/>
     </HBox>
 
 </VBox>

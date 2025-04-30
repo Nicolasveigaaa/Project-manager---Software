@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import app.employee.AuthValidation;
+
 public class Project {
     private final String projectName;
     private final List<String> memberInitials;
+    private final String projectID;
 
     public Project(String projectName) {
         this.projectName     = projectName;
         this.memberInitials  = new ArrayList<>();
-    }
-
-    public Project(String projectName, List<String> memberInitials) {
-        this.projectName    = projectName;
-        this.memberInitials = new ArrayList<>(memberInitials);
+        this.projectID       = createID();
+        // Default add current user
+        this.addMember(AuthValidation.getCurrentUser().getInitials());
     }
 
     public String getProjectName() {
@@ -27,6 +28,13 @@ public class Project {
         return projectName + " (" + memberInitials.size() + " members)";
     }
 
+    public void addMember(String initials) {
+        memberInitials.add(initials);
+    }
+
+    public List<String> getMemberInitials() {
+        return memberInitials;
+    }
 
     // VINCENT ID TING
     private final String[] availableChars = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","x","y","z"};
@@ -52,6 +60,10 @@ public class Project {
             int randomIndex = random.nextInt(allChars.length);
             id.append(allChars[randomIndex]);
         }
-        return id.toString();
+        return "2025-"+id.toString();
+    }
+
+    public String getProjectID() {
+        return projectID;
     }
 }

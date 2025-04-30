@@ -9,8 +9,7 @@ import java.util.*;
 
 public class Database {
     private final Map<String, User> allowedUsers = new HashMap<>();
-    private final Map<String, Project>  projects     = new HashMap<>();
-
+    private final static Map<String, Project>  projects = new HashMap<>();
 
     // Constructor
     public Database() {
@@ -37,11 +36,14 @@ public class Database {
         return new HashMap<>(allowedUsers);
     }
 
+    // Add user to the project
+    public void addUserToProject(String projectID, String initials) {
+        Project project = projects.get(projectID);
+        project.addMember(initials);
+    }
 
-    // --- Project methods ---
-    public void createProject(String projectName, List<String> userInitials) {
-        Project project = new Project(projectName, userInitials);
-        projects.put(projectName, project);
+    public void addProject(Project project) {
+        projects.put(project.getProjectID(), project);
     }
 
     public List<Project> getAllProjects() {
