@@ -27,5 +27,6 @@ public class User {
     public void addTimeOff(TimeOff timeOff) {
         // Optional: Add checks for overlapping time off if needed
         this.timeOffList.add(timeOff);
+        // Optional: Add removeTimeOff if needed
     }
 }

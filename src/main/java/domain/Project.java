@@ -10,17 +10,24 @@ public class Project {
     private final String projectName;
     private final List<String> memberInitials;
     private final String projectID;
+    private String projectLeaderInitials; // Added for project leader
 
     public Project(String projectName) {
         this.projectName     = projectName;
         this.memberInitials  = new ArrayList<>();
         this.projectID       = createID();
+        this.projectLeaderInitials = null; // Leader not assigned initially
         // Default add current user
         this.addMember(AuthValidation.getCurrentUser().getInitials());
     }
 
+
     public String getProjectName() {
         return projectName;
+    }
+
+    public String getProjectLeaderInitials() { 
+        return projectLeaderInitials; 
     }
 
     @Override
@@ -29,7 +36,9 @@ public class Project {
     }
 
     public void addMember(String initials) {
-        memberInitials.add(initials);
+        if (!memberInitials.contains(initials)) { // Avoid duplicates
+            memberInitials.add(initials);
+        }
     }
 
     public List<String> getMemberInitials() {
