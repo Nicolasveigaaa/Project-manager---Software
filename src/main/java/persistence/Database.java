@@ -1,32 +1,50 @@
 package persistence;
 
 // Folder imports
-import domain.Employee;
+import domain.User;
+import domain.Project;
 
-// Java utilities
-import java.util.HashMap;
-import java.util.Map;
+// Java imports
+import java.util.*;
 
 public class Database {
+    private final Map<String, User> allowedUsers = new HashMap<>();
+    private final Map<String, Project>  projects     = new HashMap<>();
 
-    private final Map<String, Employee> allowedUsers = new HashMap<>();
 
+    // Constructor
     public Database() {
         // Hardcoded users — just add manually here
-        addUser(new Employee("huba", "huba123"));
-        addUser(new Employee("nico", "nico123"));
-        addUser(new Employee("admin", "admin"));
+        addUser(new User("huba", "huba123", "employee"));
+        addUser(new User("nico", "nico123", "employee"));
+        addUser(new User("admin", "admin",  "manager"));
     }
 
-    public void addUser(Employee employee) {
-        allowedUsers.put(employee.getInitials(), employee);
+    // --- User methods ---
+    public List<String> getAllUserInitials() {
+        return new ArrayList<>(allowedUsers.keySet());
     }
 
-    public Employee getUser(String initials) {
+    public void addUser(User user) {
+        allowedUsers.put(user.getInitials(), user);
+    }
+
+    public User getUser(String initials) {
         return allowedUsers.get(initials);
     }
 
-    public Map<String, Employee> getAllUsers() {
+    public Map<String, User> getAllUsers() {
         return new HashMap<>(allowedUsers);
+    }
+
+
+    // --- Project methods ---
+    public void createProject(String projectName, List<String> userInitials) {
+        Project project = new Project(projectName, userInitials);
+        projects.put(projectName, project);
+    }
+
+    public List<Project> getAllProjects() {
+        return new ArrayList<>(projects.values());
     }
 }

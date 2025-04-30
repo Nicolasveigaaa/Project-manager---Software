@@ -1,9 +1,11 @@
 package app.project;
 
+// Java utilities
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// Folder imports
 import domain.Project;
 
 public class ProjectService {
@@ -36,7 +38,7 @@ public class ProjectService {
     }
 
     // Find project by ID
-    public Optional<Project> findProjectByID(String projectID) {
-        return projects.stream().filter(p -> p.getProjectID().equalsIgnoreCase(projectID)).findFirst();
-    }
+//    public Optional<Project> findProjectByID(String projectID) {
+//        return projects.stream().filter(p -> p.getProjectID().equalsIgnoreCase(projectID)).findFirst();
+//    }
 }

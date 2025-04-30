@@ -1,11 +1,13 @@
 package app;
 
+// JavaFX imports
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+// Java utilities
 import java.io.IOException;
 
 public class Main extends Application {
@@ -22,18 +24,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
-    }
-
-    public static String getInitials() {
-        return "hey";
-    }
-
-    public static void initiateSoftware(String initials) {
-        // Set the initials for the application
-        System.out.println("Initials set to: " + initials);
-        // Open home screen
-
-        // Initiate
-
     }
 }

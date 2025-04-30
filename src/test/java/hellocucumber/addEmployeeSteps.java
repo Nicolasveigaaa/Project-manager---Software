@@ -1,8 +1,9 @@
 package hellocucumber;
 
 import io.cucumber.java.en.*;
-
+import domain.Activity;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 public class addEmployeeSteps {
     

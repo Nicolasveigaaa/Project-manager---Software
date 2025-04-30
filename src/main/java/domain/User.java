@@ -1,15 +1,16 @@
 package domain;
 
-import java.util.ArrayList;
-
-public class Employee {
+public class User {
     private final String initials;
     private final String password;
-    private Double totalHours = 45.23; // Test value
+    private final String role;
+    private final Double totalHours;
 
-    public Employee(String initials, String password) {
+    public User(String initials, String password, String role) {
         this.initials = initials.toLowerCase(); // lowercase to combat case sensitivity
         this.password = password;
+        this.role = role;
+        this.totalHours = 0.0;
     }
 
     public String getInitials() {
@@ -22,5 +23,9 @@ public class Employee {
 
     public Double getTotalHours() {
         return totalHours;
+    }
+
+    public String getRole() {
+        return role;
     }
 }
