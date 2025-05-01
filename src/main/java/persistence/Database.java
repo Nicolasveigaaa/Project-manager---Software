@@ -39,6 +39,9 @@ public class Database {
     // Add user to the project
     public void addUserToProject(String projectID, String initials) {
         Project project = projects.get(projectID);
+        if (project == null) {
+            throw new IllegalArgumentException("Project with ID '" + projectID + "' not found. Cannot add user '" + initials + "'.");
+        }
         project.addMember(initials);
     }
 

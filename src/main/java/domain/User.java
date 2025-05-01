@@ -24,6 +24,7 @@ public class User {
     public String getRole() { return role; }
     public List<TimeOff> getTimeOffList() { return new ArrayList<>(timeOffList); }
 
+    // method for adding fixed activities
     public void addTimeOff(TimeOff timeOff) {
         // Optional: Add checks for overlapping time off if needed
         this.timeOffList.add(timeOff);
