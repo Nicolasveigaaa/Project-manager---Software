@@ -28,7 +28,7 @@ public class ProjectService {
     }
 
     // Create a new project and add it to the database
-    public String addProject(String projectName) {
+    public static String addProject(String projectName) {
         // project constructor adds the user
         Project project = new Project(projectName);
         // Add project to the database
@@ -50,7 +50,7 @@ public class ProjectService {
 
     // Find project by ID
     public static Optional<Project> findProjectByID(String projectID) {
-        return projects.stream().filter(p -> p.getProjectID().equalsIgnoreCase(projectID)).findFirst();
+        return db.getProject(projectID);
     }
 
     // Open selected project
@@ -64,7 +64,6 @@ public class ProjectService {
             return Optional.empty();
         }
     }
-    
 
     public Activity createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek, int startYear, int endWeek, int endYear) {
         Project project = findProjectByID(projectID)
@@ -87,7 +86,6 @@ public class ProjectService {
     }
 
     // Project leader methods:
-
     public void setProjectLeader(String projectID, String leaderInitials) {
         Project project = findProjectByID(projectID)
             .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
@@ -121,7 +119,6 @@ public class ProjectService {
     }
 
     // Time logging method:
-
     public void logTimeForActivity(String projectID, String activityName, double hours) {
         Project project = findProjectByID(projectID)
                 .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));

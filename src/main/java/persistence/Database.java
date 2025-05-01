@@ -38,8 +38,8 @@ public class Database {
         return new HashMap<>(allowedUsers);
     }
     
-    public Project getProject(String projectID) {
-        return projects.get(projectID);
+    public Optional<Project> getProject(String projectID) {
+        return Optional.ofNullable(projects.get(projectID));
     }
     
     // Add user to the project s244706
