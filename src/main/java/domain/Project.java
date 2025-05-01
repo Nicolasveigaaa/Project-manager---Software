@@ -4,6 +4,10 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Random;
 
 import app.employee.AuthValidation;
@@ -13,6 +17,7 @@ public class Project {
     private final List<String> memberInitials;
     private final String projectID;
     private String projectLeaderInitials; // Added for project leader
+    private final Map<String, Activity> activities = new HashMap<>();  // Map to store activities within this project, keyed by unique activity name
 
     public Project(String projectName) {
         this.projectName     = projectName;
@@ -23,6 +28,10 @@ public class Project {
         this.addMember(AuthValidation.getCurrentUser().getInitials());
     }
 
+    public void setProjectLeaderInitials(String leaderInitials) {
+        // Add validation
+        this.projectLeaderInitials = leaderInitials;
+    }
 
     public String getProjectName() {
         return projectName;
@@ -34,7 +43,7 @@ public class Project {
 
     @Override
     public String toString() {
-        return projectName + " (" + memberInitials.size() + " members)";
+        return projectName + " (ID: " + projectID + ", Members: " + memberInitials.size() + ", Activities: " + activities.size() + ")";
     }
 
     // Add a member to the project (s246060)
@@ -78,4 +87,31 @@ public class Project {
     public String getProjectID() {
         return projectID;
     }
+
+    // methods for activity management:
+
+    public void addActivity(Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("Cannot add a null activity.");
+        }
+        // Ensure the activity being added points back to this project instance
+        if (activity.getProject() != this) {
+             throw new IllegalArgumentException("Activity belongs to a different project. Cannot add.");
+        }
+        // Check if an activity with the same name already exists
+        if (this.activities.containsKey(activity.getName())) {
+            throw new IllegalArgumentException("Activity with name '" + activity.getName() + "' already exists in this project.");
+        }
+        // Add the activity to the map
+        this.activities.put(activity.getName(), activity);
+    }
+
+    public Activity getActivityByName(String name) {
+        return this.activities.get(name); // Returns null if the key (name) is not found
+    }
+
+    public Collection<Activity> getActivities() {
+        return new ArrayList<>(this.activities.values());
+    }
+
 }
