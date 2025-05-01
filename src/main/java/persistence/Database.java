@@ -35,7 +35,11 @@ public class Database {
     public Map<String, User> getAllUsers() {
         return new HashMap<>(allowedUsers);
     }
-
+    
+    public Project getProject(String projectID) {
+        return projects.get(projectID);
+    }
+    
     // Add user to the project
     public void addUserToProject(String projectID, String initials) {
         Project project = projects.get(projectID);

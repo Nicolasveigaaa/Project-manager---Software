@@ -115,5 +115,15 @@ public class Activity {
         return week <= endWeek;
     }
 
+    @Override
+    public String toString() {
+        // Shows Name, Budgeted Time, Logged Time, and number of Assigned Users
+        return String.format("%s (Budget: %.1f, Logged: %.1f, Assigned: %d)",
+                             this.name,
+                             this.budgetedTime,
+                             this.loggedTime,
+                             this.assignedUsers.size());
+    }
+
 }
 

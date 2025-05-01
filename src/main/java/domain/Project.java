@@ -39,30 +39,6 @@ public class Project {
         return projectLeaderInitials; 
     }
 
-    public void addActivity(Activity activity) {
-        if (activity == null) {
-            throw new IllegalArgumentException("Cannot add a null activity.");
-        }
-        // Ensure the activity being added points back to this project instance
-        if (activity.getProject() != this) {
-             throw new IllegalArgumentException("Activity belongs to a different project. Cannot add.");
-        }
-        // Check if an activity with the same name already exists
-        if (this.activities.containsKey(activity.getName())) {
-            throw new IllegalArgumentException("Activity with name '" + activity.getName() + "' already exists in this project.");
-        }
-        // Add the activity to the map
-        this.activities.put(activity.getName(), activity);
-    }
-
-    public Activity getActivityByName(String name) {
-        return this.activities.get(name); // Returns null if the key (name) is not found
-    }
-
-    public Collection<Activity> getActivities() {
-        return new ArrayList<>(this.activities.values());
-    }
-
     @Override
     public String toString() {
         return projectName + " (ID: " + projectID + ", Members: " + memberInitials.size() + ", Activities: " + activities.size() + ")";
@@ -108,4 +84,31 @@ public class Project {
     public String getProjectID() {
         return projectID;
     }
+
+    // methods for activity management:
+
+    public void addActivity(Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("Cannot add a null activity.");
+        }
+        // Ensure the activity being added points back to this project instance
+        if (activity.getProject() != this) {
+             throw new IllegalArgumentException("Activity belongs to a different project. Cannot add.");
+        }
+        // Check if an activity with the same name already exists
+        if (this.activities.containsKey(activity.getName())) {
+            throw new IllegalArgumentException("Activity with name '" + activity.getName() + "' already exists in this project.");
+        }
+        // Add the activity to the map
+        this.activities.put(activity.getName(), activity);
+    }
+
+    public Activity getActivityByName(String name) {
+        return this.activities.get(name); // Returns null if the key (name) is not found
+    }
+
+    public Collection<Activity> getActivities() {
+        return new ArrayList<>(this.activities.values());
+    }
+
 }
