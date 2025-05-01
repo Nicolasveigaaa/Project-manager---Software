@@ -1,3 +1,5 @@
+// [Written by s246060 and s244706] //
+
 package domain;
 
 import java.util.ArrayList;

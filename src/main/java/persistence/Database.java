@@ -1,3 +1,5 @@
+// [Written by s244706 and s246060] //
+
 package persistence;
 
 // Folder imports
@@ -36,7 +38,7 @@ public class Database {
         return new HashMap<>(allowedUsers);
     }
 
-    // Add user to the project
+    // Add user to the project s244706
     public void addUserToProject(String projectID, String initials) {
         Project project = projects.get(projectID);
         project.addMember(initials);

@@ -1,3 +1,5 @@
+// [Written by s244706 and s246060 additions] //
+
 package domain;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class Project {
         return projectName + " (" + memberInitials.size() + " members)";
     }
 
+    // Add a member to the project (s246060)
     public void addMember(String initials) {
         if (!memberInitials.contains(initials)) { // Avoid duplicates
             memberInitials.add(initials);

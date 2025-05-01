@@ -1,3 +1,5 @@
+// [Written by s244706] //
+
 package app.project;
 
 // Java utilities
@@ -46,10 +48,14 @@ public class ProjectService {
     }
 
     // Open selected project
-    public static void openProject(String projectID) {
+    public static Optional<Project> openProject(String projectID) {
         Optional<Project> project = findProjectByID(projectID);
         if (project.isPresent()) {
-            // TODO: Open project
+            System.out.println("Returning project data");
+            return project;
+        } else {
+            System.out.println("Project not found");
+            return Optional.empty();
         }
     }
 }
