@@ -1,3 +1,5 @@
+// [Written mainly by s246060 additions and rewrites s244706] //
+
 package ui.Controllers;
 
 // Folder imports
@@ -22,12 +24,17 @@ import javafx.stage.Stage;
 
 // Java imports
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import app.Main;
+import app.employee.AuthValidation;
+import app.project.ProjectService;
 
 
 // Controller that handles ProjectCreationScreen.fxml
 public class ProjectCreationScreenController {
-    private final Database db = new Database();
+    private final Database db = Main.getDatabase();
 
     @FXML private TextField projectNameField;
     @FXML private ListView<String> usersListView;
@@ -35,9 +42,20 @@ public class ProjectCreationScreenController {
 
     @FXML
     private void initialize() {
-        // Load all user initials from the database
+        // Load all user initials from the database except current user
         List<String> initials = db.getAllUserInitials();
-        ObservableList<String> items = FXCollections.observableArrayList(initials);
+
+        // Get current user
+        String currentUserInitials = AuthValidation.getCurrentUser().getInitials();
+        List<String> availableUsers = new ArrayList<>();
+
+        for (String userInitials : initials) {
+            if (!userInitials.equals(currentUserInitials)) {
+                availableUsers.add(userInitials);
+            }
+        }
+
+        ObservableList<String> items = FXCollections.observableArrayList(availableUsers);
         usersListView.setItems(items);
 
         // Allow multiple selection
@@ -56,7 +74,7 @@ public class ProjectCreationScreenController {
             return observable;
         }));
     }
-
+    
 
     // Validates inputs and creates a new project in the persistence database
     @FXML
@@ -71,13 +89,17 @@ public class ProjectCreationScreenController {
             return;
         }
 
-        // Persist the new project in the database
-        db.createProject(name, List.copyOf(selected));
+        // Send the selected users to the project by project ID
+        String ID = ProjectService.addProject(name);
+
+        // Now add the members to the project through the database
+        for (String initials : selected) {
+            db.addUserToProject(ID, initials);
+        }
 
         // Close the dialog window
         Stage stage = (Stage) projectNameField.getScene().getWindow();
         stage.close();
-
     }
 
     // Closes modal dialog without creating a project

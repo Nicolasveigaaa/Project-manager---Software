@@ -1,3 +1,5 @@
+// [Written by s246060]
+
 package app.employee;
 
 // Folder imports
@@ -6,7 +8,7 @@ import persistence.Database;
 
 public class AuthValidation {
     private final Database database;
-    private User currentUser;
+    private static User currentUser;
 
     // Constructor to initialize the database
     public AuthValidation(Database database) {
@@ -24,7 +26,7 @@ public class AuthValidation {
     }
 
     // Checks who the current user is
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return currentUser;
     }
 

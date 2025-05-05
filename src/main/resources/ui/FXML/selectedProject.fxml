@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--Written by s246060-->
+<!--Written by s244706-->
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
@@ -12,20 +12,13 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
       alignment="CENTER"
-      fx:controller="ui.Controllers.AuthScreenController"
+      fx:controller="ui.Controllers.ProjectScreenController"
       spacing="10.0">
    <padding>
       <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
    </padding>
 
-   <Label text="Admin Initial:"/>
-   <TextField fx:id="adminInitialField" promptText="Enter initial"/>
-   <Label text="Password:"/>
-   <PasswordField fx:id="passwordField" promptText="Enter password"/>
-
-   <Button text="Log In"
-           fx:id="loginButton"
-           onAction="#handleLoginAction"
-   />
+   <Label fx:id="projectNameText" text="Project: Project Name" style="-fx-font-size: 30;"/>
+   <Label fx:id='projectAdminInitials' text="Admin Initial:" style="-fx-font-size: 18px;"/>
 
 </VBox>

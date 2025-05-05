@@ -1,3 +1,5 @@
+// [Written by s246060]
+
 package app.employee;
 
 public class RoleChecker {

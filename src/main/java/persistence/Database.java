@@ -1,3 +1,5 @@
+// [Written by s244706 and s246060] //
+
 package persistence;
 
 // Folder imports
@@ -9,8 +11,7 @@ import java.util.*;
 
 public class Database {
     private final Map<String, User> allowedUsers = new HashMap<>();
-    private final Map<String, Project>  projects     = new HashMap<>();
-
+    private final static Map<String, Project>  projects = new HashMap<>();
 
     // Constructor
     public Database() {
@@ -36,12 +37,22 @@ public class Database {
     public Map<String, User> getAllUsers() {
         return new HashMap<>(allowedUsers);
     }
+    
+    public Optional<Project> getProject(String projectID) {
+        return Optional.ofNullable(projects.get(projectID));
+    }
+    
+    // Add user to the project s244706
+    public void addUserToProject(String projectID, String initials) {
+        Project project = projects.get(projectID);
+        if (project == null) {
+            throw new IllegalArgumentException("Project with ID '" + projectID + "' not found. Cannot add user '" + initials + "'.");
+        }
+        project.addMember(initials);
+    }
 
-
-    // --- Project methods ---
-    public void createProject(String projectName, List<String> userInitials) {
-        Project project = new Project(projectName, userInitials);
-        projects.put(projectName, project);
+    public void addProject(Project project) {
+        projects.put(project.getProjectID(), project);
     }
 
     public List<Project> getAllProjects() {

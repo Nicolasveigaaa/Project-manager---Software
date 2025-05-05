@@ -1,3 +1,5 @@
+// [Written by s246060] //
+
 package ui.Controllers;
 
 // Folder import
@@ -21,7 +23,6 @@ import javafx.scene.Scene;
 
 // Java imports
 import java.io.IOException;
-
 
 // Controls the authScreen.fxml
 public class AuthScreenController {
@@ -50,7 +51,7 @@ public class AuthScreenController {
             handleLoginAction(null);
         }
     }
-
+    
 
     @FXML
     private void handleLoginAction(ActionEvent ev) {
