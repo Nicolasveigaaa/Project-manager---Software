@@ -59,7 +59,7 @@ public class AuthScreenController {
         String pwd  = passwordField.getText().trim();
 
         if (authValidation.validateLogin(init, pwd)) {
-            User user = authValidation.getCurrentUser();  // now has the Employee
+            User user = AuthValidation.getCurrentUser();  // now has the Employee
 
             try {
                 FXMLLoader loader = new FXMLLoader(

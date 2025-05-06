@@ -20,7 +20,6 @@ import app.Main;
 // Service layer class for handling project and activity related operations
 public class ProjectService {
     private static Database db;
-    private static List<Project> projects;
 
     // Initiate the project / create a new project
     public ProjectService() {
@@ -65,7 +64,7 @@ public class ProjectService {
         }
     }
 
-    public Activity createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek, int startYear, int endWeek, int endYear) {
+    public Project createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek, int endWeek, int startYear, int endYear) {
         Project project = findProjectByID(projectID)
                 .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found. Cannot create activity."));
 
@@ -75,7 +74,7 @@ public class ProjectService {
         //add the Activity to the Project object 
         project.addActivity(newActivity);
 
-        return newActivity;
+        return project;
     }
 
     public Collection<Activity> getActivitiesForProject(String projectID) {

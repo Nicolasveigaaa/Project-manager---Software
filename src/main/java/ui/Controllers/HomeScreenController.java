@@ -8,7 +8,6 @@ import domain.Project;
 import persistence.Database;
 
 // JavaFX imports
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -130,12 +129,12 @@ public class HomeScreenController {
         Optional<Project> projectData = ProjectService.openProject(projectID);
         System.out.println("Project name: " + projectData.get().getProjectName());
 
-        openProjectWindow();
+        openProjectWindow(projectData);
     }
 
     // Open the project window
     @FXML
-    private void openProjectWindow() {
+    private void openProjectWindow(Optional<Project> projectData) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/ui/FXML/selectedProject.fxml")
@@ -144,6 +143,8 @@ public class HomeScreenController {
 
             Stage stage = (Stage) openProject.getScene().getWindow();
             stage.setScene(new Scene(projectWindow, 600, 400));
+            ProjectScreenController psc = loader.getController();
+            psc.setupUI(projectData);
         } catch (IOException e) {
             e.printStackTrace();
         }
