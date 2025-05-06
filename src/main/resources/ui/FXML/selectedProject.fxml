@@ -19,6 +19,6 @@
    </padding>
 
    <Label fx:id="projectNameText" text="Project: Project Name" style="-fx-font-size: 30;"/>
-   <Label fx:id='projectAdminInitials' text="Admin Initial:" style="-fx-font-size: 18px;"/>
+   <Label fx:id='projectAdminInitialsText' text="Admin Initial:" style="-fx-font-size: 18px;"/>
 
 </VBox>
