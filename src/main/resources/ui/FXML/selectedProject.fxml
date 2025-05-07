@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -20,5 +21,11 @@
 
    <Label fx:id="projectNameText" text="Project: Project Name" style="-fx-font-size: 30;"/>
    <Label fx:id='projectAdminInitialsText' text="Admin Initial:" style="-fx-font-size: 18px;"/>
+
+   <!-- Projects List -->
+   <Label text="Projects" />
+   <ListView fx:id="activityListView" prefHeight="200.0" prefWidth="580.0"/>
+
+   <Button fx:id="viewTotalHours" text="Time Summary" onAction="#seeTimeSummary"/>
 
 </VBox>
