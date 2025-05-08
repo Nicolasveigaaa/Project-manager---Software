@@ -6,7 +6,7 @@ package ui.Controllers;
 import domain.User;
 import domain.Project;
 import persistence.Database;
-
+import ui.BaseController;
 // JavaFX imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,12 +25,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import app.Main;
 import app.employee.AuthValidation;
 import app.project.ProjectService;
 
 // Controller that handles HomeScreen.fxml
 public class HomeScreenController {
     private final Database db = new Database();
+    private final ProjectService projectService = Main.getProjectService();
 
     @FXML
     private ListView<Project> projectsListView;
@@ -45,7 +47,8 @@ public class HomeScreenController {
     @FXML
     private Button openProject;
 
-    // Loads all projects from the database and sets them in the ListView (s244706 + s246060)
+    // Loads all projects from the database and sets them in the ListView (s244706 +
+    // s246060)
     private void loadProjects() {
         // Clear current projects from screen
         projectsListView.getItems().clear();
@@ -61,13 +64,16 @@ public class HomeScreenController {
         String initials = user.getInitials();
 
         // Check if the user is part of the project
+        Integer numbOfProjects = 0;
+
         for (Project project : projects) {
             if (project.getMemberInitials().contains(initials)) {
                 projectsListView.getItems().add(project);
+                numbOfProjects++;
             }
         }
 
-        projectsCountLabel.setText(String.valueOf(projects.size()));
+        projectsCountLabel.setText(numbOfProjects.toString());
     }
 
     // Sets the logged-in user information in the UI
@@ -126,7 +132,7 @@ public class HomeScreenController {
 
         System.out.println("Opening project " + projectID);
 
-        Optional<Project> projectData = ProjectService.openProject(projectID);
+        Optional<Project> projectData = projectService.openProject(projectID);
         System.out.println("Project name: " + projectData.get().getProjectName());
 
         openProjectWindow(projectData);
@@ -137,11 +143,11 @@ public class HomeScreenController {
     private void openProjectWindow(Optional<Project> projectData) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/ui/FXML/selectedProject.fxml")
-            );
+                    getClass().getResource("/ui/FXML/selectedProject.fxml"));
             Parent projectWindow = loader.load();
 
             Stage stage = (Stage) openProject.getScene().getWindow();
+
             stage.setScene(new Scene(projectWindow, 600, 400));
             ProjectScreenController psc = loader.getController();
             psc.setupUI(projectData);

@@ -20,8 +20,6 @@
 
    <Label text="Admin Initial:"/>
    <TextField fx:id="adminInitialField" promptText="Enter initial"/>
-   <Label text="Password:"/>
-   <PasswordField fx:id="passwordField" promptText="Enter password"/>
 
    <Button text="Log In"
            fx:id="loginButton"

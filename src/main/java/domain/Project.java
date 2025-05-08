@@ -109,8 +109,9 @@ public class Project {
         return this.activities.get(name); // Returns null if the key (name) is not found
     }
 
-    public Collection<Activity> getActivities() {
-        return new ArrayList<>(this.activities.values());
+    public ArrayList<Activity> getActivities() {
+        // Return all acitivities
+        return new ArrayList<>(activities.values());
     }
 
 }

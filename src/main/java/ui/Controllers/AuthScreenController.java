@@ -6,13 +6,12 @@ package ui.Controllers;
 import app.employee.AuthValidation;
 import domain.User;
 import persistence.Database;
-
+import ui.BaseController;
 // JavaFX imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -30,17 +29,12 @@ public class AuthScreenController {
     private TextField adminInitialField;
 
     @FXML
-    private PasswordField passwordField;
-
-    @FXML
     private Button loginButton;
-
 
     @FXML
     private void initialize() {
-        passwordField.setOnKeyPressed(this::onEnterPressed);
+        adminInitialField.setOnKeyPressed(this::onEnterPressed);
     }
-
 
     // Instance of the AuthValidation class to validate login credentials
     private final AuthValidation authValidation = new AuthValidation(new Database());
@@ -51,14 +45,13 @@ public class AuthScreenController {
             handleLoginAction(null);
         }
     }
-    
 
     @FXML
     private void handleLoginAction(ActionEvent ev) {
         String init = adminInitialField.getText().trim();
-        String pwd  = passwordField.getText().trim();
+        //String pwd  = passwordField.getText().trim();
 
-        if (authValidation.validateLogin(init, pwd)) {
+        if (authValidation.validateLogin(init)) { //, pwd)) {
             User user = AuthValidation.getCurrentUser();  // now has the Employee
 
             try {
@@ -73,6 +66,8 @@ public class AuthScreenController {
 
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.setScene(new Scene(homeRoot, 600, 400));
+
+                BaseController.pushHistory("/ui/FXML/homeScreen.fxml");
             } catch (IOException e) {
                 e.printStackTrace();
             }

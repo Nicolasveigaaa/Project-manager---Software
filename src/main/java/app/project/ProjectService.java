@@ -11,6 +11,7 @@ import java.util.Map;
 // Folder imports
 import domain.Activity;
 import domain.User;
+import javafx.scene.control.Alert;
 import domain.Project;
 import persistence.Database;
 import app.report.CreateReport;
@@ -48,12 +49,12 @@ public class ProjectService {
     }
 
     // Find project by ID
-    public static Optional<Project> findProjectByID(String projectID) {
+    public Optional<Project> findProjectByID(String projectID) {
         return db.getProject(projectID);
     }
 
     // Open selected project
-    public static Optional<Project> openProject(String projectID) {
+    public Optional<Project> openProject(String projectID) {
         Optional<Project> project = findProjectByID(projectID);
         if (project.isPresent()) {
             System.out.println("Returning project data");
@@ -67,6 +68,14 @@ public class ProjectService {
     public Project createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek, int endWeek, int startYear, int endYear) {
         Project project = findProjectByID(projectID)
                 .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found. Cannot create activity."));
+
+        // Check if the activity already exists
+        if (project.getActivityByName(activityName) != null) {
+            new Alert(Alert.AlertType.WARNING,
+                    "Activity already exists in this project.")
+                    .showAndWait();
+            return null;
+        }
 
         // create the Activity obect where constructor associates it with the project
         Activity newActivity = new Activity(project, activityName, budgetedTime, startWeek, startYear, endWeek, endYear);

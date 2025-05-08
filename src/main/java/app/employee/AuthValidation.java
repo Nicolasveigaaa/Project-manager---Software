@@ -16,9 +16,9 @@ public class AuthValidation {
     }
 
     // Validates user login is in the persistence database
-    public boolean validateLogin(String initials, String password) {
+    public boolean validateLogin(String initials) { //, String password) {
         User user = database.getUser(initials.toLowerCase());
-        if (user != null && user.getPassword().equals(password)) {
+        if (user != null) {// && user.getPassword().equals(password)) {
             currentUser = user;
             return true;
         }

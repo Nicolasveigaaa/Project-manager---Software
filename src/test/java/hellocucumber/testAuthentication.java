@@ -26,7 +26,7 @@ public class testAuthentication {
     @When("the user attempts to log in")
     public void the_user_attempts_to_log_in() {
         // Fake a login attempt by simulating input
-        loginSuccess = auth.validateLogin(userId, "admin"); // Use your real or mock password
+        loginSuccess = auth.validateLogin(userId); // Use your real or mock password
     }
 
     @Then("the login should succeed {boolean}")

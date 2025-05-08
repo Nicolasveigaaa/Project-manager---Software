@@ -4,4 +4,6 @@ module hellofx {
 
     opens app to javafx.graphics;
     opens ui.Controllers to javafx.fxml;
+
+    opens ui to javafx.fxml;
 }
