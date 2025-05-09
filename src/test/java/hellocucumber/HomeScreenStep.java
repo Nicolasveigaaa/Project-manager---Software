@@ -49,7 +49,7 @@ public class HomeScreenStep {
         injectField("openProject", new Button());
 
         // Set user
-        currentUser = new User("admin", "admin", "Developer");
+        currentUser = new User("admin", "Developer");
         authValidation.validateLogin(currentUser.getInitials());
     }
 
@@ -61,7 +61,7 @@ public class HomeScreenStep {
 
     @Given("the user {string} with role {string} is logged in")
     public void userIsLoggedIn(String initials, String role) {
-        currentUser = new User(initials, "", role);
+        currentUser = new User(initials, role);
         // set current user context
         authValidation.validateLogin(currentUser.getInitials());
     }

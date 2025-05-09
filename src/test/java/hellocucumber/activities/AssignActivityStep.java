@@ -22,7 +22,7 @@ public class AssignActivityStep {
 
     @Given("a user {string} exists")
     public void a_user_exists(String userName) {
-        user = new User(userName, userName, userName);
+        user = new User(userName, userName);
     }
 
     @Given("{string} is already assigned to {string}")
