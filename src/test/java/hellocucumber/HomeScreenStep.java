@@ -19,12 +19,13 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
 import app.Main;
 import app.employee.AuthValidation;
-
+import app.project.ProjectService;
 import javafx.embed.swing.JFXPanel;
 
 public class HomeScreenStep {
@@ -77,7 +78,8 @@ public class HomeScreenStep {
             String id = row.get("projectID");
             String name = row.get("projectName");
             String members = row.get("memberInitials");
-            // db.saveProject(new Project(id, name, List.of(members.split(","))));
+            ProjectService.addProject(name);
+            db.addUserToProject(id, String.join(",", members.split(",")));
         }
     }
 

@@ -7,7 +7,7 @@ Feature: Home Screen Display
     Given the user "ABC" with role "Developer" is logged in
     And the database contains the following projects:
       | projectID | projectName   | memberInitials |
-      | P001      | Test Project  | ABC,XYZ        |
+      | P001      | Test Project  | admin,nico        |
       | P002      | Demo Project  | DEF,GHI        |
       | P003      | Alpha Project | ABC,DEF        |
 
