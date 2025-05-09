@@ -42,15 +42,22 @@ public class AuthScreenController {
     // Add scanner for pressed enter to validate login
     private void onEnterPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-            handleLoginAction(null);
+            login(null);
         }
     }
 
-    @FXML
-    private void handleLoginAction(ActionEvent ev) {
-        String init = adminInitialField.getText().trim();
-        //String pwd  = passwordField.getText().trim();
+    public void login(String initials) {
+        String init = initials;
 
+        if (initials == null) {
+            init = adminInitialField.getText().trim();
+        }
+        
+        handleLoginAction(null, (init == null) ? initials : init);
+    }
+
+    @FXML
+    private void handleLoginAction(ActionEvent ev, String init) {
         if (authValidation.validateLogin(init)) { //, pwd)) {
             User user = AuthValidation.getCurrentUser();  // now has the Employee
 

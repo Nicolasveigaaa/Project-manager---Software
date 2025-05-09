@@ -1,21 +1,10 @@
 package hellocucumber;
 
-import io.cucumber.java.en.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import io.cucumber.java.en.Given;
 
 public class StepDefinitions {
-
-    @Given("an example scenario")
-    public void anExampleScenario() {
+    @Given("I say hello")
+    public void i_say_hello() {
+        System.out.println("Hello, Cucumber!");
     }
-
-    @When("all step definitions are implemented")
-    public void allStepDefinitionsAreImplemented() {
-    }
-
-    @Then("the scenario passes")
-    public void theScenarioPasses() {
-    }
-
 }

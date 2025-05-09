@@ -29,6 +29,4 @@ public class AuthValidation {
     public static User getCurrentUser() {
         return currentUser;
     }
-
-
 }

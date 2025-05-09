@@ -6,7 +6,6 @@ package ui.Controllers;
 import domain.User;
 import domain.Project;
 import persistence.Database;
-import ui.BaseController;
 // JavaFX imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +23,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import app.Main;
 import app.employee.AuthValidation;
@@ -86,7 +86,7 @@ public class HomeScreenController {
 
     // Loads screen after fetching relevant information
     @FXML
-    private void initialize() {
+    public void initialize() {
         loadProjects();
 
         // Disable "Open" until something is selected:
@@ -154,5 +154,28 @@ public class HomeScreenController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> getDisplayedProjectNames() {
+        return projectsListView.getItems().stream()
+                .map(Project::getProjectName)
+                .collect(Collectors.toList());
+    }
+
+    public int getDisplayedProjectCount() {
+        return projectsListView.getItems().size();
+    }
+
+    public String getCountLabelText() {
+        return projectsCountLabel.getText();
+    }
+
+    public String getInitialsText() {
+        System.out.println("TEXT: " + initialsLabel.getText());
+        return initialsLabel.getText();
+    }
+
+    public String getRoleText() {
+        return roleLabel.getText();
     }
 }
