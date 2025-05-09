@@ -2,24 +2,19 @@ package hellocucumber;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import static org.junit.jupiter.api.Assertions.*;
-import ui.Controllers.AuthScreenController;
 import ui.Controllers.HomeScreenController;
 import domain.User;
 import domain.Project;
 import persistence.Database;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 

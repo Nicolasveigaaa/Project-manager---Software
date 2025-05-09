@@ -21,6 +21,8 @@ public class AuthValidation {
         if (user != null) {// && user.getPassword().equals(password)) {
             currentUser = user;
             return true;
+        } else {
+            currentUser = null;
         }
         return false;
     }

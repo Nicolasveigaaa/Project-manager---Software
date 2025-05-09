@@ -36,17 +36,17 @@ public class ProjectService {
         return project.getProjectID();
     }
 
-    public List<Project> getProjects() {
-        // return projects directly from the database
-        return db.getAllProjects();
-    }
+    // public List<Project> getProjects() {
+    //     // return projects directly from the database
+    //     return db.getAllProjects();
+    // }
 
-    public Optional<Project> findProjectByName(String projectName) {
-        // query the database via stream
-        return db.getAllProjects().stream()
-                 .filter(p -> p.getProjectName().equalsIgnoreCase(projectName))
-                 .findFirst();
-    }
+    // public Optional<Project> findProjectByName(String projectName) {
+    //     // query the database via stream
+    //     return db.getAllProjects().stream()
+    //              .filter(p -> p.getProjectName().equalsIgnoreCase(projectName))
+    //              .findFirst();
+    // }
 
     // Find project by ID
     public Optional<Project> findProjectByID(String projectID) {
