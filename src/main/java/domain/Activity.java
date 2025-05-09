@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Activity {
-
     private String name; // unique name within the project (e.g., "kravspecifikation", "design")
     private Double budgetedTime; // in 1 hour precission
     private int startWeek; 
@@ -14,7 +13,7 @@ public class Activity {
     private int endWeek;   
     private int endYear;  
     private Project project; // reference to the parent project
-    private Set<User> assignedUsers;
+    private Set<String> assignedUsers;
     private double loggedTime; // in 0.5 hours precission
 
     // constructor
@@ -31,6 +30,10 @@ public class Activity {
         this.endYear = endYear;
         this.assignedUsers = new HashSet<>();
         this.loggedTime = 0.0;
+    }
+
+    public Activity(String activityName, Project project2) {
+        //TODO Auto-generated constructor stub
     }
 
     // getters
@@ -58,7 +61,7 @@ public class Activity {
     public double getLoggedTime() {
         return loggedTime;
     }
-    public Set<User> getAssignedEmployees() {
+    public Set<String> getAssignedEmployees() {
         return assignedUsers;
     }
 
@@ -85,16 +88,16 @@ public class Activity {
         this.endYear = endYear;
      }
 
-    public void assignEmployee(User user) {
-        if (user == null) throw new IllegalArgumentException("Cannot assign null user.");
-        if (assignedUsers.contains(user)) throw new IllegalArgumentException("The employee is already assigned to the activity");
-        assignedUsers.add(user);
+    public void assignEmployee(String initials) {
+        if (initials == null) throw new IllegalArgumentException("Cannot assign null user.");
+        if (assignedUsers.contains(initials)) throw new IllegalArgumentException("The employee is already assigned to the activity");
+        assignedUsers.add(initials);
     }
 
-    public void unassignEmployee(User user) {
-        if (user == null) throw new IllegalArgumentException("Cannot unassign null user.");
-        if (!assignedUsers.contains(user)) throw new IllegalArgumentException("The employee is not assigned to the activity");
-        assignedUsers.remove(user);
+    public void unassignEmployee(String initials) {
+        if (initials == null) throw new IllegalArgumentException("Cannot unassign null user.");
+        if (!assignedUsers.contains(initials)) throw new IllegalArgumentException("The employee is not assigned to the activity");
+        assignedUsers.remove(initials);
     }
 
     public void logTime(double hours) {

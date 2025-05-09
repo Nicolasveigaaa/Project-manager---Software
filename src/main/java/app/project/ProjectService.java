@@ -113,14 +113,9 @@ public class ProjectService {
             throw new IllegalArgumentException("Activity with name '" + activityName + "' not found in project '" + projectID + "'.");
         }
 
-        User employee = db.getUser(employeeInitialsToAssign.toLowerCase());
-        if (employee == null) {
-            throw new IllegalArgumentException("Employee with initials '" + employeeInitialsToAssign + "' not found.");
-        }
-
         // Delegate assignment and its specific checks (like already assigned) to Activity
         try {
-              activity.assignEmployee(employee);
+              activity.assignEmployee(employeeInitialsToAssign);
         } catch (IllegalArgumentException e) {
               throw new IllegalArgumentException("Could not assign employee: " + e.getMessage());
         }

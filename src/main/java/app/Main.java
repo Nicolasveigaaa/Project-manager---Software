@@ -22,6 +22,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        System.setProperty("prism.order", "sw"); // use the pure-java software pipeline
+        System.setProperty("prism.forceGPU", "false"); // disable any GPU usage
+
         Parent root = FXMLLoader.load(
                 getClass().getResource("/ui/FXML/authScreen.fxml"));
         Scene scene = new Scene(root, 600, 400);
