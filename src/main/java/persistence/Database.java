@@ -16,9 +16,7 @@ public class Database {
     // Constructor
     public Database() {
         // Hardcoded users — just add manually here
-        addUser(new User("huba", "huba123", "employee"));
-        addUser(new User("nico", "nico123", "employee"));
-        addUser(new User("admin", "admin",  "manager"));
+        addUser(new User("huba", "employee"));
     }
 
     // --- User methods ---
