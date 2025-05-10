@@ -85,4 +85,10 @@ public class Database {
         }
         return (String.valueOf(year)+nextID);
     }
+
+    // method for clearing database to a clean slate for testing
+    public void resetDatabase() {
+        projects.clear();
+        allowedUsers.clear();
+    }
 }

@@ -15,11 +15,11 @@ public class setProjectLeaderTest {
     private ProjectService projectService;
     private Database sharedDb;
     private Project testProject;
-    private User testUser;
-    private String testProjectId;
+    private Project testProjectInstance;
     
-    private String TEST_PROJECT_NAME = "Project Test"; 
-    private String TEST_USER_INITIALS = "huba"; 
+    private String testProjectID = "proj123";
+    private String testProjectName = "Project Test"; 
+    private String testUserID = "huba"; 
 
     @BeforeEach
     void setUp() {
@@ -29,55 +29,42 @@ public class setProjectLeaderTest {
             System.out.println("ERROR: No database found!");
             return;
         }
-        
+        // clear shared database
+        sharedDb.resetDatabase();
+
+        // add default user to database
+        sharedDb.addUser(new User(testUserID, "employee"));
+        // add testproject to database
+        testProjectInstance = new Project(testProjectName, testProjectID); 
+        sharedDb.addProject(testProjectInstance);
+
         // Create the service
         projectService = new ProjectService();
 
-        // Check if project exists
-        Boolean projectFound = false;
-        for(Project p : sharedDb.getAllProjects()) {
-            if(p.getProjectName().equals(TEST_PROJECT_NAME)) {
-                testProject = p;
-                testProject.setProjectLeaderInitials(null);
-                projectFound = true;
-                break;
-            }
-        }
-        
-        // If not found, create new one
-        if(projectFound == false) {
-            testProject = new Project(TEST_PROJECT_NAME);
-            sharedDb.addProject(testProject);
-        }
-        
-        // Save project ID
-        testProjectId = testProject.getProjectID();
-
-        // Get test user
-        testUser = sharedDb.getUser(TEST_USER_INITIALS);
-        if(testUser == null) {
-            System.out.println("ERROR: User 'huba' not found!");
-        }
     }
 
     // Test when everything works
     @Test
     void testSetProjectLeader_Success() {
-        // Set up test data
-        String leaderInitials = TEST_USER_INITIALS;
 
         // Try to set the leader
         try {
-            projectService.setProjectLeader(testProjectId, leaderInitials);
+            projectService.setProjectLeader(testProjectID, testUserID);
         } catch(Exception e) {
             fail("This should not throw an exception!");
         }
 
         // Check if it worked
-        if(sharedDb.getProject(testProjectId).isPresent()) {
-            Project updatedProject = sharedDb.getProject(testProjectId).get();
-            if(!leaderInitials.equals(updatedProject.getProjectLeaderInitials())) {
+        if(sharedDb.getProject(testProjectID).isPresent()) {
+            Project updatedProject = sharedDb.getProject(testProjectID).get();
+            if(!testUserID.equals(updatedProject.getProjectLeaderInitials())) {
                 fail("Project leader initials should be updated!");
+            }
+            else if(!testProjectID.equals(updatedProject.getProjectID())) {
+                fail("Project ID should be the same!");
+            }
+            else if(!testProjectName.equals(updatedProject.getProjectName())) {
+                fail("Project Name should be the same!");
             }
         } else {
             fail("Project should still exist!");
@@ -89,7 +76,7 @@ public class setProjectLeaderTest {
     void testSetProjectLeader_ProjectNotFound() {
         // Test data
         String fakeProjectId = "nonexistent";
-        String leaderInitials = TEST_USER_INITIALS;
+        String leaderInitials = testUserID;
 
         // Try to set leader for non-existent project
         try {
@@ -118,7 +105,7 @@ public class setProjectLeaderTest {
 
         // Try to set leader with fake user
         try {
-            projectService.setProjectLeader(testProjectId, fakeUserInitials);
+            projectService.setProjectLeader(testProjectID, fakeUserInitials);
             fail("Should have thrown an exception!");
         } catch(IllegalArgumentException e) {
             // Check error message
