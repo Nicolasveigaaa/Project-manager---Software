@@ -23,8 +23,7 @@ public class Project {
         this.memberInitials  = new ArrayList<>();
         this.projectID       = projectID;  //createID();
         this.projectLeaderInitials = null; // Leader not assigned initially
-        // Default add current user
-        this.addMember(AuthValidation.getCurrentUser().getInitials());
+        this.addMember(AuthValidation.getCurrentUser().getInitials()); // Default add current user
     }
 
     public void setProjectLeaderInitials(String leaderInitials) {

@@ -3,7 +3,6 @@
 package app.project;
 
 // Java utilities
-import java.util.List;
 import java.util.Optional;
 import java.util.Collection;
 import java.util.Map;
@@ -96,14 +95,14 @@ public class ProjectService {
 
     // Project leader methods:
     public void setProjectLeader(String projectID, String leaderInitials) {
-        Project project = findProjectByID(projectID)
-            .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
-        User leader = db.getUser(leaderInitials.toLowerCase());
-        if (leader == null) {
-            throw new IllegalArgumentException("User with initials '" + leaderInitials + "' not found.");
+        Project project = findProjectByID(projectID)                                                            // 1
+            .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found.")); // 1a
+        User leader = db.getUser(leaderInitials.toLowerCase());                                                 // 2
+        if (leader == null) {                                                                                   // 3
+            throw new IllegalArgumentException("User with initials '" + leaderInitials + "' not found.");       // 3a
         }
-        project.setProjectLeaderInitials(leaderInitials); // Set leader on the project object
-    }
+        project.setProjectLeaderInitials(leaderInitials); // Set leader on the project object                   // 4
+    }                                                                                                           
 
     public void assignEmployeeToActivity(String projectID, String activityName, String employeeInitialsToAssign) {
         Project project = findProjectByID(projectID)
