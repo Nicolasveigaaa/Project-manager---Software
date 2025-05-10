@@ -16,12 +16,12 @@ Feature: Login to the application
     Then the login should succeed "false"
 
   Scenario Outline: Multiple login attempts
-    Given user logs in with initials "<initials>"
-    Then the login should succeed "<success>"
+    Given user logs in with initials <initials>
+    Then the login should succeed <success>
 
     Examples:
       | initials | success |
-      | admin    | true    |
-      | huba     | true    |
-      | invalid  | false   |
-      | ""       | false   |
+      | "admin"  | "true"  |
+      | "huba"   | "true"  |
+      | "invalid"| "false" |
+      | ""       | "false" |
