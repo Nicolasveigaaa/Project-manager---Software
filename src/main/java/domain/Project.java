@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+
 import app.employee.AuthValidation;
 
 public class Project {
@@ -17,10 +18,10 @@ public class Project {
     private String projectLeaderInitials; // Added for project leader
     private final Map<String, Activity> activities = new HashMap<>();  // Map to store activities within this project, keyed by unique activity name
 
-    public Project(String projectName) {
+    public Project(String projectName, String projectID) {
         this.projectName     = projectName;
         this.memberInitials  = new ArrayList<>();
-        this.projectID       = createID();
+        this.projectID       = projectID;  //createID();
         this.projectLeaderInitials = null; // Leader not assigned initially
         // Default add current user
         this.addMember(AuthValidation.getCurrentUser().getInitials());
@@ -61,26 +62,30 @@ public class Project {
 
     private final Random random = new Random();
 
-    private String createID() {
+//    private String createID() {
+
+        
+    
+
         // Combine letters and numbers into one array
-        String[] allChars = new String[availableChars.length + availableNumbs.length()];
+//        String[] allChars = new String[availableChars.length + availableNumbs.length()];
         // Copy letters
-        for (int i = 0; i < availableChars.length; i++) {
-            allChars[i] = availableChars[i];
-        }
+//        for (int i = 0; i < availableChars.length; i++) {
+//            allChars[i] = availableChars[i];
+//        }
         // Copy numbers
-        for (int i = 0; i < availableNumbs.length(); i++) {
-            allChars[availableChars.length + i] = String.valueOf(availableNumbs.charAt(i));
-        }
+//        for (int i = 0; i < availableNumbs.length(); i++) {
+//            allChars[availableChars.length + i] = String.valueOf(availableNumbs.charAt(i));
+//        }
 
         // Generate ID of 6 characters
-        StringBuilder id = new StringBuilder();
-        for (int i = 0; i < 16; i++) {
-            int randomIndex = random.nextInt(allChars.length);
-            id.append(allChars[randomIndex]);
-        }
-        return "2025-"+id.toString();
-    }
+//        StringBuilder id = new StringBuilder();
+//        for (int i = 0; i < 16; i++) {
+//            int randomIndex = random.nextInt(allChars.length);
+//            id.append(allChars[randomIndex]);
+//        }
+//        return "2025-"+id.toString();
+//    }
 
     public String getProjectID() {
         return projectID;

@@ -9,7 +9,7 @@ import io.cucumber.java.en.*;
 
 public class AssignActivityStep {
 
-    private Project project = new Project("Project 1");
+    private Project project = new Project("Project 1", "1");
     private Activity activity;
     private User user;
     private Exception capturedException;

@@ -13,7 +13,7 @@ public class CreateActivityStep {
     @Given("a project {string} exists")
     public void a_project_exists(String projectName) {
         // simple Project stub; implement real Project constructor as needed
-        this.project = new Project(projectName);
+        this.project = new Project(projectName, "1");
     }
 
     @When("I create an activity {string} with budgeted time {double}, start week {int}, start year {int}, end week {int}, end year {int} for {string}")

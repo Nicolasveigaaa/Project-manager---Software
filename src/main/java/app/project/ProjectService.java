@@ -30,7 +30,8 @@ public class ProjectService {
     // Create a new project and add it to the database
     public static String addProject(String projectName) {
         // project constructor adds the user
-        Project project = new Project(projectName);
+        
+        Project project = new Project(projectName, db.getNextProjectID());
         // Add project to the database
         db.addProject(project);
         return project.getProjectID();
