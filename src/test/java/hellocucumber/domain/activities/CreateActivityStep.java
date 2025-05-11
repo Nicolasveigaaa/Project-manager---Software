@@ -2,18 +2,28 @@ package hellocucumber.domain.activities;
 
 import domain.Activity;
 import domain.Project;
+
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
+
+import app.project.ProjectService;
 import io.cucumber.java.en.*;
 
 public class CreateActivityStep {
     private Project project;
     private Activity activity;
     private Exception exception;
+    private String projectID;
+    private ProjectService projectService = new ProjectService();
 
     @Given("a project {string} exists")
     public void a_project_exists(String projectName) {
         // simple Project stub; implement real Project constructor as needed
-        this.project = new Project(projectName);
+        String projectID = ProjectService.addProject(projectName);
+        Optional<Project> project = projectService.findProjectByID(projectID);
+        this.project = project.get();
+        this.projectID = this.project.getProjectID();
     }
 
     @When("I create an activity {string} with budgeted time {double}, start week {int}, start year {int}, end week {int}, end year {int} for {string}")
@@ -27,10 +37,12 @@ public class CreateActivityStep {
         String projectName
     ) {
         try {
+            projectService.createActivityForProject(projectID, name, budgetedTime, startWeek, endWeek, startYear, endYear);
             // assume projectName matches our stored project
-            this.activity = new Activity(project, name, budgetedTime, startWeek, startYear, endWeek, endYear);
+            //this.activity = new Activity(project, name, budgetedTime, startWeek, startYear, endWeek, endYear);
             this.exception = null;
         } catch (Exception e) {
+            System.out.println("Creating successfully failed: " + e.getMessage());
             this.exception = e;
         }
     }
@@ -38,7 +50,7 @@ public class CreateActivityStep {
     @When("I try to create an activity {string} without a project")
     public void i_try_to_create_an_activity_without_a_project(String name) {
         try {
-            this.activity = new Activity(null, name, 1.0, 1, 2025, 2, 2025);
+            projectService.createActivityForProject(null, name, 1.0, 1, 2025, 2, 2025);
             this.exception = null;
         } catch (Exception e) {
             this.exception = e;
@@ -46,9 +58,9 @@ public class CreateActivityStep {
     }
 
     @When("I try to create an activity with an empty name for {string}")
-    public void i_try_to_create_an_activity_with_an_empty_name(String projectName) {
+    public void i_try_to_create_an_activity_with_an_empty_name(String activityName) {
         try {
-            this.activity = new Activity(project, "", 1.0, 1, 2025, 2, 2025);
+            projectService.createActivityForProject(projectID, activityName, 1.0, 1, 2025, 2, 2025);
             this.exception = null;
         } catch (Exception e) {
             this.exception = e;
@@ -56,9 +68,9 @@ public class CreateActivityStep {
     }
 
     @When("I try to create an activity {string} with budgeted time {double}")
-    public void i_try_to_create_an_activity_with_negative_budgeted_time(String name, double budgetedTime) {
+    public void i_try_to_create_an_activity_with_negative_budgeted_time(String activityName, double budgetedTime) {
         try {
-            this.activity = new Activity(project, name, budgetedTime, 1, 2025, 2, 2025);
+            projectService.createActivityForProject(projectID, activityName, budgetedTime, 1, 2025, 2, 2025);
             this.exception = null;
         } catch (Exception e) {
             this.exception = e;
@@ -85,6 +97,7 @@ public class CreateActivityStep {
     @Then("I should get an error {string}")
     public void i_should_get_an_error(String expectedMessage) {
         if (exception == null) {
+            System.out.println("Expected exception: " + expectedMessage);
             Assertions.fail("Expected an exception but none was thrown");
         }
         Assertions.assertEquals(expectedMessage, exception.getMessage());

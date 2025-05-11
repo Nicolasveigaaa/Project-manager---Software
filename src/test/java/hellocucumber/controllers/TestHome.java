@@ -1,6 +1,5 @@
 package hellocucumber.controllers;
 
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import javafx.scene.control.Button;
@@ -15,14 +14,11 @@ import persistence.Database;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
 import app.Main;
 import app.employee.AuthValidation;
-import app.project.ProjectService;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 
@@ -31,7 +27,6 @@ public class TestHome {
     private Database db = Main.getDatabase();
     private AuthValidation authValidation = new AuthValidation(db);
     private User currentUser;
-    private ProjectService projectService = new ProjectService();
 
     @Test
     void initializeLoadsAssignedProjectsViaFXML() {
@@ -66,7 +61,6 @@ public class TestHome {
     @Given("I am logged in as user {string} with role {string}")
     public void i_am_logged_in_as_user_with_role(String initials, String role) {
         // Use the existing AuthValidation class
-        User user = new User(initials, "password", role);
         authValidation.validateLogin(initials);
     }
     

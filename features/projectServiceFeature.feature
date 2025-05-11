@@ -125,3 +125,8 @@ Feature: ProjectService
     And I log 1.0 hours on activity "A" in project "P"
     When I request time summary for project
     Then the summary for "A" is 1.0
+
+  Scenario: setProject leader on null user
+    Given I add a project named "P"
+    When I set project "P" leader to null
+    Then it fails with "User with initials 'null' not found"

@@ -19,7 +19,7 @@ public class Activity {
     // constructor
     public Activity(Project project, String name, double budgetedTime, int startWeek, int startYear, int endWeek, int endYear) {
         if (project == null) throw new IllegalArgumentException("Activity must belong to a project.");
-        if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Activity name cannot be empty.");
+        if (name == null || name.trim().isEmpty() || name.isBlank()) throw new IllegalArgumentException("Activity name cannot be empty.");
         if (budgetedTime < 0) throw new IllegalArgumentException("Budgeted time cannot be negative.");
         this.project = project;
         this.name = name;
@@ -102,6 +102,12 @@ public class Activity {
     public void unassignEmployee(String initials) {
         if (initials == null) throw new IllegalArgumentException("Cannot unassign null user.");
         if (!assignedUsers.contains(initials)) throw new IllegalArgumentException("The employee is not assigned to the activity");
+
+        System.out.println("Unassigning " + initials + " from activity " + this.name);
+        for (String user : assignedUsers) {
+            System.out.println("Assigned user: " + user);
+        }
+        System.out.println("Is " + initials + " assigned? " + assignedUsers.contains(initials));
         assignedUsers.remove(initials);
     }
 

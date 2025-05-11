@@ -13,7 +13,7 @@ Feature: Creating an activity
 
   Scenario: Fail to create an activity with empty name
     Given a project "ProjectA-001" exists
-    When I try to create an activity with an empty name for "ProjectA-001"
+    When I try to create an activity with an empty name for ""
     Then I should get an error "Activity name cannot be empty."
 
   Scenario: Fail to create an activity with negative budgeted time

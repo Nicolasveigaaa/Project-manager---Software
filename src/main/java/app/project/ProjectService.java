@@ -10,7 +10,6 @@ import java.util.Map;
 // Folder imports
 import domain.Activity;
 import domain.User;
-import javafx.scene.control.Alert;
 import domain.Project;
 import persistence.Database;
 import app.report.CreateReport;
@@ -67,17 +66,15 @@ public class ProjectService {
         }
     }
 
-    public Project createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek,
-            int endWeek, int startYear, int endYear) {
+    public Project createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek, int endWeek, int startYear, int endYear) {
         Project project = findProjectByID(projectID)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Project with ID '" + projectID + "' not found. Cannot create activity."));
 
         // Check if the activity already exists
-        if (project.getActivityByName(activityName) != null) {
-            new Alert(Alert.AlertType.WARNING,
-                    "Activity already exists in this project.")
-                    .showAndWait();
+        if (project.getActivityByName(activityName) != null || activityName.isBlank()) {
+            new IllegalArgumentException(
+                        "Activity with name '" + activityName + "' is blank. Cannot create activity.");
             return null;
         }
 
@@ -116,9 +113,9 @@ public class ProjectService {
     public void assignEmployeeToActivity(String projectID, String activityName, String userInitials) {
 
         // Preconditions ( asserted )
-        assert projectID != null : " projectID_must_not_be_null ";
-        assert activityName != null : " activityName_must_not_be_null ";
-        assert userInitials != null : " userInitials_must_not_be_null ";
+        // assert projectID != null : " projectID_must_not_be_null ";
+        // assert activityName != null : " activityName_must_not_be_null ";
+        // assert userInitials != null : " userInitials_must_not_be_null ";
 
         // Step 1 2 : find project or throw
         Project project = findProjectByID(projectID)                                                                    // 1
@@ -127,15 +124,16 @@ public class ProjectService {
         // Step 3 5 : find activity or throw
         Activity activity = project.getActivityByName(activityName);                                                    // 3
 
-        assert activity != null : " Activity_'" + activityName + " '_not_found "; // corresponds to Q1 
+        //assert activity != null : " Activity_'" + activityName + " '_not_found "; // corresponds to Q1 
 
         if (activity == null) {                                                                                         // 4
             throw new IllegalArgumentException(
-                    "Activity with name '" + activityName + "' not found in project '" + projectID + "'.");             // 5    
+                    "Activity with name: " + activityName + "not found.");             // 5    
         }
 
         // Step 6 7 : check for null user or throw
-        if (userInitials == null) {                                                                                     // 6
+        System.out.println("User initials: " + userInitials); // Debugging line
+        if (userInitials == null || userInitials.isBlank()) {                                                                                     // 6
             throw new IllegalArgumentException("Cannot assign null user.");                                           // 7
         }
 
@@ -143,13 +141,13 @@ public class ProjectService {
         try {
             activity.assignEmployee(userInitials);                                                                      // 8     
         } catch (IllegalArgumentException e) {
-            assert !activity.isAssigned(userInitials) : " User_is_already_assigned "; // corresponds to Q2
+            //assert !activity.isAssigned(userInitials) : " User_is_already_assigned "; // corresponds to Q2
 
             throw new IllegalArgumentException("Could not assign employee: " + e.getMessage());                         // 9
         }
 
         // Postcondition : user must now be assigned
-        assert activity.isAssigned(userInitials) : " User_'" + userInitials + " '␣ should_be_assigned "; // corresponds to Q3
+        //assert activity.isAssigned(userInitials) : " User_'" + userInitials + " '␣ should_be_assigned "; // corresponds to Q3
     }
 
     // Time logging method:

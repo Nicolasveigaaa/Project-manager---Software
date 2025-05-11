@@ -2,7 +2,6 @@ package hellocucumber.domain.project;
 
 import domain.Activity;
 import domain.Project;
-import domain.User;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -91,14 +90,12 @@ public class ProjectActivity {
     public void i_try_to_add_the_activity_to_the_project(String activityName, String targetProjectName) {
         Project targetProject = projects.get(targetProjectName);
         Activity activity = null;
-        Project sourceProject = null;
 
         // Find the project that has this activity
         for (Project p : projects.values()) {
             Activity a = p.getActivityByName(activityName);
             if (a != null) {
                 activity = a;
-                sourceProject = p;
                 break;
             }
         }

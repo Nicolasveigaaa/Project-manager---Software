@@ -185,4 +185,14 @@ public class ProjectServiceStep {
         assertNotNull(timeSummary);
         assertEquals(val, timeSummary.get(act), 0.0001);
     }
+
+    // Project leader is null
+    @When("I set project {string} leader to null")
+    public void i_set_project_leader_to_null(String proj) {
+        try {
+            projectService.setProjectLeader(proj, null);
+        } catch (Exception e) {
+            caughtException = e;
+        }
+    }
 }

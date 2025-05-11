@@ -4,20 +4,35 @@ import domain.Activity;
 import domain.Project;
 import domain.User;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
+
+import app.project.ProjectService;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 
 public class AssignActivityStep {
-
-    private Project project = new Project("Project 1");
+    private Project project;
     private Activity activity;
-    private User user;
     private Exception capturedException;
+    private String projectID;
+    private ProjectService projectService = new ProjectService();
+    private User user;
+
+    public AssignActivityStep() {
+        // simple Project stub; implement real Project constructor as needed
+        String projectID = ProjectService.addProject("activityTestProject");
+        Optional<Project> project = projectService.findProjectByID(projectID);
+        this.project = project.get();
+        this.projectID = this.project.getProjectID();
+        this.activity = new Activity(this.project, "Activity", 1.0, 1, 2025, 2, 2025);
+    }
 
     @Given("an activity {string} exists in {string}")
     public void an_activity_exists_in_project(String activityName, String projectName) {
         // assume projectName matches the created project
-        activity = new Activity(project, activityName, 0.0, 1, 2025, 1, 2025);
+        projectService.createActivityForProject(projectID, activityName, 0.0, 1, 2025, 1, 2025);
     }
 
     @Given("a user {string} exists")
@@ -28,14 +43,24 @@ public class AssignActivityStep {
     @Given("{string} is already assigned to {string}")
     public void user_is_already_assigned_to_activity(String userName, String activityName) {
         // reuse existing user and activity
-        activity.assignEmployee(userName);
+        projectService.assignEmployeeToActivity(projectID, activityName, userName);
+    }
+
+    @When("I assign null to activity {string}")
+    public void i_assign_null_to_activity(String activityName) {
+        capturedException = null;
+        try {
+            projectService.assignEmployeeToActivity(projectID, activityName, null);
+        } catch (Exception e) {
+            capturedException = e;
+        }
     }
 
     @When("I assign {string} to activity {string}")
     public void i_assign_user_to_activity(String userName, String activityName) {
         capturedException = null;
         try {
-            activity.assignEmployee(userName);
+            projectService.assignEmployeeToActivity(projectID, activityName, userName);
         } catch (Exception e) {
             capturedException = e;
         }
@@ -58,7 +83,6 @@ public class AssignActivityStep {
 
     @Then("{string} should not be assigned to the activity")
     public void user_should_not_be_assigned_to_the_activity(String userName) {
-        System.out.println(activity.getAssignedEmployees().contains(userName));
         Assertions.assertEquals(false, activity.getAssignedEmployees().contains(userName));
     }
 
@@ -75,5 +99,14 @@ public class AssignActivityStep {
     @Then("the logged time of activity {string} should be {double}")
     public void the_logged_time_of_activity_should_be(String activityName, double expectedTime) {
         Assertions.assertEquals(expectedTime, activity.getLoggedTime(), 0.001);
+    }
+
+    @Then("I should get an error from Assign Activity {string}")
+    public void i_should_get_an_error(String expectedMessage) {
+        if (capturedException == null) {
+            System.out.println("Expected exception: " + expectedMessage);
+            Assertions.fail("Expected an exception but none was thrown");
+        }
+        Assertions.assertEquals(expectedMessage, capturedException.getMessage());
     }
 }
