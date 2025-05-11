@@ -1,5 +1,5 @@
 module hellofx {
-    requires transitive javafx.controls;
+   requires transitive javafx.controls;
     requires javafx.fxml;
     requires javafx.swing;
 

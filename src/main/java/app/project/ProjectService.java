@@ -3,7 +3,6 @@
 package app.project;
 
 // Java utilities
-import java.util.List;
 import java.util.Optional;
 import java.util.Collection;
 import java.util.Map;
@@ -29,6 +28,9 @@ public class ProjectService {
 
     // Create a new project and add it to the database
     public static String addProject(String projectName) {
+        if (projectName == null || projectName.isBlank()) {
+            return null;
+        }
         // project constructor adds the user
         Project project = new Project(projectName);
         // Add project to the database
@@ -37,16 +39,16 @@ public class ProjectService {
     }
 
     // public List<Project> getProjects() {
-    //     // return projects directly from the database
-    //     return db.getAllProjects();
+    // // return projects directly from the database
+    // return db.getAllProjects();
     // }
 
-    // public Optional<Project> findProjectByName(String projectName) {
-    //     // query the database via stream
-    //     return db.getAllProjects().stream()
-    //              .filter(p -> p.getProjectName().equalsIgnoreCase(projectName))
-    //              .findFirst();
-    // }
+    public Optional<Project> findProjectByName(String projectName) {
+        // query the database via stream
+        return db.getAllProjects().stream()
+                .filter(p -> p.getProjectName().equalsIgnoreCase(projectName))
+                .findFirst();
+    }
 
     // Find project by ID
     public Optional<Project> findProjectByID(String projectID) {
@@ -65,9 +67,11 @@ public class ProjectService {
         }
     }
 
-    public Project createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek, int endWeek, int startYear, int endYear) {
+    public Project createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek,
+            int endWeek, int startYear, int endYear) {
         Project project = findProjectByID(projectID)
-                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found. Cannot create activity."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Project with ID '" + projectID + "' not found. Cannot create activity."));
 
         // Check if the activity already exists
         if (project.getActivityByName(activityName) != null) {
@@ -78,9 +82,10 @@ public class ProjectService {
         }
 
         // create the Activity obect where constructor associates it with the project
-        Activity newActivity = new Activity(project, activityName, budgetedTime, startWeek, startYear, endWeek, endYear);
+        Activity newActivity = new Activity(project, activityName, budgetedTime, startWeek, startYear, endWeek,
+                endYear);
 
-        //add the Activity to the Project object 
+        // add the Activity to the Project object
         project.addActivity(newActivity);
 
         return project;
@@ -88,15 +93,19 @@ public class ProjectService {
 
     public Collection<Activity> getActivitiesForProject(String projectID) {
         Project project = findProjectByID(projectID)
-            .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
- 
+                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
+
         return project.getActivities(); // Delegate to the project object (returns unmodifiable collection)
     }
 
     // Project leader methods:
     public void setProjectLeader(String projectID, String leaderInitials) {
+        if (leaderInitials == null) {
+            throw new IllegalArgumentException("Leader initials cannot be null.");
+        }
+
         Project project = findProjectByID(projectID)
-            .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
+                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
         User leader = db.getUser(leaderInitials.toLowerCase());
         if (leader == null) {
             throw new IllegalArgumentException("User with initials '" + leaderInitials + "' not found.");
@@ -104,21 +113,43 @@ public class ProjectService {
         project.setProjectLeaderInitials(leaderInitials); // Set leader on the project object
     }
 
-    public void assignEmployeeToActivity(String projectID, String activityName, String employeeInitialsToAssign) {
-        Project project = findProjectByID(projectID)
-                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
+    public void assignEmployeeToActivity(String projectID, String activityName, String userInitials) {
 
-        Activity activity = project.getActivityByName(activityName);
-        if (activity == null) {
-            throw new IllegalArgumentException("Activity with name '" + activityName + "' not found in project '" + projectID + "'.");
+        // Preconditions ( asserted )
+        assert projectID != null : " projectID_must_not_be_null ";
+        assert activityName != null : " activityName_must_not_be_null ";
+        assert userInitials != null : " userInitials_must_not_be_null ";
+
+        // Step 1 2 : find project or throw
+        Project project = findProjectByID(projectID)                                                                    // 1
+                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));     // 2
+
+        // Step 3 5 : find activity or throw
+        Activity activity = project.getActivityByName(activityName);                                                    // 3
+
+        assert activity != null : " Activity_'" + activityName + " '_not_found "; // corresponds to Q1 
+
+        if (activity == null) {                                                                                         // 4
+            throw new IllegalArgumentException(
+                    "Activity with name '" + activityName + "' not found in project '" + projectID + "'.");             // 5    
         }
 
-        // Delegate assignment and its specific checks (like already assigned) to Activity
+        // Step 6 7 : check for null user or throw
+        if (userInitials == null) {                                                                                     // 6
+            throw new IllegalArgumentException("Cannot assign null user.");                                           // 7
+        }
+
+        // Step 8 9 : delegate to Activity . assignEmployee , catching
         try {
-              activity.assignEmployee(employeeInitialsToAssign);
+            activity.assignEmployee(userInitials);                                                                      // 8     
         } catch (IllegalArgumentException e) {
-              throw new IllegalArgumentException("Could not assign employee: " + e.getMessage());
+            assert !activity.isAssigned(userInitials) : " User_is_already_assigned "; // corresponds to Q2
+
+            throw new IllegalArgumentException("Could not assign employee: " + e.getMessage());                         // 9
         }
+
+        // Postcondition : user must now be assigned
+        assert activity.isAssigned(userInitials) : " User_'" + userInitials + " '␣ should_be_assigned "; // corresponds to Q3
     }
 
     // Time logging method:
@@ -128,24 +159,26 @@ public class ProjectService {
 
         Activity activity = project.getActivityByName(activityName);
         if (activity == null) {
-            throw new IllegalArgumentException("Activity with name '" + activityName + "' not found in project '" + projectID + "'.");
+            throw new IllegalArgumentException(
+                    "Activity with name '" + activityName + "' not found in project '" + projectID + "'.");
         }
 
         // Delegate logging and its specific checks (like hours > 0) to Activity
         // The try-catch here is mostly if logTime itself throws, which it does
         try {
-              activity.logTime(hours);
+            activity.logTime(hours);
         } catch (IllegalArgumentException e) {
-             // Re-throw the specific message from Activity's validation
-             throw new IllegalArgumentException("Could not log time: " + e.getMessage());
+            // Re-throw the specific message from Activity's validation
+            throw new IllegalArgumentException("Could not log time: " + e.getMessage());
         }
     }
 
     // Method to generate the time summary report for a project
     public Map<String, Double> getProjectTimeSummary(String projectID) {
         Project project = findProjectByID(projectID)
-                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found. Cannot generate report."));
-    
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Project with ID '" + projectID + "' not found. Cannot generate report."));
+
         // Delegate the calculation to the CreateReport class
         return CreateReport.generateProjectTimeSummary(project);
     }

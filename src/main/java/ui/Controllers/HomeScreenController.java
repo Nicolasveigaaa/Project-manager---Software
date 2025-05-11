@@ -35,7 +35,7 @@ public class HomeScreenController {
     private final ProjectService projectService = Main.getProjectService();
 
     @FXML
-    private ListView<Project> projectsListView;
+    public ListView<Project> projectsListView;
     @FXML
     private Label projectsCountLabel;
 
@@ -98,14 +98,15 @@ public class HomeScreenController {
 
     // Opens the Create Project dialog, then refreshes the project list.
     @FXML
-    private void handleCreateProject(ActionEvent event) {
+    public void handleCreateProject(ActionEvent event) {
         ProjectCreationScreenController.show();
         loadProjects();
     }
 
     // Logs user out by redirecting back to the login screen
     @FXML
-    private void handleLogoutAction(ActionEvent event) {
+    public void handleLogoutAction(ActionEvent event) {
+        System.out.println(event.getSource());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
             Parent loginRoot = FXMLLoader.load(
@@ -118,7 +119,7 @@ public class HomeScreenController {
 
     // Open the selected project (s244706)
     @FXML
-    private void handleOpenProject(ActionEvent event) {
+    public void handleOpenProject(ActionEvent event) {
         Project selected = projectsListView
                 .getSelectionModel()
                 .getSelectedItem();
@@ -140,7 +141,7 @@ public class HomeScreenController {
 
     // Open the project window
     @FXML
-    private void openProjectWindow(Optional<Project> projectData) {
+    public void openProjectWindow(Optional<Project> projectData) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/ui/FXML/selectedProject.fxml"));

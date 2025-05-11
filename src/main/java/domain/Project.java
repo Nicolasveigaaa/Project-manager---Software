@@ -27,6 +27,9 @@ public class Project {
     }
 
     public void setProjectLeaderInitials(String leaderInitials) {
+        if (leaderInitials == null) {
+            return;
+        }
         // Add validation
         this.projectLeaderInitials = leaderInitials;
     }
@@ -60,6 +63,7 @@ public class Project {
     private final String availableNumbs = "1234567890";
 
     private final Random random = new Random();
+    private Integer projectIncreasingNumber = 0;
 
     private String createID() {
         // Combine letters and numbers into one array
@@ -79,7 +83,7 @@ public class Project {
             int randomIndex = random.nextInt(allChars.length);
             id.append(allChars[randomIndex]);
         }
-        return "2025-"+id.toString();
+        return "2025-"+projectIncreasingNumber+"-"+id.toString();
     }
 
     public String getProjectID() {

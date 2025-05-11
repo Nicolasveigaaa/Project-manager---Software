@@ -91,10 +91,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
+					<useModulePath>false</useModulePath>
+					<failIfNoTests>false</failIfNoTests>
 					<properties>
-						<!-- Work around. Surefire does not include enough
-                             information to disambiguate between different
-                             examples and scenarios. -->
 						<configurationParameters>
 							cucumber.junit-platform.naming-strategy=long
 						</configurationParameters>

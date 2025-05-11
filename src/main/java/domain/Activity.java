@@ -65,6 +65,11 @@ public class Activity {
         return assignedUsers;
     }
 
+    public boolean isAssigned(String initials) {
+        if (initials == null) throw new IllegalArgumentException("Cannot check assignment for null user.");
+        return assignedUsers.contains(initials);
+    }
+
     // setters
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Activity name cannot be empty.");

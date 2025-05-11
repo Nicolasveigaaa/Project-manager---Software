@@ -1,4 +1,4 @@
-package hellocucumber.project;
+package hellocucumber.domain.project;
 
 import domain.Activity;
 import domain.Project;

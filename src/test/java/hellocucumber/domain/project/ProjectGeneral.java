@@ -1,4 +1,4 @@
-package hellocucumber.project;
+package hellocucumber.domain.project;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,23 +24,6 @@ public class ProjectGeneral {
     @Given("the project leader initials are set to {string}")
     public void the_project_leader_initials_are_set_to(String leaderInitials) {
         project.setProjectLeaderInitials(leaderInitials);
-    }
-
-    @Given("the project has the following members:")
-    public void the_project_has_the_following_members(DataTable dataTable) {
-        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
-
-        // This implementation assumes there's a method to add members to a project
-        // If your Project class has a different way to add members, this will need to
-        // be updated
-        List<String> members = new ArrayList<>();
-        for (Map<String, String> row : rows) {
-            members.add(row.get("initials"));
-        }
-
-        // Mock implementation - assuming there's a setMemberInitials method
-        // Replace this with your actual implementation
-        setMemberInitials(project, members);
     }
 
     @When("I set the project leader initials to {string}")
@@ -91,6 +74,11 @@ public class ProjectGeneral {
         assertEquals("Retrieved leader initials should match", expectedInitials, retrievedLeaderInitials);
     }
 
+    @Given("the project has no members")
+    public void the_project_has_no_members() {
+        retrievedMemberInitials = new ArrayList<>();
+    }
+
     @Then("I should get an empty list of member initials")
     public void i_should_get_an_empty_list_of_member_initials() {
         assertNotNull(retrievedMemberInitials, "Member initials list should not be null");
@@ -99,29 +87,40 @@ public class ProjectGeneral {
 
     @Then("I should get a list containing {int} member initials")
     public void i_should_get_a_list_containing_member_initials(Integer count) {
-        assertNotNull(retrievedMemberInitials,"Member initials list should not be null");
+        assertNotNull(retrievedMemberInitials, "Member initials list should not be null");
         assertEquals(count,
                 count.intValue(), retrievedMemberInitials.size());
     }
 
+    @Given("the project has the following members:")
+    public void the_project_has_the_following_members(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+
+        // This implementation assumes there's a method to add members to a project
+        // If your Project class has a different way to add members, this will need to
+        // be updated
+        List<String> members = new ArrayList<>();
+        for (Map<String, String> row : rows) {
+            members.add(row.get("initials"));
+        }
+
+        // Mock implementation - assuming there's a setMemberInitials method
+        // Replace this with your actual implementation
+        setMemberInitials(project, members);
+    }
+
     @Then("the list should include the member initials {string}, {string}, and {string}")
     public void the_list_should_include_the_member_initials_and(String initials1, String initials2, String initials3) {
-        assertTrue(retrievedMemberInitials.contains(initials1), "Member initials list should contain " + initials1);
-        assertTrue(retrievedMemberInitials.contains(initials2), "Member initials list should contain " + initials2);
-        assertTrue(retrievedMemberInitials.contains(initials3), "Member initials list should contain " + initials3);
+        System.out.println("HELLO THERE: " + retrievedMemberInitials);
+        assertTrue(retrievedMemberInitials.contains(initials1));
+        assertTrue(retrievedMemberInitials.contains(initials2));
+        assertTrue(retrievedMemberInitials.contains(initials3));
     }
 
     // Helper method - replace with your actual implementation
     private void setMemberInitials(Project project, List<String> memberInitials) {
-        // This is a mock implementation
-        // Replace this with your actual implementation for setting member initials
-        // For example:
-        // project.setMemberInitials(memberInitials);
-
-        // If your Project class has a different way to add members, use that instead
-        // For example, if you need to add members one by one:
-        // for (String initials : memberInitials) {
-        // project.addMember(initials);
-        // }
+        for (String initials : memberInitials) {
+            project.addMember(initials);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package hellocucumber;
+package hellocucumber.controllers;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
