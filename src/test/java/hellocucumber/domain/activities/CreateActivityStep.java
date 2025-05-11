@@ -20,10 +20,7 @@ public class CreateActivityStep {
     @Given("a project {string} exists")
     public void a_project_exists(String projectName) {
         // simple Project stub; implement real Project constructor as needed
-        String projectID = ProjectService.addProject(projectName);
-        Optional<Project> project = projectService.findProjectByID(projectID);
-        this.project = project.get();
-        this.projectID = this.project.getProjectID();
+        this.project = new Project(projectName, "1");
     }
 
     @When("I create an activity {string} with budgeted time {double}, start week {int}, start year {int}, end week {int}, end year {int} for {string}")

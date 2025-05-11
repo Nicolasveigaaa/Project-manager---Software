@@ -48,7 +48,7 @@ public class TestHome {
         injectField("openProject", new Button());
 
         // Set user
-        currentUser = new User("admin", "admin", "Developer");
+        currentUser = new User("admin", "Developer");
         authValidation.validateLogin(currentUser.getInitials());
     }
 
@@ -143,7 +143,7 @@ public class TestHome {
         List<Project> projects = db.getAllProjects();
         if (projects.isEmpty()) {
             // Create a test project if none exists
-            Project testProject = new Project("Test Project");
+            Project testProject = new Project("Test Project", "2025-1");
             testProject.addMember(AuthValidation.getCurrentUser().getInitials());
             projects.add(testProject);
         }

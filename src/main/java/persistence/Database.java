@@ -6,6 +6,7 @@ package persistence;
 import domain.User;
 import domain.Project;
 
+import java.time.Year;
 // Java imports
 import java.util.*;
 
@@ -16,9 +17,9 @@ public class Database {
     // Constructor
     public Database() {
         // Hardcoded users — just add manually here
-        addUser(new User("huba", "huba123", "employee"));
-        addUser(new User("nico", "nico123", "employee"));
-        addUser(new User("admin", "admin",  "manager"));
+        addUser(new User("huba", "employee"));
+        addUser(new User("nico", "employee"));
+        addUser(new User("admin",  "manager"));
     }
 
     // --- User methods ---
@@ -57,5 +58,37 @@ public class Database {
 
     public List<Project> getAllProjects() {
         return new ArrayList<>(projects.values());
+    }
+
+    public String getNextProjectID() {
+        
+        int year = Year.now().getValue();
+        year = year - 2000;
+        while (year>99){
+            year = year - 100;
+        }
+        int next = 1;
+
+        for (String i : projects.keySet()) {
+            if (String.valueOf(year).equals(i.substring(0,2))){
+                next++;
+            }
+        }
+
+        String nextID;
+        if (next < 10){
+             nextID = "00" + String.valueOf(next);
+        } else if (next < 100){
+            nextID = "0" + String.valueOf(next);
+        } else {
+            nextID = String.valueOf(next);
+        }
+        return (String.valueOf(year)+nextID);
+    }
+
+    // method for clearing database to a clean slate for testing
+    public void resetDatabase() {
+        projects.clear();
+        allowedUsers.clear();
     }
 }

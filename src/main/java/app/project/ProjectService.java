@@ -31,7 +31,8 @@ public class ProjectService {
             return null;
         }
         // project constructor adds the user
-        Project project = new Project(projectName);
+        
+        Project project = new Project(projectName, db.getNextProjectID());
         // Add project to the database
         db.addProject(project);
         return project.getProjectID();
@@ -97,18 +98,15 @@ public class ProjectService {
 
     // Project leader methods:
     public void setProjectLeader(String projectID, String leaderInitials) {
-        if (leaderInitials == null) {
-            throw new IllegalArgumentException("Leader initials cannot be null.");
+        Project project = findProjectByID(projectID)                                                            // 1
+            .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found.")); // 1a
+            
+        User leader = db.getUser(leaderInitials.toLowerCase());                                                 // 2
+        if (leader == null) {                                                                                   // 3
+            throw new IllegalArgumentException("User with initials '" + leaderInitials + "' not found.");       // 3a
         }
-
-        Project project = findProjectByID(projectID)
-                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found."));
-        User leader = db.getUser(leaderInitials.toLowerCase());
-        if (leader == null) {
-            throw new IllegalArgumentException("User with initials '" + leaderInitials + "' not found.");
-        }
-        project.setProjectLeaderInitials(leaderInitials); // Set leader on the project object
-    }
+        project.setProjectLeaderInitials(leaderInitials); // Set leader on the project object                   // 4
+    }                                                                                                           
 
     public void assignEmployeeToActivity(String projectID, String activityName, String userInitials) {
 

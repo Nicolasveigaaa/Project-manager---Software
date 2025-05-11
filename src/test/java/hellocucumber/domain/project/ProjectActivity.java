@@ -29,13 +29,13 @@ public class ProjectActivity {
     
     @Given("a project exists with name {string}")
     public void a_project_exists_with_name(String projectName) {
-        project = new Project(projectName);
+        project = new Project(projectName, "1");
         projects.put(projectName, project);
     }
     
     @Given("another project exists with name {string}")
     public void another_project_exists_with_name(String projectName) {
-        otherProject = new Project(projectName);
+        otherProject = new Project(projectName, "2");
         projects.put(projectName, otherProject);
     }
     

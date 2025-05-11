@@ -15,7 +15,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class ProjectGeneral {
-    private Project project = new Project("TEST");
+    private Project project = new Project("TEST", "1");
     private String originalLeaderInitials;
     private String retrievedLeaderInitials;
     private List<String> retrievedMemberInitials;

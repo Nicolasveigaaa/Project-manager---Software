@@ -36,7 +36,7 @@ public class WhiteBoxTest_AddProject {
 
         // Mock AuthValidation.getCurrentUser()
         authMock = mockStatic(AuthValidation.class);
-        User fakeUser = new User("AB", "AB", "employee");
+        User fakeUser = new User("AB", "employee");
         authMock.when(AuthValidation::getCurrentUser).thenReturn(fakeUser);
     }
 
@@ -86,7 +86,7 @@ public class WhiteBoxTest_AddProject {
     @Test
     void Test_Project_Add_Member() {
         String name = "Demo";
-        Project project = new Project(name);
+        Project project = new Project(name, "2025-1");
 
         // Check project name
         assertEquals(name, project.getProjectName());
@@ -111,7 +111,7 @@ public class WhiteBoxTest_AddProject {
     @Test
     void Test_Project_ID() {
         String name = "Demo";
-        Project project = new Project(name);
+        Project project = new Project(name, "2025-1");
         String id = project.getProjectID();
 
         assertNotNull(id);
@@ -123,7 +123,7 @@ public class WhiteBoxTest_AddProject {
     @Test
     void Test_Project_Variables() {
         String name = "Demo";
-        Project project = new Project(name);
+        Project project = new Project(name, "2025-1");
 
         // Check project name
         assertEquals(name, project.getProjectName());
