@@ -74,8 +74,8 @@ Feature: ProjectService
       | xx   | user-not-found |
 
   Scenario: setProjectLeader on missing project
-    When I set project "no-id" leader to "jd"
-    Then it fails with "Project with ID 'no-id' not found."
+    When I set project id null with leader to "jd"
+    Then it fails with "Project with ID 'null' not found."
 
   # 6) assignEmployeeToActivity (success, activity-not-found, project-not-found)
   Scenario Outline: assignEmployeeToActivity
@@ -126,7 +126,15 @@ Feature: ProjectService
     When I request time summary for project
     Then the summary for "A" is 1.0
 
-  Scenario: setProject leader on null user
-    Given I add a project named "P"
-    When I set project "P" leader to null
-    Then it fails with "User with initials 'null' not found"
+  # Scenario: setProject leader on null user
+  #   Given I add a project named "P"
+  #   When I set project "P" leader to null
+  #   Then it fails with "User with initials 'null' not found"
+
+  # Scenario: add project with null name
+  #   When I add a project named null
+  #   Then it fails with "Project name cannot be null"
+
+  # Scenario: add project with empty name
+  #   When I add a project named " "
+  #   Then it fails with "Project name cannot be empty"

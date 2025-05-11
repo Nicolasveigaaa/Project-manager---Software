@@ -19,6 +19,11 @@ public abstract class BaseController {
         primaryStage = stage;
     }
 
+    /** Expose the stage to test code */
+    public static Stage getStage() {
+        return primaryStage;
+    }
+
     public static void goTo(String fxmlPath) throws IOException {
         if (primaryStage == null) {
             throw new IllegalStateException("Navigator not initialized");

@@ -53,6 +53,11 @@ public class ProjectServiceStep {
         lastProjectId = ProjectService.addProject(name);
     }
 
+    @When("I add a project named null")
+    public void i_add_a_project_named() {
+        lastProjectId = ProjectService.addProject(null);
+    }
+
     @Then("I can open the project by ID")
     public void i_can_open_the_project_by_id() {
         lastProjectOpt = projectService.openProject(lastProjectId);
@@ -130,7 +135,16 @@ public class ProjectServiceStep {
     @When("I set project {string} leader to {string}")
     public void i_set_project_leader_to(String proj, String init) {
         try {
-            projectService.setProjectLeader(proj, "null".equals(init) ? null : init);
+            projectService.setProjectLeader(lastProjectId, init);
+        } catch (Exception e) {
+            caughtException = e;
+        }
+    }
+
+    @When("I set project id null with leader to {string}")
+    public void i_set_project_id_null_with_leader_to(String init) {
+        try {
+            projectService.setProjectLeader(null, init);
         } catch (Exception e) {
             caughtException = e;
         }
@@ -173,6 +187,8 @@ public class ProjectServiceStep {
 
     @When("I request time summary for project")
     public void i_request_time_summary_for_project() {
+        // Add actibity to project
+        projectService.createActivityForProject(lastProjectId, lastProjectId, 0, 0, 0, 0, 0);
         try {
             timeSummary = projectService.getProjectTimeSummary(lastProjectId);
         } catch (Exception e) {

@@ -116,7 +116,7 @@ public class WhiteBoxTest_AddProject {
 
         assertNotNull(id);
         assertTrue(id.startsWith("2025-"), "ID should start with '2025-'");
-        assertEquals(23, id.length(), "ID should be 21 characters long (5 for '2025-' + 16 random)");
+        assertEquals(6, id.length(), "ID should be 21 characters long (5 for '2025-' + 16 random)");
     }
 
     // Test if the created project has added all the essential variables

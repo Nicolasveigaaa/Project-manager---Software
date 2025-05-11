@@ -1,4 +1,4 @@
-package hellocucumber.whiteBoxTests;
+package whitebox;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

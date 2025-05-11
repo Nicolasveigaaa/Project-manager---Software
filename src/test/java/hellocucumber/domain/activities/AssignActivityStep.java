@@ -73,9 +73,22 @@ public class AssignActivityStep {
 
     @When("I unassign {string} from activity {string}")
     public void i_unassign_user_from_activity(String userName, String activityName) {
+        // Get actibity
+        Activity activity2 = project.getActivityByName(activityName);
         capturedException = null;
         try {
-            activity.unassignEmployee(userName);
+            activity2.unassignEmployee(userName);
+        } catch (Exception e) {
+            capturedException = e;
+        }
+    }
+
+    @When("I unassign null from activity {string}")
+    public void i_unassign_null_from_activity(String activityName) {
+        Activity activity2 = project.getActivityByName(activityName);
+        capturedException = null;
+        try {
+            activity2.unassignEmployee(null);
         } catch (Exception e) {
             capturedException = e;
         }
@@ -84,21 +97,6 @@ public class AssignActivityStep {
     @Then("{string} should not be assigned to the activity")
     public void user_should_not_be_assigned_to_the_activity(String userName) {
         Assertions.assertEquals(false, activity.getAssignedEmployees().contains(userName));
-    }
-
-    @When("I log {double} hours to activity {string}")
-    public void i_log_hours_to_activity(double hours, String activityName) {
-        capturedException = null;
-        try {
-            activity.logTime(hours);
-        } catch (Exception e) {
-            capturedException = e;
-        }
-    }
-
-    @Then("the logged time of activity {string} should be {double}")
-    public void the_logged_time_of_activity_should_be(String activityName, double expectedTime) {
-        Assertions.assertEquals(expectedTime, activity.getLoggedTime(), 0.001);
     }
 
     @Then("I should get an error from Assign Activity {string}")

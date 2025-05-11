@@ -23,6 +23,14 @@ Feature: Assigning and unassigning employees to an activity
     When I unassign "Jeff" from activity "Design"
     Then I should get an error from Assign Activity "The employee is not assigned to the activity"
 
+  Scenario: Unassign a nil user from an activity
+    When I unassign null from activity "Design"
+    Then I should get an error from Assign Activity "Cannot unassign null user."
+
+  Scenario: Unassign a blank user from an activity
+    When I unassign " " from activity "Design"
+    Then I should get an error from Assign Activity "Cannot unassign null user."
+
   Scenario: Assign an employee where the activity name is empty
     When I assign "Alice" to activity " "
     Then I should get an error from Assign Activity "Activity with name: not found."¨

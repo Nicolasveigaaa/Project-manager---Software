@@ -22,12 +22,10 @@ public class Activity {
         if (name == null || name.trim().isEmpty() || name.isBlank()) throw new IllegalArgumentException("Activity name cannot be empty.");
         if (budgetedTime < 0) throw new IllegalArgumentException("Budgeted time cannot be negative.");
         this.project = project;
-        this.name = name;
-        this.budgetedTime = budgetedTime;
-        this.startWeek = startWeek;
-        this.startYear = startYear;
-        this.endWeek = endWeek;
-        this.endYear = endYear;
+        setName(name);
+        setBudgetedTime(budgetedTime);
+        setStartWeekYear(startWeek, startYear);
+        setEndWeekYear(endWeek, endYear);
         this.assignedUsers = new HashSet<>();
         this.loggedTime = 0.0;
     }
@@ -94,13 +92,13 @@ public class Activity {
      }
 
     public void assignEmployee(String initials) {
-        if (initials == null) throw new IllegalArgumentException("Cannot assign null user.");
+        if (initials == null || initials.isBlank()) throw new IllegalArgumentException("Cannot assign null user.");
         if (assignedUsers.contains(initials)) throw new IllegalArgumentException("The employee is already assigned to the activity");
         assignedUsers.add(initials);
     }
 
     public void unassignEmployee(String initials) {
-        if (initials == null) throw new IllegalArgumentException("Cannot unassign null user.");
+        if (initials == null || initials.isBlank()) throw new IllegalArgumentException("Cannot unassign null user.");
         if (!assignedUsers.contains(initials)) throw new IllegalArgumentException("The employee is not assigned to the activity");
 
         System.out.println("Unassigning " + initials + " from activity " + this.name);

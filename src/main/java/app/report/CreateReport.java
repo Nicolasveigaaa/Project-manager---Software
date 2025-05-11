@@ -12,13 +12,13 @@ public class CreateReport {
 
     public static Map<String, Double> generateProjectTimeSummary(Project project) {
         Map<String, Double> summary = new HashMap<>();
-        if (project == null) {
-            System.err.println("Cannot generate report for a null project.");
-            // Return empty map or throw exception based on desired handling
-             summary.put("totalBudgeted", 0.0);
-             summary.put("totalLogged", 0.0);
-            return summary;
-        }
+        // if (project == null) {
+        //     System.err.println("Cannot generate report for a null project.");
+        //     // Return empty map or throw exception based on desired handling
+        //      summary.put("totalBudgeted", 0.0);
+        //      summary.put("totalLogged", 0.0);
+        //     return summary;
+        // }
 
         double totalBudgeted = 0.0;
         double totalLogged = 0.0;
