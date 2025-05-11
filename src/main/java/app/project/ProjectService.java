@@ -101,16 +101,12 @@ public class ProjectService {
         // Precondition asserts:
         assert projectID != null : "Precondition violated: projectID cannot be null.";
         assert leaderInitials != null : "Precondition violated: leaderInitials cannot be null.";
-        // The following preconditions are already enforced by explicit checks throwing IllegalArgumentException,
-        // but assert can be used for documentation or alternative checking if desired.
         // assert db.getProject(projectID).isPresent() : "Precondition Violated: Project with ID '" + projectID + "' must exist.";
         // assert db.getUser(leaderInitials.toLowerCase()) != null : "Precondition Violated: User with initials '" + leaderInitials + "' must exist.";
 
         Project project = findProjectByID(projectID)                                                            // 1
             .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found.")); // 1a
         
-        // Storing old value for postcondition check (optional, for more robust checking)
-        // String oldLeader = project.getProjectLeaderInitials(); 
 
         User leader = db.getUser(leaderInitials.toLowerCase());                                                 // 2
         if (leader == null) {                                                                                   // 3
