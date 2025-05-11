@@ -26,12 +26,12 @@ public class TimeOffStep {
         result = timeOff.overlaps(week, year);
     }
 
-    @Then("the result should be true")
+    @Then("the result should be for TimeLog true")
     public void theResultShouldBeTrue() {
         assertEquals(true, result);
     }
 
-    @Then("the result should be false")
+    @Then("the result should be for TimeLog false")
     public void theResultShouldBeFalse() {
         assertEquals(false, result);
     }

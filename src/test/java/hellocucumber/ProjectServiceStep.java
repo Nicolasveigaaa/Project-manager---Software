@@ -179,7 +179,7 @@ public class ProjectServiceStep {
     @When("I log {double} hours on activity {string} in project {string}")
     public void i_log_hours_on_activity_in_project(Double hours, String act, String proj) {
         try {
-            projectService.logTimeForActivity(proj, act, hours);
+            projectService.logTimeForActivity(lastProjectId, act, hours);
         } catch (Exception e) {
             caughtException = e;
         }

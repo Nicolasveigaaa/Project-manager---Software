@@ -3,6 +3,8 @@ package hellocucumber.domain.activities;
 import domain.Activity;
 import domain.Project;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +26,7 @@ public class CreateActivityStep {
         Optional<Project> project = projectService.findProjectByID(id);
         this.project = project.get();
         this.projectID = this.project.getProjectID();
-        this.activity = new Activity(this.project, "Activity", 1.0, 1, 2025, 2, 2025);
+        this.activity = new Activity(this.project, "Activity", 20.0, 1, 2025, 2, 2025);
     }
 
     @When("I create an activity {string} with budgeted time {double}, start week {int}, start year {int}, end week {int}, end year {int} for {string}")
@@ -52,10 +54,19 @@ public class CreateActivityStep {
     public void i_try_to_create_an_activity_without_a_project(String name) {
         try {
             projectService.createActivityForProject(null, name, 1.0, 1, 2025, 2, 2025);
+
             this.exception = null;
         } catch (Exception e) {
             this.exception = e;
         }
+    }
+
+    @Then("I check if everythign is set up correctly")
+    public void i_check_if_everything_is_set_up_correctly() {
+        assertNotNull(activity.getStartWeek());
+        assertNotNull(activity.getStartYear());
+        assertNotNull(activity.getEndWeek());
+        assertNotNull(activity.getEndYear());
     }
 
     @When("I try to create an activity with an empty name for {string}")
@@ -102,5 +113,23 @@ public class CreateActivityStep {
             Assertions.fail("Expected an exception but none was thrown");
         }
         Assertions.assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    // Check budgeted time
+    @And("an activity {string} with budgeted time {double} exists in {string}")
+    public void an_activity_with_budgeted_time_exists_in_project(String activityName, double budgetedTime, String projectName) {
+        projectService.findProjectByID(projectID).ifPresent(project -> {
+            Assertions.assertNotNull(this.activity, "Activity should not be null");
+            Assertions.assertEquals(budgetedTime, this.activity.getBudgetedTime(), 0.01);
+        });
+    }
+
+    @When("I change the budgeted time of activity {string} to {double}")
+    public void i_change_the_budgeted_time_of_activity_to(String activityName, double budgetedTime) {
+        try {
+            activity.setBudgetedTime(budgetedTime);
+        } catch (Exception e) {
+            exception = e;
+        }
     }
 }

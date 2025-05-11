@@ -141,7 +141,7 @@ public class ProjectService {
 
         if (activity == null) {                                                                                         // 4
             throw new IllegalArgumentException(
-                    "Activity with name: " + activityName + "not found.");             // 5    
+                    "Activity with name: '" + activityName + "' not found.");             // 5    
         }
 
         // Step 6 7 : check for null user or throw

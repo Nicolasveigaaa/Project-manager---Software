@@ -64,7 +64,7 @@ public class Activity {
     }
 
     public boolean isAssigned(String initials) {
-        if (initials == null) throw new IllegalArgumentException("Cannot check assignment for null user.");
+        if (initials == null || initials.isBlank()) throw new IllegalArgumentException("Cannot check assignment for null user.");
         return assignedUsers.contains(initials);
     }
 
@@ -115,6 +115,13 @@ public class Activity {
         }
 
         this.loggedTime += hours;
+    }
+
+    public void setLoggedTime(double loggedTime) {
+        if (loggedTime < 0) {
+            throw new IllegalArgumentException("Logged time cannot be negative.");
+        }
+        this.loggedTime = loggedTime;
     }
 
     // check if a specific week falls within the activitys duration

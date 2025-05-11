@@ -1,3 +1,5 @@
+# // [Written by s244706] // #
+
 Feature: Assigning and unassigning employees to an activity
 
   Background:
@@ -33,13 +35,25 @@ Feature: Assigning and unassigning employees to an activity
 
   Scenario: Assign an employee where the activity name is empty
     When I assign "Alice" to activity " "
-    Then I should get an error from Assign Activity "Activity with name: not found."¨
+    Then I should get an error from Assign Activity "Activity with name: ' ' not found."
     When I assign "Alice" to activity null
-    Then I should get an error from Assign Activity "Activity with name: not found."
+    Then I should get an error from Assign Activity "Activity with name: 'null' not found."
 
   Scenario: Assign an employee where the username is incorrect
     When I assign " " to activity "Design"
     Then I should get an error from Assign Activity "Cannot assign null user."
     When I assign null to activity "Design"
     Then I should get an error from Assign Activity "Cannot assign null user."
+
+  Scenario: Check if user is assigned to the activity
+    When I check if "Alice" is assigned to activity "Design"
+    Then I should get a result of "true"
+
+  Scenario: Check if user is assigned to the activity with blank initials
+    When I check if " " is assigned to activity "Design"
+    Then I should get a result of "false"
+
+  Scenario: Check if user is assigned to the activity with null initials
+    When I check if "null" is assigned to activity "Design"
+    Then I should get a result of "false"
     

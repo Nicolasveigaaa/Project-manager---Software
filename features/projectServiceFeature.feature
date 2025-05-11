@@ -1,3 +1,5 @@
+# // [Written by s244706] // #
+
 Feature: ProjectService
 
   Background:
@@ -112,11 +114,16 @@ Feature: ProjectService
   Scenario: logTimeForActivity activity-not-found
     Given I add a project named "P"
     When I log 1.0 hours on activity "X" in project "P"
-    Then it fails with "Project with ID 'P' not found."
+    Then it fails with "Activity with name 'X' not found in project '25052'."
 
   Scenario: logTimeForActivity project-not-found
     When I log 1.0 hours on activity "A" in project "no-id"
-    Then it fails with "Project with ID 'no-id' not found."
+    Then it fails with "Project with ID 'null' not found."
+
+  Scenario: logTimeForActivity, where activity is not found / null
+    Given I add a project named "P"
+    When I log 1.0 hours on activity "Cool" in project "P"
+    Then it fails with "Activity with name 'Cool' not found in project '25053'."
 
   # 8) getProjectTimeSummary (success, project-not-found)
   Scenario Outline: getProjectTimeSummary

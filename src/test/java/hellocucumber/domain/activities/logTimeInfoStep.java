@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import app.project.ProjectService;
 import domain.Activity;
 import domain.Project;
-import domain.User;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -24,7 +24,17 @@ public class logTimeInfoStep {
         Optional<Project> project = projectService.findProjectByID(projectID);
         this.project = project.get();
         this.projectID = this.project.getProjectID();
-        this.activity = new Activity(this.project, "Development", 30.0, 1, 2025, 2, 2025);
+        projectService.createActivityForProject(projectID, "Development", 0, 0, 0, 0, 0);
+        this.activity = this.project.getActivityByName("Development");
+    }
+
+    @Given("I reset the logged time to {double}")
+    public void i_reset_the_logged_time_for_activity(Double loggedTime) {
+        try {
+            activity.setLoggedTime(loggedTime);
+        } catch (Exception e) {
+            capturedException = e;
+        }
     }
 
     @When("I log {double} hours to activity {string}")
@@ -32,7 +42,6 @@ public class logTimeInfoStep {
         capturedException = null;
         try {
             projectService.logTimeForActivity(projectID, activityName, hours);
-            activity.logTime(hours);
         } catch (Exception e) {
             capturedException = e;
         }

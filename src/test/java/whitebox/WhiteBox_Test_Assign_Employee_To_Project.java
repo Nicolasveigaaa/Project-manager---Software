@@ -88,7 +88,7 @@ public class WhiteBox_Test_Assign_Employee_To_Project {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
             () -> projectService.assignEmployeeToActivity("pid", "cool", "XY")
         );
-        assertEquals("Activity with name 'cool' not found in project 'pid'.", ex.getMessage());
+        assertEquals("Activity with name: 'cool' not found.", ex.getMessage());
     }
 
     // Test if you try to assign an employee to an activity that is already assigned

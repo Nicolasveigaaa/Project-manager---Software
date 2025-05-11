@@ -99,6 +99,34 @@ public class AssignActivityStep {
         Assertions.assertEquals(false, activity.getAssignedEmployees().contains(userName));
     }
 
+    private boolean result = false;
+
+    @When("I check if {string} is assigned to activity {string}")
+    public void i_check_if_user_is_assigned_to_activity(String userName, String activityName) {
+        Activity activity2 = project.getActivityByName(activityName);
+        String newInitials = userName;
+
+        if (userName.matches("null")) {
+            newInitials = null;
+        }
+
+        capturedException = null;
+        result = false; 
+        try {
+            activity2.isAssigned(newInitials);
+            result = true;
+        } catch (Exception e) {
+            capturedException = e;
+        }
+    }
+
+    @Then("I should get a result of {string}")
+    public void i_should_get_a_result_of(String expectedResult) {
+        // Transform string to boolean
+        boolean expectedBooleanResult = Boolean.parseBoolean(expectedResult);
+        Assertions.assertEquals(expectedBooleanResult, result);
+    }
+
     @Then("I should get an error from Assign Activity {string}")
     public void i_should_get_an_error(String expectedMessage) {
         if (capturedException == null) {
