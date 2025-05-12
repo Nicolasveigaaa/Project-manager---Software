@@ -43,3 +43,15 @@ Feature: Project Leadership Management
     When I retrieve the project member initials
     Then I should get a list containing 3 member initials
     And the list should include the member initials "AB", "CD", and "EF"
+
+  Scenario: I try to change project name
+    When I try to change the project name to "New Project Name"
+    #Then It should be changed to "New Project Name"
+  
+  Scenario: I try to change project name to empty
+    When I try to change the project name to ""
+    Then It should throw an error "Project name cannot be empty."
+
+  Scenario: I try to change project name to null
+    When I try to change the project name to null
+    Then It should throw an error "Project name cannot be empty."

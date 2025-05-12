@@ -249,14 +249,15 @@ public class ProjectServiceStep {
 
     @Then("logging succeeds")
     public void loggingSucceeds() {
-        assertTrue(loggedHours == projectService.findProjectByName("P").get().getActivityByName("A").getLoggedTime());
+        
+        System.out.println("AAAA: " + projectService.findProjectByName("Paaa").get());
+        System.out.println("AAAA: " + projectService.findProjectByName("Paaa").get().getActivityByName("A"));
+        assertTrue(loggedHours == projectService.findProjectByName("Paaa").get().getActivityByName("A").getLoggedTime());
     }
 
     @Then("logging negative-error")
     public void loggingNegativeError() {
-        assertFalse(loggedHours == projectService.findProjectByName("P").get().getActivityByName("A").getLoggedTime());
-
-    
+        assertFalse(loggedHours == projectService.findProjectByName("Paaa").get().getActivityByName("A").getLoggedTime());
     }
 
 }

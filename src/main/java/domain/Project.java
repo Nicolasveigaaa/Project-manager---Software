@@ -80,6 +80,11 @@ public class Project {
     }
 
     public Activity getActivityByName(String name) {
+        for (Activity activity : activities.values()) {
+            if (activity.getName().equals(name)) {
+                return activity;
+            }
+        }
         return this.activities.get(name); // Returns null if the key (name) is not found
     }
 
