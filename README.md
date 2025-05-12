@@ -41,7 +41,7 @@ This way you can test out multiple features that are available, and see how the 
 🍃 // Running Cucumber //
 
 1) Setup cucumber before run,  change the file name from `module-info.java` to `module-info-disable.java` this allows for some UI tests to run. 🧪
-2) ! DO NOT TRY TO CHANGE TABS WHILE THE TEST IS RUNNING OR SYSTEM CRASH IS POSSIBLE ! ⚠️
+2) ⚠️ ! DO NOT TRY TO CHANGE TABS WHILE THE TEST IS RUNNING OR SYSTEM CRASH IS POSSIBLE ! ⚠️
 3) To start the cucumber tests, select the file `/src/test/java/hellocucumber/RunCucumberTest.java` ▶️
 4) Right-click on the file and press "Run Tests" or "Run Tests With Coverage" ▶️
 5) Again do not touch any of the opening tabs. 🤚
