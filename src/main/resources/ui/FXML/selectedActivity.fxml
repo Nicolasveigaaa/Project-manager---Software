@@ -16,7 +16,6 @@
         <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
     </padding>
 
-
     <Button fx:id="btnBack" text="Back" onAction="#onBack" />
 
     <Label fx:id="projectLabel" text="Project: [project name]" style="-fx-font-size: 30;" />
@@ -26,7 +25,6 @@
     <Label fx:id="loggedLabel" text="Logged time: 00.0h" />
     <Label fx:id="membersLabel" text="Assigned members: 0" />
 
-    <!-- Time Log -->
     <Label text="Time Log:" />
     <TableView fx:id="timeLogTable" prefHeight="150" prefWidth="580">
         <columns>
@@ -37,15 +35,15 @@
     </TableView>
 
     <HBox spacing="10.0">
-        <Button fx:id="btnAddTime" text="Add Time" />
-        <Button fx:id="btnEditActivity" text="Edit Activity" />
+        <Button fx:id="btnAddTime" text="Add Time" onAction="#onAddTime"/>
+        <Button fx:id="btnEditActivity" text="Edit Activity" onAction="#onEditActivity"/>
     </HBox>
 
     <Label text="Assigned Members:" />
     <ListView fx:id="memberList" prefHeight="100" prefWidth="580"/>
     <HBox spacing="10.0">
-        <Button fx:id="btnAddMember" text="Add Member" />
-        <Button fx:id="btnRemoveMember" text="Remove Member" />
+        <Button fx:id="btnAddMember" text="Add Member" onAction="#onAddMember"/>
+        <Button fx:id="btnRemoveMember" text="Remove Member" onAction="#onRemoveMember"/>
     </HBox>
 
 </VBox>
