@@ -19,8 +19,9 @@ public class Database {
         // Hardcoded users — roles removed
         addUser(new User("huba"));
         addUser(new User("nico"));
-        addUser(new User("jacob"));
-        addUser(new User("Vincent"));
+        addUser(new User("jaco"));
+        addUser(new User("Vinc"));
+        addUser(new User("Fred"));
     }
 
     // --- User methods ---
