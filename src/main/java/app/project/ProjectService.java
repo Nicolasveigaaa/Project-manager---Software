@@ -69,35 +69,30 @@ public class ProjectService {
     }
 
     public Project createActivityForProject(String projectID, String activityName, double budgetedTime, int startWeek, int endWeek, int startYear, int endYear) {
-        Project project = findProjectByID(projectID)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Project with ID '" + projectID + "' not found. Cannot create activity."));
+        Project project = findProjectByID(projectID)                                                                                                                   //1
+                .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found. Cannot create activity."));                            //2
 
         // Check if the activity name is blank
-        if (activityName.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Activity name cannot be empty.");
+        if (activityName.isBlank()) {                                                                                                                                  //3
+            throw new IllegalArgumentException("Activity name cannot be empty.");                                                                                    //4
         }
 
-        if (project.getActivityByName(activityName) != null) {
-            throw new IllegalArgumentException(
-                        "Activity with name '" + activityName + "' already exists in project. Cannot create activity.");
+        if (project.getActivityByName(activityName) != null) {                                                                                                         //5
+            throw new IllegalArgumentException("Activity with name '" + activityName + "' already exists in project. Cannot create activity.");                        //6
         }
 
         // Check if the budgeted time is valid
-        if (budgetedTime < 0) {
-            throw new IllegalArgumentException(
-                    "Budgeted time cannot be negative.");
+        if (budgetedTime < 0) {                                                                                                                                        //7
+            throw new IllegalArgumentException("Budgeted time cannot be negative.");                                                                                 //8
         }
 
         // create the Activity obect where constructor associates it with the project
-        Activity newActivity = new Activity(project, activityName, budgetedTime, startWeek, startYear, endWeek,
-                endYear);
+        Activity newActivity = new Activity(project, activityName, budgetedTime, startWeek, startYear, endWeek, endYear);                                              //9
 
         // add the Activity to the Project object
-        project.addActivity(newActivity);
+        project.addActivity(newActivity);                                                                                                                              //10
 
-        return project;
+        return project;                                                                                                                                                //11
     }
 
     public Collection<Activity> getActivitiesForProject(String projectID) {
