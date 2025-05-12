@@ -2,10 +2,10 @@
 
 👋 // Welcome User, Initiate Project //
 
-1️⃣ To initiate the project it is very important that all java packages are available. ⚙️
-2️⃣ To launch the software select the `Main.java` inside the `app` folder ▶️
-3️⃣ Before pressing "play" ensure that the file `module-info.java` is only called `module-info.java` (if not read below) 🔍
-4️⃣ Press the "play" button. ▶️
+1) To initiate the project it is very important that all java packages are available. ⚙️
+2) To launch the software select the `Main.java` inside the `app` folder ▶️
+3) Before pressing "play" ensure that the file `module-info.java` is only called `module-info.java` (if not read below) 🔍
+4) Press the "play" button. ▶️
 
 🛠️ // Problems //
 
