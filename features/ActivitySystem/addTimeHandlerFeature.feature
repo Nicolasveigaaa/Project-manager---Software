@@ -1,3 +1,5 @@
+# // [Written by s244706] // #
+
 Feature: Logging time to an activity
   Background: Creating a project with activity
     Given a project in time handler "Project A" exists

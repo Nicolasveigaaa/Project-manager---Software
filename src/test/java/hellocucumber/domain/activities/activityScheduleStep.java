@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber.domain.activities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
