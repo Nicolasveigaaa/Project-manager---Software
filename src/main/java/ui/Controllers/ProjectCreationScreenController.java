@@ -82,13 +82,22 @@ public class ProjectCreationScreenController {
         String name = projectNameField.getText().trim();
         List<String> selected = usersListView.getSelectionModel().getSelectedItems();
 
-        if (name.isEmpty() || selected.isEmpty()) {
+        if (name.isEmpty() && selected.isEmpty()) {
             new Alert(Alert.AlertType.WARNING,
                     "Please enter a project name and select at least one user.")
                     .showAndWait();
             return;
+        } else if (name.isEmpty()) {
+            new Alert(Alert.AlertType.WARNING,
+                    "Please enter a project name")
+                    .showAndWait();
+            return;
+        } else if (selected.isEmpty()) {
+            new Alert(Alert.AlertType.WARNING,
+                    "Please select at least one user.")
+                    .showAndWait();
+            return;
         }
-
         // Send the selected users to the project by project ID
         String ID = ProjectService.addProject(name);
 

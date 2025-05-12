@@ -16,11 +16,13 @@ public class AuthValidation {
     }
 
     // Validates user login is in the persistence database
-    public boolean validateLogin(String initials, String password) {
+    public boolean validateLogin(String initials) {
         User user = database.getUser(initials.toLowerCase());
-        if (user != null && user.getPassword().equals(password)) {
+        if (user != null) {
             currentUser = user;
             return true;
+        } else {
+            currentUser = null;
         }
         return false;
     }
@@ -29,6 +31,4 @@ public class AuthValidation {
     public static User getCurrentUser() {
         return currentUser;
     }
-
-
 }

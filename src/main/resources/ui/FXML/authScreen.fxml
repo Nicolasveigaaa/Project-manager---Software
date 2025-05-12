@@ -18,10 +18,8 @@
       <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
    </padding>
 
-   <Label text="Admin Initial:"/>
+   <Label text="User Initial:"/>
    <TextField fx:id="adminInitialField" promptText="Enter initial"/>
-   <Label text="Password:"/>
-   <PasswordField fx:id="passwordField" promptText="Enter password"/>
 
    <Button text="Log In"
            fx:id="loginButton"

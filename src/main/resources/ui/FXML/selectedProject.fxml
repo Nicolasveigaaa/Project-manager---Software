@@ -6,8 +6,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -18,7 +19,22 @@
       <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
    </padding>
 
+   <Button fx:id="backButton" text='Back' onAction="#handleBack"/>
+
    <Label fx:id="projectNameText" text="Project: Project Name" style="-fx-font-size: 30;"/>
    <Label fx:id='projectAdminInitialsText' text="Admin Initial:" style="-fx-font-size: 18px;"/>
+
+   <!-- Projects List -->
+   <Label text="Projects" />
+   <ListView fx:id="activityListView" prefHeight="200.0" prefWidth="580.0"/>
+
+   <Button fx:id="viewTotalHours" text="Time Summary" onAction="#seeTimeSummary"/>
+
+   <HBox spacing="10.0">
+      <Button text="Create Activity" onAction="#handleCreateActivity"/>
+      <Button text="Add Member" onAction="#handleAddMemberProject"/>
+  </HBox>
+
+  <Button fx:id="openActivityButton" text="Open Activity" onAction="#openActivity"/>
 
 </VBox>
