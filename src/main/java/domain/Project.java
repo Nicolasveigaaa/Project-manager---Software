@@ -11,7 +11,7 @@ import java.util.Map;
 import app.employee.AuthValidation;
 
 public class Project {
-    private final String projectName;
+    private String projectName;
     private final List<String> memberInitials;
     private final String projectID;
     private String projectLeaderInitials; // Added for project leader
@@ -86,6 +86,13 @@ public class Project {
     public ArrayList<Activity> getActivities() {
         // Return all acitivities
         return new ArrayList<>(activities.values());
+    }
+
+    public void setProjectName(String newName) {
+        if (newName == null || newName.isBlank()) {
+            throw new IllegalArgumentException("Project name cannot be empty.");
+        }
+        this.projectName = newName.trim();
     }
 
 }

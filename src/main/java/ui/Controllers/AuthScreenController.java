@@ -3,12 +3,11 @@
 package ui.Controllers;
 
 // Folder import
-import app.employee.AuthValidation;
-import domain.User;
 import persistence.Database;
 import ui.BaseController;
-import javafx.application.Platform;
+
 // JavaFX imports
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -23,6 +22,12 @@ import javafx.scene.Scene;
 
 // Java imports
 import java.io.IOException;
+
+// Logic imports
+import app.employee.AuthValidation;
+
+// Domain imports
+import domain.User;
 
 // Controls the authScreen.fxml
 public class AuthScreenController {

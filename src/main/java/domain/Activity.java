@@ -1,6 +1,9 @@
 // Jacob Knudsen (s224372 and s246060)
 package domain;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.*;
 
 public class Activity {
@@ -159,25 +162,37 @@ public class Activity {
 
     // ----------- Inner Class ----------- //
     public static class TimeEntry {
-        private final String userInitials;
-        private final String date;
-        private final double hours;
+        private final StringProperty userInitials;
+        private final StringProperty date;
+        private final StringProperty hours;
 
         public TimeEntry(String userInitials, String date, double hours) {
-            this.userInitials = userInitials;
-            this.date = date;
-            this.hours = hours;
+            this.userInitials = new SimpleStringProperty(userInitials);
+            this.date = new SimpleStringProperty(date);
+            this.hours = new SimpleStringProperty(String.valueOf(hours));
         }
 
         public String getUserInitials() {
-            return userInitials;
+            return userInitials.get();
         }
 
         public String getDate() {
-            return date;
+            return date.get();
         }
 
         public double getHours() {
+            return Double.parseDouble(hours.get());
+        }
+
+        public StringProperty userInitialsProperty() {
+            return userInitials;
+        }
+
+        public StringProperty dateProperty() {
+            return date;
+        }
+
+        public StringProperty hoursProperty() {
             return hours;
         }
     }

@@ -1,15 +1,13 @@
-package app.activity;
+// [Written by s246060]
 
+package app.activity;
 import domain.Activity;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
-
 import java.util.Optional;
 import java.util.function.Supplier;
-
 import app.employee.AuthValidation;
 
-// THIS USES JAVAFX
 public class AddTimeHandler {
     private static Activity activity;
 

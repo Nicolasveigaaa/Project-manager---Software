@@ -2,30 +2,28 @@
 
 package ui.Controllers;
 
-// JavaFX imports
+// Logic
+import app.activity.AddTimeHandler;
+import app.activity.EditActivityHandler;
+import app.activity.AddMemberHandler;
+
+// Domain
+import domain.Activity;
+import domain.Project;
+
+// JavaFX
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.beans.property.StringProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-// Java imports
+// Java
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-
-// Domains
-import domain.Activity;
-import domain.Project;
-
-// logic imports
-import app.activity.AddTimeHandler;
-import app.activity.EditActivityHandler;
-import app.activity.AddMemberHandler;
 
 public class ActivityScreenController implements Initializable {
 
@@ -50,6 +48,7 @@ public class ActivityScreenController implements Initializable {
     @FXML private Button btnBack;
 
     private Scene previousScene;
+    private Runnable returnHandler;
     private Activity activity;
 
     private final ObservableList<TimeEntry> timeEntries = FXCollections.observableArrayList();
@@ -57,7 +56,7 @@ public class ActivityScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        colMember.setCellValueFactory(data -> data.getValue().memberProperty());
+        colMember.setCellValueFactory(data -> data.getValue().userInitialsProperty());
         colDate.setCellValueFactory(data -> data.getValue().dateProperty());
         colHours.setCellValueFactory(data -> data.getValue().hoursProperty());
 
@@ -69,16 +68,15 @@ public class ActivityScreenController implements Initializable {
         this.previousScene = scene;
     }
 
+    public void setReturnHandler(Runnable handler) {
+        this.returnHandler = handler;
+    }
+
     public void setActivity(Activity activity) {
         this.activity = activity;
 
         Project project = activity.getProject();
-        if (project != null) {
-            projectLabel.setText("Project: " + project.getProjectName());
-        } else {
-            projectLabel.setText("Project: (unknown)");
-        }
-
+        projectLabel.setText("Project: " + (project != null ? project.getProjectName() : "(unknown)"));
         activityLabel.setText("Activity: " + activity.getName());
 
         String period = "Week " + activity.getStartWeek() + " (" + activity.getStartYear() + ")"
@@ -94,15 +92,16 @@ public class ActivityScreenController implements Initializable {
         timeEntries.clear();
         for (Activity.TimeEntry entry : activity.getTimeLog()) {
             timeEntries.add(new TimeEntry(
-                    entry.getUserInitials(),
-                    entry.getDate(),
-                    String.valueOf(entry.getHours())
+                    entry.userInitialsProperty(),
+                    entry.dateProperty(),
+                    entry.hoursProperty()
             ));
         }
     }
 
     @FXML
     private void onBack() {
+        if (returnHandler != null) returnHandler.run();
         Stage stage = (Stage) btnBack.getScene().getWindow();
         stage.setScene(previousScene);
     }
@@ -115,9 +114,9 @@ public class ActivityScreenController implements Initializable {
 
             Activity.TimeEntry last = activity.getTimeLog().get(activity.getTimeLog().size() - 1);
             timeEntries.add(new TimeEntry(
-                    last.getUserInitials(),
-                    last.getDate(),
-                    String.valueOf(last.getHours())
+                    last.userInitialsProperty(),
+                    last.dateProperty(),
+                    last.hoursProperty()
             ));
         }
     }
@@ -158,17 +157,17 @@ public class ActivityScreenController implements Initializable {
     }
 
     public static class TimeEntry {
-        private final StringProperty member;
+        private final StringProperty userInitials;
         private final StringProperty date;
         private final StringProperty hours;
 
-        public TimeEntry(String member, String date, String hours) {
-            this.member = new SimpleStringProperty(member);
-            this.date = new SimpleStringProperty(date);
-            this.hours = new SimpleStringProperty(hours);
+        public TimeEntry(StringProperty userInitials, StringProperty date, StringProperty hours) {
+            this.userInitials = userInitials;
+            this.date = date;
+            this.hours = hours;
         }
 
-        public StringProperty memberProperty() { return member; }
+        public StringProperty userInitialsProperty() { return userInitials; }
         public StringProperty dateProperty() { return date; }
         public StringProperty hoursProperty() { return hours; }
     }
