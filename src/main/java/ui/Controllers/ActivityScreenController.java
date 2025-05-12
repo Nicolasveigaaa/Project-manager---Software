@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 
 // Java imports
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 // Domains
@@ -28,7 +29,6 @@ import app.activity.AddMemberHandler;
 
 public class ActivityScreenController implements Initializable {
 
-    // UI labels
     @FXML private Label projectLabel;
     @FXML private Label activityLabel;
     @FXML private Label periodLabel;
@@ -36,7 +36,6 @@ public class ActivityScreenController implements Initializable {
     @FXML private Label loggedLabel;
     @FXML private Label membersLabel;
 
-    // Time log
     @FXML private TableView<TimeEntry> timeLogTable;
     @FXML private TableColumn<TimeEntry, String> colMember;
     @FXML private TableColumn<TimeEntry, String> colDate;
@@ -92,9 +91,14 @@ public class ActivityScreenController implements Initializable {
         members.setAll(activity.getAssignedEmployees());
         membersLabel.setText("Assigned members: " + members.size());
 
-        // TODO: Replace with real time log entries
         timeEntries.clear();
-        timeEntries.add(new TimeEntry("huba", "2025-05-12", "2.0"));
+        for (Activity.TimeEntry entry : activity.getTimeLog()) {
+            timeEntries.add(new TimeEntry(
+                    entry.getUserInitials(),
+                    entry.getDate(),
+                    String.valueOf(entry.getHours())
+            ));
+        }
     }
 
     @FXML
@@ -105,18 +109,30 @@ public class ActivityScreenController implements Initializable {
 
     @FXML
     private void onAddTime() {
-        AddTimeHandler.handle(activity);
+        double added = AddTimeHandler.handle(activity);
+        if (added > 0) {
+            loggedLabel.setText("Logged time: " + activity.getLoggedTime() + " hours");
+
+            Activity.TimeEntry last = activity.getTimeLog().get(activity.getTimeLog().size() - 1);
+            timeEntries.add(new TimeEntry(
+                    last.getUserInitials(),
+                    last.getDate(),
+                    String.valueOf(last.getHours())
+            ));
+        }
     }
 
     @FXML
     private void onEditActivity() {
         EditActivityHandler.handle(activity);
+        activityLabel.setText("Activity: " + activity.getName());
+        budgetLabel.setText("Budgeted time: " + activity.getBudgetedTime() + " hours");
     }
 
     @FXML
     private void onAddMember() {
         AddMemberHandler.handle(activity);
-        members.setAll(activity.getAssignedEmployees()); // opdatér liste i UI
+        members.setAll(activity.getAssignedEmployees());
         membersLabel.setText("Assigned members: " + members.size());
     }
 
@@ -137,6 +153,7 @@ public class ActivityScreenController implements Initializable {
     private void showError(String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
         alert.setHeaderText("Error");
+        alert.setContentText(msg);
         alert.showAndWait();
     }
 
