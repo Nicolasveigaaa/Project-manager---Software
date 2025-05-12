@@ -25,7 +25,7 @@
     <ListView fx:id="usersListView" prefHeight="150.0" prefWidth="200.0"/>
 
     <HBox spacing="10.0">
-        <Button text="Create" onAction="#handleCreate"/>
+        <Button text="Ok" onAction="#handleCreate"/>
         <Button text="Cancel" onAction="#handleCancel"/>
     </HBox>
 </VBox>

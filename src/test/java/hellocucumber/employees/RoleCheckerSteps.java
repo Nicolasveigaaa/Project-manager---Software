@@ -2,8 +2,6 @@ package hellocucumber.employees;
 
 import io.cucumber.java.en.*;
 
-import app.employee.RoleChecker;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RoleCheckerSteps {

@@ -23,7 +23,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+// Logic
 import app.Main;
+
+// Domain
 import domain.Project;
 
 

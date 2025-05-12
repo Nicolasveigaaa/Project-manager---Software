@@ -1,4 +1,4 @@
-# // [Written by s244706] // #
+# // [Written by s244706 and s246060] // #
 
 # Feature: Home Screen Functionality
 #   As a user
