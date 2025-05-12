@@ -172,7 +172,7 @@ public class ProjectService {
         Activity activity = project.getActivityByName(activityName);
         if (activity == null) {
             throw new IllegalArgumentException(
-                    "Activity with name '" + activityName + "' not found in project '" + projectID + "'.");
+                    "Activity with name '" + activityName + "' not found in project.");
         }
 
         // Delegate logging and its specific checks (like hours > 0) to Activity
@@ -204,7 +204,7 @@ public class ProjectService {
         Activity activity = project.getActivityByName(activityName);
         if (activity == null) {
             throw new IllegalArgumentException(
-                    "Activity with name '" + activityName + "' not found in project '" + projectID + "'.");
+                    "Activity with name '" + activityName + "' not found in project.");
         }
 
         // Delegate the calculation to the CreateReport class

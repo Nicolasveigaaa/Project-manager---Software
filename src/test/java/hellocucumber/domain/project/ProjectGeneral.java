@@ -124,4 +124,34 @@ public class ProjectGeneral {
             project.addMember(initials);
         }
     }
+
+    // For the setporject name
+    @When("I try to change the project name to {string}")
+    public void i_try_to_change_the_project_name_to(String newName) {
+        try {
+            project.setProjectName(newName);
+        } catch (Exception e) {
+            thrownException = e;
+        }
+    }
+
+    @Then("the project name should be {string}")
+    public void the_project_name_should_be(String expectedName) {
+        assertEquals(expectedName, project.getProjectName());
+    }
+
+    @When("I try to change the project name to null")
+    public void i_try_to_change_the_project_name_to_null() {
+        try {
+            project.setProjectName(null);
+        } catch (Exception e) {
+            thrownException = e;
+        }
+    }
+
+    @Then("It should throw an error {string}")
+    public void it_should_throw_an_error(String expectedMessage) {
+        assertNotNull(thrownException, "An exception should have been thrown");
+        assertEquals(expectedMessage, thrownException.getMessage());
+    }
 }

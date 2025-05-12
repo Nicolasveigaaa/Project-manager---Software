@@ -62,4 +62,5 @@ public class logTimeInfoStep {
         }
         Assertions.assertEquals(expectedMessage, capturedException.getMessage());
     }
+    
 }

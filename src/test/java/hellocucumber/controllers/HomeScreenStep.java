@@ -47,7 +47,6 @@ public class HomeScreenStep {
         injectField("projectsListView", new ListView<Project>());
         injectField("projectsCountLabel", new Label());
         injectField("initialsLabel", new Label());
-        injectField("roleLabel", new Label());
         injectField("openProject", new Button());
 
         // Set user
