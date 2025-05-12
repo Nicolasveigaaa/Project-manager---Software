@@ -19,6 +19,7 @@ import app.Main;
 // Service layer class for handling project and activity related operations
 public class ProjectService {
     private static Database db;
+    private CreateReport report_test = new CreateReport();
 
     // Initiate the project / create a new project
     public ProjectService() {

@@ -172,4 +172,14 @@ public class ProjectActivity {
         assertNotNull(project.getActivities(), "Activity list should not be null");
         assertEquals(project.getActivities().size(), project.getActivities().size(), "Activity list should have the same size as the project");
     }
+
+    // ADD ACTIVITY TEST //
+    @When("I add an activity with name {string} to the project")
+    public void i_add_an_activity_with_name_to_the_project(String activityName) {
+        try {
+            project.addActivity(retrievedActivity);
+        } catch (Exception e) {
+            thrownException = e;
+        }
+    }
 }

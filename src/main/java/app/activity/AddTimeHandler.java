@@ -5,18 +5,37 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import app.employee.AuthValidation;
 
+// THIS USES JAVAFX
 public class AddTimeHandler {
+    private static Activity activity;
+
+    // By default, we use the real JavaFX dialog:
+    private static Supplier<Optional<String>> dialogSupplier = () -> {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Log Time");
+        dialog.setHeaderText("Log time to activity: " + activity.getName());
+        dialog.setContentText("Enter hours (e.g., 1.5):");
+        return dialog.showAndWait();
+    };
+
+    /** Allows tests to override how we get the user’s input. */
+    public static void setDialogSupplier(Supplier<Optional<String>> s) {
+        dialogSupplier = s;
+    }
 
     public static double handle(Activity activity) {
+        activity = activity;
+
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Log Time");
         dialog.setHeaderText("Log time to activity: " + activity.getName());
         dialog.setContentText("Enter hours (e.g., 1.5):");
 
-        Optional<String> result = dialog.showAndWait();
+        Optional<String> result = dialogSupplier.get();
         if (result.isPresent()) {
             String input = result.get();
             try {

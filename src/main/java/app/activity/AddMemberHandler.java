@@ -6,6 +6,7 @@ import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;
 
+// THIS USES JAVAFX
 public class AddMemberHandler {
     public static void handle(Activity activity) {
         TextInputDialog dialog = new TextInputDialog();
