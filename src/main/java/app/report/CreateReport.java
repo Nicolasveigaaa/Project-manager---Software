@@ -36,4 +36,17 @@ public class CreateReport {
 
         return summary;
     }
+
+    // Genreate a report for a single activity
+    public static Map<String, Double> generateActivityTimeSummary(Activity activity) {
+        Map<String, Double> summary = new HashMap<>();
+
+        double totalBudgeted = activity.getBudgetedTime();
+        double totalLogged = activity.getLoggedTime();
+
+        summary.put("totalBudgeted", totalBudgeted);
+        summary.put("totalLogged", totalLogged);
+
+        return summary;
+    }
 }

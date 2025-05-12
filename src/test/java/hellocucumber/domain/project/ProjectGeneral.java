@@ -59,19 +59,18 @@ public class ProjectGeneral {
 
     @Then("the project leader initials should be {string}")
     public void the_project_leader_initials_should_be(String expectedInitials) {
-        assertEquals("Project leader initials should match", expectedInitials, project.getProjectLeaderInitials());
+        assertEquals(expectedInitials, project.getProjectLeaderInitials());
     }
 
     @Then("the project leader initials should remain unchanged")
     public void the_project_leader_initials_should_remain_unchanged() {
-        assertEquals("Project leader initials should remain unchanged",
-                originalLeaderInitials, project.getProjectLeaderInitials());
+        assertEquals(originalLeaderInitials, project.getProjectLeaderInitials());
     }
 
     @Then("I should get {string} as the project leader initials")
     public void i_should_get_as_the_project_leader_initials(String expectedInitials) {
-        assertNotNull("Retrieved leader initials should not be null", retrievedLeaderInitials);
-        assertEquals("Retrieved leader initials should match", expectedInitials, retrievedLeaderInitials);
+        assertNotNull(retrievedLeaderInitials, "Retrieved leader initials should not be null");
+        assertEquals(expectedInitials, retrievedLeaderInitials);
     }
 
     @Given("the project has no members")

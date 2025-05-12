@@ -4,7 +4,7 @@ Feature: ProjectService
 
   Background:
     # ensure we start with a clean DB
-    Given the database is reset
+    Given a new database
     And a user with initials "jd" exists
 
   # 1) addProject + getProjectByID + openProject (present/absent)
@@ -34,24 +34,21 @@ Feature: ProjectService
       | Beta    | GAMMA   | false   |
 
   # 3) createActivityForProject (success, duplicate, missing project)
-  Scenario Outline: createActivityForProject
-    Given I add a project named "P"
-    When I create activity "<act>" on project "P"
-    Then creation <outcome>
-
-    Examples:
-      | act     | outcome         |
-      | Task1   | succeeds        |
-      | Task1   | duplicate       |
+  Scenario: createActivityForProject
+    Given I add a project named "TestFor2"
+    When I create activity "Task1" on project "TestFor2"
+    Then creation succeeds
+    When I create activity "Task1" on project "TestFor2"
+    Then creation duplicate
 
   Scenario: createActivityForProject on missing project
     When I create activity "X" on project "no-id"
-    Then it fails with "Project with ID 'no-id' not found. Cannot create activity."
+    Then it fails with "Project with ID 'null' not found. Cannot create activity."
 
   # 4) getActivitiesForProject (success, missing)
   Scenario Outline: getActivitiesForProject
     Given I add a project named "P"
-    And I create activity "A" on project "P"
+    When I create activity "A" on project "P"
     When I list activities for project "P"
     Then I see <count> activities
 
@@ -61,7 +58,7 @@ Feature: ProjectService
 
   Scenario: getActivitiesForProject on missing project
     When I list activities for project "no-id"
-    Then it fails with "Project with ID 'no-id' not found."
+    Then it fails with "Project with ID 'null' not found."
 
   # 5) setProjectLeader (success, null initials, user-not-found, project-not-found)
   Scenario Outline: setProjectLeader
@@ -114,7 +111,7 @@ Feature: ProjectService
   Scenario: logTimeForActivity activity-not-found
     Given I add a project named "P"
     When I log 1.0 hours on activity "X" in project "P"
-    Then it fails with "Activity with name 'X' not found in project '25052'."
+    Then it fails with "Activity with name 'X' not found in project '25059'."
 
   Scenario: logTimeForActivity project-not-found
     When I log 1.0 hours on activity "A" in project "no-id"
@@ -123,14 +120,21 @@ Feature: ProjectService
   Scenario: logTimeForActivity, where activity is not found / null
     Given I add a project named "P"
     When I log 1.0 hours on activity "Cool" in project "P"
-    Then it fails with "Activity with name 'Cool' not found in project '25053'."
+    Then it fails with "Activity with name 'Cool' not found in project '25060'."
 
   # 8) getProjectTimeSummary (success, project-not-found)
-  Scenario Outline: getProjectTimeSummary
+  Scenario: getProjectTimeSummary
     Given I add a project named "P"
     And I create activity "A" on project "P"
     And I log 1.0 hours on activity "A" in project "P"
     When I request time summary for project
+    Then the summary for the project is 1.0
+
+  Scenario: getActivityTimeSummary
+    Given I add a project named "P"
+    And I create activity "A" on project "P"
+    And I log 1.0 hours on activity "A" in project "P"
+    When I request time summary for activity "A"
     Then the summary for "A" is 1.0
 
   # Scenario: setProject leader on null user

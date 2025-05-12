@@ -5,6 +5,7 @@ import domain.Project;
 
 import org.junit.jupiter.api.Assertions;
 
+import app.project.ProjectService;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.HashMap;
 
 public class ProjectActivity {
@@ -25,46 +27,47 @@ public class ProjectActivity {
     private Activity retrievedActivity;
     private ArrayList<Activity> activityList;
     private Exception thrownException;
-    private Map<String, Project> projects = new HashMap<>();
+    private ProjectService projectService = new ProjectService();
+    private String projectID;
     
     @Given("a project exists with name {string}")
     public void a_project_exists_with_name(String projectName) {
-        project = new Project(projectName, "1");
-        projects.put(projectName, project);
+        // simple Project stub; implement real Project constructor as needed
+        String id = ProjectService.addProject("Test3");
+        Optional<Project> project = projectService.findProjectByID(id);
+        this.project = project.get();
+        this.projectID = this.project.getProjectID();
     }
     
     @Given("another project exists with name {string}")
     public void another_project_exists_with_name(String projectName) {
-        otherProject = new Project(projectName, "2");
-        projects.put(projectName, otherProject);
+        // Create a new project
+        ProjectService.addProject(projectName);
     }
     
     @Given("the project has an activity named {string}")
     public void the_project_has_an_activity_named(String activityName) {
-        Activity activity = new Activity(activityName, project);
-        project.addActivity(activity);
+        projectService.createActivityForProject(projectID, activityName, 0, 0, 0, 0, 0);
     }
     
     @Given("an activity named {string} belonging to {string} exists")
     public void an_activity_named_belonging_to_exists(String activityName, String projectName) {
-        Project ownerProject = projects.get(projectName);
-        Activity activity = new Activity(activityName, ownerProject);
-        ownerProject.addActivity(activity);
+        Project ownerProject = projectService.findProjectByName(projectName).get();
+        projectService.createActivityForProject(ownerProject.getProjectID(), activityName, 0, 0, 0, 0, 0);
     }
     
     @Given("the project has the following activities:")
     public void the_project_has_the_following_activities(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> row : rows) {
-            Activity activity = new Activity(row.get("name"), project);
-            project.addActivity(activity);
+            projectService.createActivityForProject(projectID, row.get("name"), 0, 0, 0, 0, 0);
         }
     }
     
     @When("I add an activity named {string} to the project")
     public void i_add_an_activity_named_to_the_project(String activityName) {
-        Activity activity = new Activity(activityName, project);
-        project.addActivity(activity);
+        projectService.createActivityForProject(projectID, activityName, 0, 0, 0, 0, 0);
+        retrievedActivity = project.getActivityByName(activityName);
     }
     
     @When("I retrieve the activity with name {string}")
@@ -88,17 +91,8 @@ public class ProjectActivity {
     
     @When("I try to add the activity {string} to the project {string}")
     public void i_try_to_add_the_activity_to_the_project(String activityName, String targetProjectName) {
-        Project targetProject = projects.get(targetProjectName);
-        Activity activity = null;
-
-        // Find the project that has this activity
-        for (Project p : projects.values()) {
-            Activity a = p.getActivityByName(activityName);
-            if (a != null) {
-                activity = a;
-                break;
-            }
-        }
+        Project targetProject = projectService.findProjectByName(targetProjectName).get();
+        Activity activity = targetProject.getActivityByName(activityName);
         
         try {
             targetProject.addActivity(activity);
@@ -110,8 +104,7 @@ public class ProjectActivity {
     @When("I try to add another activity with name {string}")
     public void i_try_to_add_another_activity_with_name(String activityName) {
         try {
-            Activity duplicateActivity = new Activity(activityName, project);
-            project.addActivity(duplicateActivity);
+            projectService.createActivityForProject(projectID, activityName, 0, 0, 0, 0, 0);
         } catch (Exception e) {
             thrownException = e;
         }
@@ -131,7 +124,7 @@ public class ProjectActivity {
     @Then("I should get the correct activity with name {string}")
     public void i_should_get_the_correct_activity_with_name(String expectedName) {
         Assertions.assertNotNull(retrievedActivity, "Retrieved activity should not be null");
-        assertEquals("Activity name should match", expectedName, retrievedActivity.getName());
+        assertEquals(expectedName, retrievedActivity.getName());
     }
     
     @Then("I should get a list containing {int} activities")
@@ -161,7 +154,7 @@ public class ProjectActivity {
     @Then("an IllegalArgumentException should be thrown with message {string}")
     public void an_illegal_argument_exception_should_be_thrown_with_message(String expectedMessage) {
         assertNotNull( thrownException, "An exception should have been thrown");
-        assertEquals("Exception message should match", expectedMessage, thrownException.getMessage());
+        assertEquals(expectedMessage, thrownException.getMessage());
     }
     
     @Then("I should get a null result")

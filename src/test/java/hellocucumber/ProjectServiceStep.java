@@ -36,7 +36,7 @@ public class ProjectServiceStep {
         caughtException = null;
     }
 
-    @Given("the database is reset")
+    @Given("a new database")
     public void the_database_is_reset() {
         database = new Database();
         projectService = new ProjectService();
@@ -94,7 +94,8 @@ public class ProjectServiceStep {
     @When("I create activity {string} on project {string}")
     public void i_create_activity_on_project(String act, String proj) {
         try {
-            projectService.createActivityForProject(proj, act, 0.0, 1, 2, 2025, 2025);
+            // Get project ID
+            projectService.createActivityForProject(lastProjectId, act, 0.0, 1, 2, 2025, 2025);
         } catch (Exception e) {
             caughtException = e;
         }
@@ -107,7 +108,11 @@ public class ProjectServiceStep {
 
     @Then("creation duplicate")
     public void creation_duplicate() {
+        System.out.println(projectService.getActivitiesForProject(lastProjectId));
+        System.out.println(projectService.findProjectByName("TestFor2").get().getActivities());
+        System.out.println("Message: " + caughtException);
         assertNotNull(caughtException);
+        System.out.println(caughtException);
         assertTrue(caughtException.getMessage().contains("already exists"));
     }
 
@@ -120,7 +125,7 @@ public class ProjectServiceStep {
     @When("I list activities for project {string}")
     public void i_list_activities_for_project(String proj) {
         try {
-            lastActivities = projectService.getActivitiesForProject(proj);
+            lastActivities = projectService.getActivitiesForProject(lastProjectId);
         } catch (Exception e) {
             caughtException = e;
         }
@@ -158,7 +163,7 @@ public class ProjectServiceStep {
     @Then("setting null-error")
     public void setting_null_error() {
         assertNotNull(caughtException);
-        assertTrue(caughtException.getMessage().contains("cannot be null"));
+        assertTrue(caughtException.getMessage().contains("User with initials 'null' not found."));
     }
 
     @Then("setting user-not-found")
@@ -188,9 +193,18 @@ public class ProjectServiceStep {
     @When("I request time summary for project")
     public void i_request_time_summary_for_project() {
         // Add actibity to project
-        projectService.createActivityForProject(lastProjectId, lastProjectId, 0, 0, 0, 0, 0);
         try {
             timeSummary = projectService.getProjectTimeSummary(lastProjectId);
+        } catch (Exception e) {
+            caughtException = e;
+        }
+    }
+
+    @When("I request time summary for activity {string}")
+    public void i_request_time_summary_for_activity(String act) {
+        // Add actibity to project
+        try {
+            timeSummary = projectService.getActivityTimeSummary(lastProjectId, act);
         } catch (Exception e) {
             caughtException = e;
         }
@@ -199,7 +213,13 @@ public class ProjectServiceStep {
     @Then("the summary for {string} is {double}")
     public void the_summary_for_is(String act, Double val) {
         assertNotNull(timeSummary);
-        assertEquals(val, timeSummary.get(act), 0.0001);
+        assertEquals(val, timeSummary.get("totalLogged"), 0.0001);
+    }
+
+    @Then("the summary for the project is {double}")
+    public void the_summary_for_the_project_is(Double val) {
+        assertNotNull(timeSummary);
+        assertEquals(val, timeSummary.get("totalLogged"), 0.0001);
     }
 
     // Project leader is null

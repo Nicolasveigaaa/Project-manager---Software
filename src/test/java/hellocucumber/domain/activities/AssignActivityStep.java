@@ -38,6 +38,9 @@ public class AssignActivityStep {
     @Given("a user {string} exists")
     public void a_user_exists(String userName) {
         user = new User(userName, userName);
+        user.getRole();
+        user.getInitials();
+        user.getTotalHours();
     }
 
     @Given("{string} is already assigned to {string}")
@@ -68,6 +71,7 @@ public class AssignActivityStep {
 
     @Then("{string} should be assigned to the activity")
     public void user_should_be_assigned_to_the_activity(String userName) {
+        this.activity = project.getActivityByName("Design");
         Assertions.assertEquals(true, activity.getAssignedEmployees().contains(userName));
     }
 
@@ -111,10 +115,22 @@ public class AssignActivityStep {
         }
 
         capturedException = null;
-        result = false; 
+        result = false;
         try {
             activity2.isAssigned(newInitials);
             result = true;
+        } catch (Exception e) {
+            capturedException = e;
+        }
+    }
+
+    @When("I assign {string} to activity null")
+    public void iAssignToActivityNull(String initials) {
+        capturedException = null;
+
+        // get activity
+        try {
+            projectService.assignEmployeeToActivity(projectID, null, initials);
         } catch (Exception e) {
             capturedException = e;
         }

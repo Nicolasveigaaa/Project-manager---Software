@@ -26,7 +26,6 @@ public class CreateActivityStep {
         Optional<Project> project = projectService.findProjectByID(id);
         this.project = project.get();
         this.projectID = this.project.getProjectID();
-        this.activity = new Activity(this.project, "Activity", 20.0, 1, 2025, 2, 2025);
     }
 
     @When("I create an activity {string} with budgeted time {double}, start week {int}, start year {int}, end week {int}, end year {int} for {string}")
@@ -41,6 +40,7 @@ public class CreateActivityStep {
     ) {
         try {
             projectService.createActivityForProject(projectID, name, budgetedTime, startWeek, endWeek, startYear, endYear);
+            this.activity = project.getActivityByName(name);
             // assume projectName matches our stored project
             //this.activity = new Activity(project, name, budgetedTime, startWeek, startYear, endWeek, endYear);
             this.exception = null;
@@ -79,7 +79,7 @@ public class CreateActivityStep {
         }
     }
 
-    @When("I try to create an activity {string} with budgeted time {double}")
+    @And("I try to create an activity {string} with budgeted time {double}")
     public void i_try_to_create_an_activity_with_negative_budgeted_time(String activityName, double budgetedTime) {
         try {
             projectService.createActivityForProject(projectID, activityName, budgetedTime, 1, 2025, 2, 2025);

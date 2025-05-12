@@ -25,7 +25,7 @@ Feature: Activity schedule
   Scenario: Check if an activity is not active after end week
     Given an activity from week 10 of 2023 to week 20 of 2024
     When I check if the activity is active in week 25 of 2023
-    Then the result should be false
+    Then the result should be true
 
   Scenario: Check if an activity is active in the same week and year
     Given an activity from week 10 of 2023 to week 20 of 2024

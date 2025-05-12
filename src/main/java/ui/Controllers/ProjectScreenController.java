@@ -62,8 +62,6 @@ public class ProjectScreenController extends BaseController {
                 activityListView.getSelectionModel()
                         .selectedItemProperty()
                         .isNull());
-
-        System.out.println("User initials: " + initials);
     }
 
     public void setupUI(Optional<Project> projectData) {

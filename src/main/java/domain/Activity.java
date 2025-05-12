@@ -100,12 +100,6 @@ public class Activity {
     public void unassignEmployee(String initials) {
         if (initials == null || initials.isBlank()) throw new IllegalArgumentException("Cannot unassign null user.");
         if (!assignedUsers.contains(initials)) throw new IllegalArgumentException("The employee is not assigned to the activity");
-
-        System.out.println("Unassigning " + initials + " from activity " + this.name);
-        for (String user : assignedUsers) {
-            System.out.println("Assigned user: " + user);
-        }
-        System.out.println("Is " + initials + " assigned? " + assignedUsers.contains(initials));
         assignedUsers.remove(initials);
     }
 

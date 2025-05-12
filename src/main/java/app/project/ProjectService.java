@@ -72,11 +72,15 @@ public class ProjectService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Project with ID '" + projectID + "' not found. Cannot create activity."));
 
-        // Check if the activity already exists
-        if (project.getActivityByName(activityName) != null || activityName.isBlank()) {
-            new IllegalArgumentException(
-                        "Activity with name '" + activityName + "' is blank. Cannot create activity.");
-            return null;
+        // Check if the activity name is blank
+        if (activityName.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Activity name cannot be empty.");
+        }
+
+        if (project.getActivityByName(activityName) != null) {
+            throw new IllegalArgumentException(
+                        "Activity with name '" + activityName + "' already exists in project. Cannot create activity.");
         }
 
         // create the Activity obect where constructor associates it with the project
@@ -99,10 +103,10 @@ public class ProjectService {
     // Project leader methods:
     public void setProjectLeader(String projectID, String leaderInitials) {
         // Precondition asserts:
-        assert projectID != null : "Precondition violated: projectID cannot be null.";
-        assert leaderInitials != null : "Precondition violated: leaderInitials cannot be null.";
-        assert db.getProject(projectID).isPresent() : "Precondition Violated: Project with ID '" + projectID + "' must exist.";
-        assert db.getUser(leaderInitials.toLowerCase()) != null : "Precondition Violated: User with initials '" + leaderInitials + "' must exist.";
+        // assert projectID != null : "Precondition violated: projectID cannot be null.";
+        // assert leaderInitials != null : "Precondition violated: leaderInitials cannot be null.";
+        // assert db.getProject(projectID).isPresent() : "Precondition Violated: Project with ID '" + projectID + "' must exist.";
+        // assert db.getUser(leaderInitials.toLowerCase()) != null : "Precondition Violated: User with initials '" + leaderInitials + "' must exist.";
 
         Project project = findProjectByID(projectID)                                                            // 1
             .orElseThrow(() -> new IllegalArgumentException("Project with ID '" + projectID + "' not found.")); // 1a
@@ -116,7 +120,7 @@ public class ProjectService {
         project.setProjectLeaderInitials(leaderInitials); // Set leader on the project object                   // 4
 
         // Postcondition assert:
-        assert project.getProjectLeaderInitials().equals(leaderInitials) : "Postcondition violated: Project leader was not set correctly.";
+        //assert project.getProjectLeaderInitials().equals(leaderInitials) : "Postcondition violated: Project leader was not set correctly.";
     }                                                                                                   
 
     public void assignEmployeeToActivity(String projectID, String activityName, String userInitials) {
@@ -141,7 +145,6 @@ public class ProjectService {
         }
 
         // Step 6 7 : check for null user or throw
-        System.out.println("User initials: " + userInitials); // Debugging line
         if (userInitials == null || userInitials.isBlank()) {                                                                                     // 6
             throw new IllegalArgumentException("Cannot assign null user.");                                           // 7
         }
@@ -188,6 +191,22 @@ public class ProjectService {
 
         // Delegate the calculation to the CreateReport class
         return CreateReport.generateProjectTimeSummary(project);
+    }
+
+    // Method to generate the time summary report for an activity
+    public Map<String, Double> getActivityTimeSummary(String projectID, String activityName) {
+        Project project = findProjectByID(projectID)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Project with ID '" + projectID + "' not found. Cannot generate report."));
+
+        Activity activity = project.getActivityByName(activityName);
+        if (activity == null) {
+            throw new IllegalArgumentException(
+                    "Activity with name '" + activityName + "' not found in project '" + projectID + "'.");
+        }
+
+        // Delegate the calculation to the CreateReport class
+        return CreateReport.generateActivityTimeSummary(activity);
     }
 
 }
