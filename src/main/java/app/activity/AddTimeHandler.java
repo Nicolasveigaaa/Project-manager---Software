@@ -35,7 +35,7 @@ public class AddTimeHandler {
         dialog.setHeaderText("Log time to activity: " + activity.getName());
         dialog.setContentText("Enter hours (e.g., 1.5):");
 
-        Optional<String> result = dialogSupplier.get();
+        Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             String input = result.get();
             try {
