@@ -1,4 +1,4 @@
-// [Written by s244706] //
+// [Written by s244706 and s246060] //
 
 package ui.Controllers;
 
@@ -171,15 +171,24 @@ public class ProjectScreenController extends BaseController {
     // Activity Button
     @FXML
     private void openActivity(ActionEvent event) {
-        System.out.println("Open Activity");
-        Activity selected = activityListView
-                .getSelectionModel()
-                .getSelectedItem();
-        if (selected == null) {
-            // nothing to open
-            return;
-        }
+        Activity selected = activityListView.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
 
-        System.out.println("Opening activity " + selected.getName());
+        try {
+            // Load new FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXML/SelectedActivity.fxml"));
+            Parent activityRoot = loader.load();
+
+            // Pass selected activity to the controller
+            ActivityScreenController controller = loader.getController();
+            controller.setActivity(selected);
+            controller.setPreviousScene(openActivityButton.getScene()); // Save current scene for "Back"
+
+            // Replace scene in current stage
+            Stage stage = (Stage) openActivityButton.getScene().getWindow();
+            stage.setScene(new Scene(activityRoot));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

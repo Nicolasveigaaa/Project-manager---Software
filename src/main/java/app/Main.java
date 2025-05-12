@@ -1,5 +1,4 @@
 // [Written by s246060]
-
 package app;
 
 // JavaFX imports
