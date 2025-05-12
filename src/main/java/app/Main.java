@@ -33,6 +33,7 @@ public class Main extends Application {
         BaseController.init(stage);
     }
 
+    // JAVA FX
     public static void main(String[] args) {
         launch();
     }

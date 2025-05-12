@@ -7,7 +7,6 @@ import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
 
 public class EditActivityHandler {
-
     public static void handle(Activity activity) {
         TextInputDialog nameDialog = new TextInputDialog(activity.getName());
         nameDialog.setTitle("Edit Activity");

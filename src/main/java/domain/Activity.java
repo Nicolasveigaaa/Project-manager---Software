@@ -117,7 +117,7 @@ public class Activity {
         if (initials == null || initials.isBlank())
             throw new IllegalArgumentException("Cannot unassign null user.");
         if (!assignedUsers.remove(initials))
-            throw new IllegalArgumentException("Employee not assigned.");
+            throw new IllegalArgumentException("The employee is not assigned to the activity");
     }
 
     public boolean isAssigned(String initials) {

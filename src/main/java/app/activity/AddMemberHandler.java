@@ -7,7 +7,6 @@ import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
 
 public class AddMemberHandler {
-
     public static void handle(Activity activity) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Assign Employee");
