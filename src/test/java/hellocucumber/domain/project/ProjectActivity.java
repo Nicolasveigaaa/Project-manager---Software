@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber.domain.project;
 
 import domain.Activity;
