@@ -69,6 +69,16 @@ public class AssignActivityStep {
         }
     }
 
+    @When("I assign {string} to activity null")
+    public void i_assign_user_to_activity(String userName) {
+        capturedException = null;
+        try {
+            projectService.assignEmployeeToActivity(projectID, null, userName);
+        } catch (Exception e) {
+            capturedException = e;
+        }
+    }
+
     @Then("{string} should be assigned to the activity")
     public void user_should_be_assigned_to_the_activity(String userName) {
         this.activity = project.getActivityByName("Design");
