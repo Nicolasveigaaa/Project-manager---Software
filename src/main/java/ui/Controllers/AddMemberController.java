@@ -1,3 +1,4 @@
+// [Written by s215062 ] //
 package ui.Controllers;
 
 // Folder imports
@@ -23,7 +24,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+// Logic
 import app.Main;
+
+// Domain
 import domain.Project;
 
 

@@ -6,6 +6,7 @@ package ui.Controllers;
 import domain.User;
 import domain.Project;
 import persistence.Database;
+
 // JavaFX imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,46 +26,30 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// Logic imports
 import app.Main;
-import app.employee.AuthValidation;
 import app.project.ProjectService;
 
-// Controller that handles HomeScreen.fxml
 public class HomeScreenController {
     private final Database db = new Database();
     private final ProjectService projectService = Main.getProjectService();
 
-    @FXML
-    public ListView<Project> projectsListView;
-    @FXML
-    private Label projectsCountLabel;
+    @FXML public ListView<Project> projectsListView;
+    @FXML private Label projectsCountLabel;
+    @FXML private Label initialsLabel;
+    @FXML private Button openProject;
 
-    @FXML
-    private Label initialsLabel;
-    @FXML
-    private Label roleLabel;
+    private User currentUser;
 
-    @FXML
-    private Button openProject;
-
-    // Loads all projects from the database and sets them in the ListView (s244706 +
-    // s246060)
+    // Loads all projects from the database and sets them in the ListView
     private void loadProjects() {
-        // Clear current projects from screen
         projectsListView.getItems().clear();
-
         List<Project> projects = db.getAllProjects();
 
-        // enforce single‐selection
         projectsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        // Now before showing the user the projects, check if the user is part of it
-        // (Get current user)
-        User user = AuthValidation.getCurrentUser();
-        String initials = user.getInitials();
-
-        // Check if the user is part of the project
-        Integer numbOfProjects = 0;
+        String initials = currentUser.getInitials();
+        int numbOfProjects = 0;
 
         for (Project project : projects) {
             if (project.getMemberInitials().contains(initials)) {
@@ -73,40 +58,32 @@ public class HomeScreenController {
             }
         }
 
-        projectsCountLabel.setText(numbOfProjects.toString());
+        projectsCountLabel.setText(String.valueOf(numbOfProjects));
     }
 
     // Sets the logged-in user information in the UI
     public void setLoggedInUser(User user) {
+        this.currentUser = user;
         initialsLabel.setText(user.getInitials());
-        roleLabel.setText(user.getRole());
-
         loadProjects();
     }
 
-    // Loads screen after fetching relevant information
     @FXML
     public void initialize() {
-        loadProjects();
-
-        // Disable "Open" until something is selected:
         openProject.disableProperty().bind(
                 projectsListView.getSelectionModel()
                         .selectedItemProperty()
                         .isNull());
     }
 
-    // Opens the Create Project dialog, then refreshes the project list.
     @FXML
     public void handleCreateProject(ActionEvent event) {
         ProjectCreationScreenController.show();
         loadProjects();
     }
 
-    // Logs user out by redirecting back to the login screen
     @FXML
     public void handleLogoutAction(ActionEvent event) {
-        System.out.println(event.getSource());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
             Parent loginRoot = FXMLLoader.load(
@@ -117,30 +94,18 @@ public class HomeScreenController {
         }
     }
 
-    // Open the selected project (s244706)
     @FXML
     public void handleOpenProject(ActionEvent event) {
         Project selected = projectsListView
                 .getSelectionModel()
                 .getSelectedItem();
-        if (selected == null) {
-            // nothing to open
-            return;
-        }
+        if (selected == null) return;
 
-        // Suppose your Project has a getId() method:
         String projectID = selected.getProjectID();
-
-        System.out.println("Opening project " + projectID);
-
         Optional<Project> projectData = projectService.openProject(projectID);
-        System.out.println("Project name: " + projectData.get().getProjectName());
-
         openProjectWindow(projectData);
     }
 
-    // Open the project window
-    @FXML
     public void openProjectWindow(Optional<Project> projectData) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -148,15 +113,24 @@ public class HomeScreenController {
             Parent projectWindow = loader.load();
 
             Stage stage = (Stage) openProject.getScene().getWindow();
+            Scene homeScene = stage.getScene(); // gem Home-scenen
 
-            stage.setScene(new Scene(projectWindow, 600, 400));
             ProjectScreenController psc = loader.getController();
             psc.setupUI(projectData);
+
+            // Returner til HomeScreen og genskab bruger
+            psc.setReturnHandler(() -> {
+                stage.setScene(homeScene);
+                setLoggedInUser(currentUser);
+            });
+
+            stage.setScene(new Scene(projectWindow, 600, 400));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Test-accessors (optional)
     public List<String> getDisplayedProjectNames() {
         return projectsListView.getItems().stream()
                 .map(Project::getProjectName)
@@ -172,11 +146,6 @@ public class HomeScreenController {
     }
 
     public String getInitialsText() {
-        System.out.println("TEXT: " + initialsLabel.getText());
         return initialsLabel.getText();
-    }
-
-    public String getRoleText() {
-        return roleLabel.getText();
     }
 }

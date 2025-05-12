@@ -2,7 +2,6 @@
 
 package domain;
 
-// assumes timeof is an unbroken interval
 public class TimeOff {
     private int startWeek;
     private int startYear;

@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber;
 
 import app.Main;
@@ -46,7 +48,7 @@ public class ProjectServiceStep {
 
     @Given("a user with initials {string} exists")
     public void a_user_with_initials_exists(String initials) {
-        User u = new User(initials.toUpperCase(), initials);
+        User u = new User(initials.toUpperCase());
         Main.getDatabase().addUser(u);
     }
 
@@ -247,14 +249,15 @@ public class ProjectServiceStep {
 
     @Then("logging succeeds")
     public void loggingSucceeds() {
-        assertTrue(loggedHours == projectService.findProjectByName("P").get().getActivityByName("A").getLoggedTime());
+        
+        System.out.println("AAAA: " + projectService.findProjectByName("Paaa").get());
+        System.out.println("AAAA: " + projectService.findProjectByName("Paaa").get().getActivityByName("A"));
+        assertTrue(loggedHours == projectService.findProjectByName("Paaa").get().getActivityByName("A").getLoggedTime());
     }
 
     @Then("logging negative-error")
     public void loggingNegativeError() {
-        assertFalse(loggedHours == projectService.findProjectByName("P").get().getActivityByName("A").getLoggedTime());
-
-    
+        assertFalse(loggedHours == projectService.findProjectByName("Paaa").get().getActivityByName("A").getLoggedTime());
     }
 
 }

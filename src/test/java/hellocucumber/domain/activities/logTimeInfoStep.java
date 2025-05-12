@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber.domain.activities;
 
 import java.util.Optional;
@@ -60,4 +62,5 @@ public class logTimeInfoStep {
         }
         Assertions.assertEquals(expectedMessage, capturedException.getMessage());
     }
+    
 }

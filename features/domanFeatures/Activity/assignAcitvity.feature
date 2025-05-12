@@ -14,7 +14,7 @@ Feature: Assigning and unassigning employees to an activity
   Scenario: Assign the same employee twice
     Given "Alice" is already assigned to "Design"
     When I assign "Alice" to activity "Design"
-    Then I should get an error from Assign Activity "Could not assign employee: The employee is already assigned to the activity"
+    Then I should get an error from Assign Activity "Could not assign employee: Employee already assigned."
 
   Scenario: Unassign an employee from an activity
     Given "Alice" is already assigned to "Design"

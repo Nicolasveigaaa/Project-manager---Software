@@ -11,7 +11,7 @@ import java.util.Map;
 import app.employee.AuthValidation;
 
 public class Project {
-    private final String projectName;
+    private String projectName;
     private final List<String> memberInitials;
     private final String projectID;
     private String projectLeaderInitials; // Added for project leader
@@ -80,12 +80,24 @@ public class Project {
     }
 
     public Activity getActivityByName(String name) {
+        for (Activity activity : activities.values()) {
+            if (activity.getName().equals(name)) {
+                return activity;
+            }
+        }
         return this.activities.get(name); // Returns null if the key (name) is not found
     }
 
     public ArrayList<Activity> getActivities() {
         // Return all acitivities
         return new ArrayList<>(activities.values());
+    }
+
+    public void setProjectName(String newName) {
+        if (newName == null || newName.isBlank()) {
+            throw new IllegalArgumentException("Project name cannot be empty.");
+        }
+        this.projectName = newName.trim();
     }
 
 }

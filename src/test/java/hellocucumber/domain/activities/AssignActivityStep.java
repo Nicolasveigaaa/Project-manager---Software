@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber.domain.activities;
 
 import domain.Activity;
@@ -37,10 +39,8 @@ public class AssignActivityStep {
 
     @Given("a user {string} exists")
     public void a_user_exists(String userName) {
-        user = new User(userName, userName);
-        user.getRole();
+        user = new User(userName);
         user.getInitials();
-        user.getTotalHours();
     }
 
     @Given("{string} is already assigned to {string}")

@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber;
 
 import io.cucumber.java.en.*;
@@ -25,10 +27,10 @@ public class DataBaseSteps {
 
     private void reloadDatabase() {
          // Then immediately set up authentication again
-        User u = new User("AB", "employee");
-        User u2 = new User("huba", "employee");
-        User u3 = new User("nico", "employee");
-        User u4 = new User("admin", "manager");
+        User u = new User("AB");
+        User u2 = new User("huba");
+        User u3 = new User("nico");
+        User u4 = new User("admin");
 
         Main.getDatabase().addUser(u);
         Main.getDatabase().addUser(u2);

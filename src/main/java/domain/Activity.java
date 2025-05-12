@@ -1,6 +1,9 @@
 // Jacob Knudsen (s224372 and s246060)
 package domain;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.*;
 
 public class Activity {
@@ -78,7 +81,7 @@ public class Activity {
 
     // ----------- Setters ----------- //
     public void setName(String name) {
-        if (name == null || name.trim().isEmpty())
+        if (name == null || name.isBlank())
             throw new IllegalArgumentException("Activity name cannot be empty.");
         this.name = name.trim();
     }
@@ -117,7 +120,7 @@ public class Activity {
         if (initials == null || initials.isBlank())
             throw new IllegalArgumentException("Cannot unassign null user.");
         if (!assignedUsers.remove(initials))
-            throw new IllegalArgumentException("Employee not assigned.");
+            throw new IllegalArgumentException("The employee is not assigned to the activity");
     }
 
     public boolean isAssigned(String initials) {
@@ -159,25 +162,37 @@ public class Activity {
 
     // ----------- Inner Class ----------- //
     public static class TimeEntry {
-        private final String userInitials;
-        private final String date;
-        private final double hours;
+        private final StringProperty userInitials;
+        private final StringProperty date;
+        private final StringProperty hours;
 
         public TimeEntry(String userInitials, String date, double hours) {
-            this.userInitials = userInitials;
-            this.date = date;
-            this.hours = hours;
+            this.userInitials = new SimpleStringProperty(userInitials);
+            this.date = new SimpleStringProperty(date);
+            this.hours = new SimpleStringProperty(String.valueOf(hours));
         }
 
         public String getUserInitials() {
-            return userInitials;
+            return userInitials.get();
         }
 
         public String getDate() {
-            return date;
+            return date.get();
         }
 
         public double getHours() {
+            return Double.parseDouble(hours.get());
+        }
+
+        public StringProperty userInitialsProperty() {
+            return userInitials;
+        }
+
+        public StringProperty dateProperty() {
+            return date;
+        }
+
+        public StringProperty hoursProperty() {
             return hours;
         }
     }

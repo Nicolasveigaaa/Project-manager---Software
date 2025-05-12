@@ -1,25 +1,27 @@
-// [Written by s244706 and s246060] //
+// [Written by s244706 and s246060]
 
 package persistence;
 
-// Folder imports
+// Domain imports
 import domain.User;
 import domain.Project;
 
-import java.time.Year;
 // Java imports
 import java.util.*;
+import java.time.Year;
 
 public class Database {
     private final Map<String, User> allowedUsers = new HashMap<>();
-    private final static Map<String, Project>  projects = new HashMap<>();
+    private final static Map<String, Project> projects = new HashMap<>();
 
     // Constructor
     public Database() {
-        // Hardcoded users — just add manually here
-        addUser(new User("huba", "employee"));
-        addUser(new User("nico", "employee"));
-        addUser(new User("admin",  "manager"));
+        // Hardcoded users — roles removed
+        addUser(new User("huba"));
+        addUser(new User("nico"));
+        addUser(new User("jaco"));
+        addUser(new User("Vinc"));
+        addUser(new User("Fred"));
     }
 
     // --- User methods ---
@@ -38,12 +40,11 @@ public class Database {
     public Map<String, User> getAllUsers() {
         return new HashMap<>(allowedUsers);
     }
-    
+
     public Optional<Project> getProject(String projectID) {
         return Optional.ofNullable(projects.get(projectID));
     }
-    
-    // Add user to the project s244706
+
     public void addUserToProject(String projectID, String initials) {
         Project project = projects.get(projectID);
         if (project == null) {
@@ -59,34 +60,23 @@ public class Database {
     public List<Project> getAllProjects() {
         return new ArrayList<>(projects.values());
     }
-    // create the project ID s215062
+    // [Written by s215062 ] //
+    // Generate project ID like 25001, 25002 etc.
     public String getNextProjectID() {
-        
-        int year = Year.now().getValue();
-        year = year - 2000;
-        while (year>99){
-            year = year - 100;
-        }
-        int next = 1;
+        int year = Year.now().getValue() - 2000;
+        if (year > 99) year -= 100;
 
-        for (String i : projects.keySet()) {
-            if (String.valueOf(year).equals(i.substring(0,2))){
+        int next = 1;
+        for (String id : projects.keySet()) {
+            if (id.startsWith(String.valueOf(year))) {
                 next++;
             }
         }
 
-        String nextID;
-        if (next < 10){
-             nextID = "00" + String.valueOf(next);
-        } else if (next < 100){
-            nextID = "0" + String.valueOf(next);
-        } else {
-            nextID = String.valueOf(next);
-        }
-        return (String.valueOf(year)+nextID);
+        String formatted = String.format("%03d", next);
+        return year + formatted;
     }
 
-    // method for clearing database to a clean slate for testing
     public void resetDatabase() {
         projects.clear();
         allowedUsers.clear();

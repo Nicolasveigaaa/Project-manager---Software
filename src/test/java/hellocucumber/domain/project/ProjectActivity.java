@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber.domain.project;
 
 import domain.Activity;
@@ -29,6 +31,8 @@ public class ProjectActivity {
     private Exception thrownException;
     private ProjectService projectService = new ProjectService();
     private String projectID;
+
+    //private Activity testActivity = new Activity("Test", project);
     
     @Given("a project exists with name {string}")
     public void a_project_exists_with_name(String projectName) {
@@ -66,8 +70,12 @@ public class ProjectActivity {
     
     @When("I add an activity named {string} to the project")
     public void i_add_an_activity_named_to_the_project(String activityName) {
-        projectService.createActivityForProject(projectID, activityName, 0, 0, 0, 0, 0);
-        retrievedActivity = project.getActivityByName(activityName);
+        try {
+            projectService.createActivityForProject(projectID, activityName, 0, 0, 0, 0, 0);
+            retrievedActivity = project.getActivityByName(activityName);
+        } catch (Exception e) {
+            thrownException = e;
+        }
     }
     
     @When("I retrieve the activity with name {string}")
@@ -91,10 +99,9 @@ public class ProjectActivity {
     
     @When("I try to add the activity {string} to the project {string}")
     public void i_try_to_add_the_activity_to_the_project(String activityName, String targetProjectName) {
-        Project targetProject = projectService.findProjectByName(targetProjectName).get();
-        Activity activity = targetProject.getActivityByName(activityName);
-        
         try {
+            Project targetProject = projectService.findProjectByName(targetProjectName).get();
+            Activity activity = targetProject.getActivityByName(activityName);
             targetProject.addActivity(activity);
         } catch (Exception e) {
             thrownException = e;
@@ -171,5 +178,30 @@ public class ProjectActivity {
     public void i_should_get_a_list_of_all_acitivities() {
         assertNotNull(project.getActivities(), "Activity list should not be null");
         assertEquals(project.getActivities().size(), project.getActivities().size(), "Activity list should have the same size as the project");
+    }
+
+    // ADD ACTIVITY TEST //
+    @When("I add an activity with name {string} to the project")
+    public void i_add_an_activity_with_name_to_the_project(String activityName) {
+        try {
+            project.addActivity(retrievedActivity);
+        } catch (Exception e) {
+            thrownException = e;
+        }
+    }
+
+    // ADD ACTIVITY TO PROJECT TEST //
+    @When("I add an activity named {string} to another project")
+    public void i_add_an_activity_named_to_another_project(String activityName) {
+        try {
+            String anotherProjectID = ProjectService.addProject("TestForOtherProject");
+            projectService.createActivityForProject(anotherProjectID, activityName, 0, 0, 0, 0, 0);
+
+            // Now get the activity and try to add it to the other project
+            retrievedActivity = projectService.findProjectByName(activityName).get().getActivityByName(activityName);
+            project.addActivity(retrievedActivity);
+        } catch (Exception e) {
+            thrownException = e;
+        }
     }
 }

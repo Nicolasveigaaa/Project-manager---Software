@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber;
 
 import app.Main;
@@ -22,7 +24,7 @@ public class JavaFXHook {
 
         Database db = Main.getDatabase();
         // Initialize with a default user
-        User defaultUser = new User("AB", "employee");
+        User defaultUser = new User("AB");
         db.addUser(defaultUser);
         
         AuthValidation auth = new AuthValidation(db);

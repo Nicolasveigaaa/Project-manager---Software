@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber.controllers;
 
 import io.cucumber.java.Before;
@@ -45,11 +47,10 @@ public class HomeScreenStep {
         injectField("projectsListView", new ListView<Project>());
         injectField("projectsCountLabel", new Label());
         injectField("initialsLabel", new Label());
-        injectField("roleLabel", new Label());
         injectField("openProject", new Button());
 
         // Set user
-        currentUser = new User("admin", "Developer");
+        currentUser = new User("admin");
         authValidation.validateLogin(currentUser.getInitials());
     }
 
@@ -61,7 +62,7 @@ public class HomeScreenStep {
 
     @Given("the user {string} with role {string} is logged in")
     public void userIsLoggedIn(String initials, String role) {
-        currentUser = new User(initials, role);
+        currentUser = new User(initials);
         // set current user context
         authValidation.validateLogin(currentUser.getInitials());
     }
@@ -111,7 +112,7 @@ public class HomeScreenStep {
 
     @Then("the role label should display {string}")
     public void roleLabelShouldDisplay(String expected) {
-        assertEquals(expected, controller.getRoleText());
+        assertEquals(expected, controller.getInitialsText());
     }
 
     @Given("the home screen is loaded")

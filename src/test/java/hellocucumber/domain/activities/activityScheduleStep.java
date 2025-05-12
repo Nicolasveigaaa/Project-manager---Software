@@ -1,3 +1,5 @@
+ // [Written by s244706] //
+
 package hellocucumber.domain.activities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,7 +53,7 @@ public class activityScheduleStep {
     // Check for tostring
     @Test
     public void testToString() {
-        User user = new User("Check", "employee"); // adapt this to your actual User class
+        User user = new User("Check"); // adapt this to your actual User class
         //AuthValidation authValidation = new AuthValidation(null); // Pass the database if needed
         System.out.println("This user:" + user);
         System.out.println("User initials: " + user.getInitials());
