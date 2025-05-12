@@ -14,7 +14,6 @@ Feature: Add Activity to project
         And a activity name "act"
         And a budgeted time of 100
         And the project does not exist
-        And the activity name is unique
         When the activity is created
         Then it fails with "Project with ID 'pid' not found. Cannot create activity."
     

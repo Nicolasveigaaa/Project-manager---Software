@@ -1,11 +1,8 @@
-package whitebox;
+package hellocucumber;
 
 import io.cucumber.java.en.*;
-import io.cucumber.java.lu.a;
-import persistence.Database;
 import app.project.ProjectService;
 import domain.Project;
-import domain.User;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,8 +19,9 @@ public class WhiteboxAddActivity {
     private int startYear = 2025;
     private int endYear = 2026;
     private Project activeProject;
+    private Exception caughtException;
 
-    ProjectService projectService;
+    ProjectService projectService = new ProjectService();
 
 
 
@@ -59,16 +57,22 @@ public class WhiteboxAddActivity {
 
     @Given("the activity name is unique")
     public void the_activity_name_is_unique() {
+        Project project = projectService.findProjectByID(ID).get();
+        assertFalse(project.getActivityByName(activityName) != null);
     }
 
     @When("the activity is created")
     public void the_activity_is_created() {
-        activeProject = projectService.createActivityForProject(ID, activityName, budgetedTime, startWeek, endWeek, startYear, endYear);
+        try{
+            activeProject = projectService.createActivityForProject(ID, activityName, budgetedTime, startWeek, endWeek, startYear, endYear);
+        }catch (Exception e) {
+            caughtException = e;
+        }
     }
 
     @Then("the activity is created Successfully")
     public void the_activity_is_created_Successfully() {
-        
+        assertTrue(activeProject.getActivityByName(activityName) != null);
     }
 
 
