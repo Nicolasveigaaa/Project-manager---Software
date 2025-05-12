@@ -9,6 +9,7 @@ import java.util.Optional;
 import app.Main;
 import app.employee.AuthValidation;
 import app.project.ProjectService;
+import app.report.CreateReport;
 import domain.Activity;
 import domain.Project;
 import domain.User;
@@ -42,6 +43,7 @@ public class ProjectScreenController extends BaseController {
     // Require the project service from the main / avoiding using static references,
     // hehe, smart right.
     private final ProjectService projectService = Main.getProjectService();
+    private final CreateReport reportSystem = new CreateReport();
 
     private String projectTitle = "Project Name";
     private String projectAdminInitials = "Admin Initial";
@@ -138,6 +140,7 @@ public class ProjectScreenController extends BaseController {
     // See Time Summary only manager / project leader
     @FXML
     private void seeTimeSummary(ActionEvent event) {
+        CreateReport.generateProjectTimeSummary(projectData);
         System.err.println("ONLY MANAGER / PROJECT LEADER");
         System.out.println("See Time Summary");
     }

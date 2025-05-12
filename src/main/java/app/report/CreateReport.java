@@ -23,6 +23,10 @@ public class CreateReport {
             }
         }
 
+        // Create a list of all users and their logged time
+        Map<String, Map<String, Double>> userLoggedTime = new HashMap<>();
+        
+
         summary.put("totalBudgeted", totalBudgeted);
         summary.put("totalLogged", totalLogged);
 
