@@ -96,8 +96,22 @@ public class ProjectScreenController extends BaseController {
 
     // Add Member
     @FXML
-    private void handleAddMemberProject(ActionEvent event) {
+    private void handleAddMemberProject(ActionEvent event) throws IOException {
         System.out.println("Add Member");
+        // projectData is guaranteed non-null here
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/ui/FXML/AddMemberController.fxml"));
+        Parent pane = loader.load();
+
+        // grab its controller instance
+        AddMemberController creationCtrl = loader.getController();
+        creationCtrl.addUserButton(projectData);
+
+        // show as modal
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setScene(new Scene(pane));
+        dialog.showAndWait();
     }
 
     // Create Activity

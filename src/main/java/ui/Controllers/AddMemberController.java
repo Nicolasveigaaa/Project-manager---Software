@@ -1,5 +1,3 @@
-// [Written mainly by s246060 additions and rewrites s244706] //
-
 package ui.Controllers;
 
 // Folder imports
@@ -18,43 +16,41 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 // Java imports
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import app.Main;
-import app.employee.AuthValidation;
-import app.project.ProjectService;
+import domain.Project;
 
 
 // Controller that handles ProjectCreationScreen.fxml
-public class ProjectCreationScreenController {
+public class AddMemberController {
     private final Database db = Main.getDatabase();
 
-    @FXML private TextField projectNameField;
+    private Project projectData;
+
     @FXML private ListView<String> usersListView;
 
+    public void addUserButton(Project project) {
+        this.projectData = project;
 
-    @FXML
-    private void initialize() {
-        // Load all user initials from the database except current user
-        List<String> initials = db.getAllUserInitials();
+        // Load all user initials from except current user
+        List<String> availableUsers = db.getAllUserInitials();
 
-        // Get current user
-        String currentUserInitials = AuthValidation.getCurrentUser().getInitials();
-        List<String> availableUsers = new ArrayList<>();
-
-        for (String userInitials : initials) {
-            if (!userInitials.equals(currentUserInitials)) {
-                availableUsers.add(userInitials);
+        // Get active users
+        List<String> activeUsers = projectData.getMemberInitials();
+        //List<String> availableUsers = new ArrayList<>();
+        for (String userInitials : activeUsers){
+            for (int i = 0; i < availableUsers.size() ; i++){
+                if (userInitials.equals(availableUsers.get(i))) {
+                    availableUsers.remove(i);
+                }
             }
         }
-
         ObservableList<String> items = FXCollections.observableArrayList(availableUsers);
         usersListView.setItems(items);
 
@@ -79,59 +75,50 @@ public class ProjectCreationScreenController {
     // Validates inputs and creates a new project in the persistence database
     @FXML
     private void handleCreate(ActionEvent event) {
-        String name = projectNameField.getText().trim();
         List<String> selected = usersListView.getSelectionModel().getSelectedItems();
 
-        if (name.isEmpty() && selected.isEmpty()) {
-            new Alert(Alert.AlertType.WARNING,
-                    "Please enter a project name and select at least one user.")
-                    .showAndWait();
-            return;
-        } else if (name.isEmpty()) {
-            new Alert(Alert.AlertType.WARNING,
-                    "Please enter a project name")
-                    .showAndWait();
-            return;
-        } else if (selected.isEmpty()) {
+        if (selected.isEmpty()) {
             new Alert(Alert.AlertType.WARNING,
                     "Please select at least one user.")
                     .showAndWait();
             return;
         }
         // Send the selected users to the project by project ID
-        String ID = ProjectService.addProject(name);
+        String ID = projectData.getProjectID();
 
         // Now add the members to the project through the database
         for (String initials : selected) {
             db.addUserToProject(ID, initials);
         }
 
-        // Close the dialog window
-        Stage stage = (Stage) projectNameField.getScene().getWindow();
+        
+    Stage stage = (Stage) usersListView.getScene().getWindow();
         stage.close();
     }
 
     // Closes modal dialog without creating a project
     @FXML
     private void handleCancel(ActionEvent event) {
-        Stage stage = (Stage) projectNameField.getScene().getWindow();
+        Stage stage = (Stage) usersListView.getScene().getWindow();
         stage.close();
     }
+
 
     // Shows screen as modal instead of screen
     public static void show() {
         try {
             Parent root = FXMLLoader.load(
-                    ProjectCreationScreenController.class
-                            .getResource("/ui/FXML/ProjectCreationScreen.fxml")
+                    AddMemberController.class
+                            .getResource("/ui/FXML/addMemberController.fxml")
             );
             Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setTitle("Create New Project");
+            dialog.setTitle("Add new member");
             dialog.setScene(new Scene(root, 300, 350));
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
