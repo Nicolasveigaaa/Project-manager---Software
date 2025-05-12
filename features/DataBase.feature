@@ -1,3 +1,5 @@
+# // [Written by s244706] // #
+
 Feature: Check Database persistence
   As a user
   I want to be able to check if the database is still available

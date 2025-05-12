@@ -77,15 +77,12 @@ Feature: ProjectService
     Then it fails with "Project with ID 'null' not found."
 
   # 6) assignEmployeeToActivity (success, activity-not-found, project-not-found)
-  Scenario Outline: assignEmployeeToActivity
+  Scenario: assignEmployeeToActivity
     Given I add a project named "P"
     And I create activity "A" on project "P"
     When I assign employee "jd" to activity "A" in project "P"
-    Then assignment <outcome>
+    Then employee "jd" will be assignment to activity "A" in project "P"
 
-    Examples:
-      | outcome  |
-      | succeeds |
 
   Scenario: assignEmployeeToActivity activity-not-found
     Given I add a project named "P"
