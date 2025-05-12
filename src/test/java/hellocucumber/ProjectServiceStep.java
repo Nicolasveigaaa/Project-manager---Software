@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.contains;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class ProjectServiceStep {
     private Collection<Activity> lastActivities;
     private Map<String, Double> timeSummary;
     private Exception caughtException;
+    private double loggedHours;
 
     @Before
     public void setup() {
@@ -183,6 +185,7 @@ public class ProjectServiceStep {
 
     @When("I log {double} hours on activity {string} in project {string}")
     public void i_log_hours_on_activity_in_project(Double hours, String act, String proj) {
+        loggedHours = hours;
         try {
             projectService.logTimeForActivity(lastProjectId, act, hours);
         } catch (Exception e) {
@@ -232,18 +235,26 @@ public class ProjectServiceStep {
         }
     }
 
-    @Then("assignment succeeds")
-    public void assignmentSucceeds() {
+    @Then("employee {string} will be assignment to activity {string} in project {string}")
+    public void employee_will_be_assignment_to_activity_in_project(String name, String activity, String project) {
+        try {
+            assertTrue(projectService.findProjectByName(project).get().getActivityByName(activity).getAssignedEmployees().contains(name));
+        } catch (Exception e) {
+            caughtException = e;
+        }
+        
     }
 
     @Then("logging succeeds")
     public void loggingSucceeds() {
-        // Write code here that turns the phrase above into concrete actions
+        assertTrue(loggedHours == projectService.findProjectByName("P").get().getActivityByName("A").getLoggedTime());
     }
 
     @Then("logging negative-error")
     public void loggingNegativeError() {
-        // Write code here that turns the phrase above into concrete actions
+        assertFalse(loggedHours == projectService.findProjectByName("P").get().getActivityByName("A").getLoggedTime());
+
+    
     }
 
 }
