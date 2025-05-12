@@ -83,6 +83,12 @@ public class ProjectService {
                         "Activity with name '" + activityName + "' already exists in project. Cannot create activity.");
         }
 
+        // Check if the budgeted time is valid
+        if (budgetedTime < 0) {
+            throw new IllegalArgumentException(
+                    "Budgeted time cannot be negative.");
+        }
+
         // create the Activity obect where constructor associates it with the project
         Activity newActivity = new Activity(project, activityName, budgetedTime, startWeek, startYear, endWeek,
                 endYear);

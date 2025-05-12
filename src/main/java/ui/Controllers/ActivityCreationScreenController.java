@@ -43,6 +43,16 @@ public class ActivityCreationScreenController {
             return;
         }
 
+        // Check if the budget is a valid number
+        try {
+            Double.parseDouble(budget);
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.WARNING,
+                    "Please enter a valid budgeted time.")
+                    .showAndWait();
+            return;
+        }
+
         Project updatedProject = projectService.createActivityForProject(
                 projectData.getProjectID(),
                 name,

@@ -70,7 +70,7 @@ public class AssignActivityStep {
     }
 
     @When("I assign {string} to activity null")
-    public void i_assign_user_to_activity(String userName) {
+    public void i_assign_user_to_activity_null(String userName) {
         capturedException = null;
         try {
             projectService.assignEmployeeToActivity(projectID, null, userName);
@@ -129,18 +129,6 @@ public class AssignActivityStep {
         try {
             activity2.isAssigned(newInitials);
             result = true;
-        } catch (Exception e) {
-            capturedException = e;
-        }
-    }
-
-    @When("I assign {string} to activity null")
-    public void iAssignToActivityNull(String initials) {
-        capturedException = null;
-
-        // get activity
-        try {
-            projectService.assignEmployeeToActivity(projectID, null, initials);
         } catch (Exception e) {
             capturedException = e;
         }

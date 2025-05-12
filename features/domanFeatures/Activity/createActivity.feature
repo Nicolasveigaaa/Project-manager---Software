@@ -36,3 +36,8 @@ Feature: Creating an activity
     And an activity "Design" with budgeted time 20.0 exists in "ProjectA-001"
     When I change the budgeted time of activity "Design" to -1.0
     Then I should get an error "Budgeted time cannot be negative."
+
+  Scenario: Fail, create boduget time of an acitivity with negative number
+    Given a project "ProjectA-001" exists
+    When I create an activity "Design" with budgeted time -5.0, start week 10, start year 2025, end week 20, end year 2025 for "ProjectA-001"
+    Then I should get an error "Budgeted time cannot be negative."
