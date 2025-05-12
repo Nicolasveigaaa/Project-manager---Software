@@ -231,4 +231,19 @@ public class ProjectServiceStep {
             caughtException = e;
         }
     }
+
+    @Then("assignment succeeds")
+    public void assignmentSucceeds() {
+    }
+
+    @Then("logging succeeds")
+    public void loggingSucceeds() {
+        // Write code here that turns the phrase above into concrete actions
+    }
+
+    @Then("logging negative-error")
+    public void loggingNegativeError() {
+        // Write code here that turns the phrase above into concrete actions
+    }
+
 }
