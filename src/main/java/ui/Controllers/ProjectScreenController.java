@@ -97,6 +97,7 @@ public class ProjectScreenController extends BaseController {
 
         ProjectCreationScreenController controller = loader.getController();
         controller.setEditMode(projectData);
+        controller.loadUsers();
 
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
