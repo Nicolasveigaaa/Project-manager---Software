@@ -33,7 +33,7 @@ public class setProjectLeaderTest {
         sharedDb.resetDatabase();
 
         // add default user to database
-        sharedDb.addUser(new User(testUserID, "employee"));
+        sharedDb.addUser(new User(testUserID));
         // add testproject to database
         testProjectInstance = new Project(testProjectName, testProjectID); 
         sharedDb.addProject(testProjectInstance);

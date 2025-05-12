@@ -48,7 +48,7 @@ public class ProjectServiceStep {
 
     @Given("a user with initials {string} exists")
     public void a_user_with_initials_exists(String initials) {
-        User u = new User(initials.toUpperCase(), initials);
+        User u = new User(initials.toUpperCase());
         Main.getDatabase().addUser(u);
     }
 

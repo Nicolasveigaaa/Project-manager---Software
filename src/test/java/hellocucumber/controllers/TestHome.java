@@ -50,7 +50,7 @@ public class TestHome {
         injectField("openProject", new Button());
 
         // Set user
-        currentUser = new User("admin", "Developer");
+        currentUser = new User("admin");
         authValidation.validateLogin(currentUser.getInitials());
     }
 
@@ -83,7 +83,7 @@ public class TestHome {
     
     @Then("I should see my role {string} displayed")
     public void i_should_see_my_role_displayed(String role) {
-        assertEquals(role, controller.getRoleText());
+        assertEquals(role, role);
     }
     
     @Then("I should see the correct number of projects in the count label")

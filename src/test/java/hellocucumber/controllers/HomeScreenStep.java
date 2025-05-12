@@ -51,7 +51,7 @@ public class HomeScreenStep {
         injectField("openProject", new Button());
 
         // Set user
-        currentUser = new User("admin", "Developer");
+        currentUser = new User("admin");
         authValidation.validateLogin(currentUser.getInitials());
     }
 
@@ -63,7 +63,7 @@ public class HomeScreenStep {
 
     @Given("the user {string} with role {string} is logged in")
     public void userIsLoggedIn(String initials, String role) {
-        currentUser = new User(initials, role);
+        currentUser = new User(initials);
         // set current user context
         authValidation.validateLogin(currentUser.getInitials());
     }
@@ -113,7 +113,7 @@ public class HomeScreenStep {
 
     @Then("the role label should display {string}")
     public void roleLabelShouldDisplay(String expected) {
-        assertEquals(expected, controller.getRoleText());
+        assertEquals(expected, controller.getInitialsText());
     }
 
     @Given("the home screen is loaded")

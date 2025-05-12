@@ -40,7 +40,7 @@ public class WhiteBox_Test_Assign_Employee_To_Project {
 
         // Mock AuthValidation.getCurrentUser()
         authMock = mockStatic(AuthValidation.class);
-        User fakeUser = new User("AB", "employee");
+        User fakeUser = new User("AB");
         authMock.when(AuthValidation::getCurrentUser).thenReturn(fakeUser);
     }
 
